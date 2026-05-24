@@ -360,7 +360,7 @@ table input[type=number]:focus{border-color:var(--accent);box-shadow:0 0 0 2px v
         <strong style="color:var(--accent)">4. Commandes</strong>
         <div style="margin-top:.25rem;color:var(--text2)">
           <strong>Créer</strong> : sélectionnez un fournisseur, saisissez les quantités (totale ou par magasin), puis "Passer commande".<br>
-          <strong>En attente</strong> : commandes en cours. Récep. = réceptionner le stock, Voir = aperçu PDF, Modifier = changer les quantités, PDF = télécharger, Suppr. = supprimer.<br>
+          <strong>En attente</strong> : commandes en cours. Modifier = changer les quantités, Consulter = aperçu PDF, 📄 = télécharger le PDF, Récep. = réceptionner le stock, Suppr. = supprimer.<br>
           <strong>Reçues</strong> : historique. Voir = aperçu PDF avec tampon "Reçue".
         </div>
       </div>
@@ -1138,8 +1138,8 @@ function renderOrdersList(received) {
         '<td><div style="display:flex;gap:.25rem;white-space:nowrap"><button class="btn btn-outline btn-sm" onclick="editOrder(\''+o.id+'\')">Modifier</button>' +
         '<button class="btn btn-outline btn-sm" onclick="viewOrder(\''+o.id+'\')">Consulter</button>' +
         '<button class="btn btn-amber btn-sm" onclick="downloadOrderPDF(\''+o.id+'\')">📄</button>' +
-        '<button class="btn btn-danger btn-sm" onclick="deleteOrder(\''+o.id+'\')">Suppr.</button>' +
-        '<button class="btn btn-success btn-sm" onclick="receiveOrder(\''+o.id+'\')">Récep.</button></div></td></tr>';
+        '<button class="btn btn-success btn-sm" onclick="receiveOrder(\''+o.id+'\')">Récep.</button>' +
+        '<button class="btn btn-danger btn-sm" onclick="deleteOrder(\''+o.id+'\')">Suppr.</button></div></td></tr>';
     } else {
       h += '<tr><td style="font-family:monospace;font-size:.75rem">'+esc(o.ref)+'</td><td>'+esc(o.supplierName)+'</td>' +
         '<td>'+new Date(o.receivedDate).toLocaleDateString('fr-FR')+'</td><td style="text-align:center;font-weight:600">'+fmtNum(count)+'</td>' +
