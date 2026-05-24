@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STOCK & COMMAND — Gestion des Stocks & Commandes</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script type="application/json" id="seed-data">[{"i": "P-0001", "n": "1.1", "b": "IALO", "c": "Coloration", "s": "IALO-1.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0002", "n": "1.0", "b": "IALO", "c": "Coloration", "s": "IALO-1.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0003", "n": "3.0", "b": "IALO", "c": "Coloration", "s": "IALO-3.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0004", "n": "4.0", "b": "IALO", "c": "Coloration", "s": "IALO-4.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0005", "n": "5.0", "b": "IALO", "c": "Coloration", "s": "IALO-5.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0006", "n": "6.0", "b": "IALO", "c": "Coloration", "s": "IALO-6.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0007", "n": "7.0", "b": "IALO", "c": "Coloration", "s": "IALO-7.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0008", "n": "8.0", "b": "IALO", "c": "Coloration", "s": "IALO-8.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0009", "n": "9.0", "b": "IALO", "c": "Coloration", "s": "IALO-9.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0010", "n": "10.0", "b": "IALO", "c": "Coloration", "s": "IALO-10.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0011", "n": "5.00", "b": "IALO", "c": "Coloration", "s": "IALO-5.00", "m": 0, "sp": 0, "a": 0}, {"i": "P-0012", "n": "6.00", "b": "IALO", "c": "Coloration", "s": "IALO-6.00", "m": 0, "sp": 0, "a": 0}, {"i": "P-0013", "n": "7.00", "b": "IALO", "c": "Coloration", "s": "IALO-7.00", "m": 0, "sp": 0, "a": 0}, {"i": "P-0014", "n": "8.00", "b": "IALO", "c": "Coloration", "s": "IALO-8.00", "m": 0, "sp": 0, "a": 0}, {"i": "P-0015", "n": "9.00", "b": "IALO", "c": "Coloration", "s": "IALO-9.00", "m": 0, "sp": 0, "a": 0}, {"i": "P-0016", "n": "10.00", "b": "IALO", "c": "Coloration", "s": "IALO-10.00", "m": 0, "sp": 0, "a": 0}, {"i": "P-0017", "n": "5.1", "b": "IALO", "c": "Coloration", "s": "IALO-5.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0018", "n": "6.1", "b": "IALO", "c": "Coloration", "s": "IALO-6.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0019", "n": "7.1", "b": "IALO", "c": "Coloration", "s": "IALO-7.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0020", "n": "8.1", "b": "IALO", "c": "Coloration", "s": "IALO-8.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0021", "n": "9.1", "b": "IALO", "c": "Coloration", "s": "IALO-9.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0022", "n": "10.1", "b": "IALO", "c": "Coloration", "s": "IALO-10.1", "m": 12, "sp": 0, "a": 0}, {"i": "P-0023", "n": "6.11", "b": "IALO", "c": "Coloration", "s": "IALO-6.11", "m": 0, "sp": 0, "a": 0}, {"i": "P-0024", "n": "7.11", "b": "IALO", "c": "Coloration", "s": "IALO-7.11", "m": 0, "sp": 0, "a": 0}, {"i": "P-0025", "n": "8.11", "b": "IALO", "c": "Coloration", "s": "IALO-8.11", "m": 0, "sp": 0, "a": 0}, {"i": "P-0026", "n": "9.11", "b": "IALO", "c": "Coloration", "s": "IALO-9.11", "m": 0, "sp": 0, "a": 0}, {"i": "P-0027", "n": "10.11", "b": "IALO", "c": "Coloration", "s": "IALO-10.11", "m": 0, "sp": 0, "a": 0}, {"i": "P-0028", "n": "53.0", "b": "IALO", "c": "Coloration", "s": "IALO-53.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0029", "n": "63.0", "b": "IALO", "c": "Coloration", "s": "IALO-63.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0030", "n": "73.0", "b": "IALO", "c": "Coloration", "s": "IALO-73.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0031", "n": "83.0", "b": "IALO", "c": "Coloration", "s": "IALO-83.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0032", "n": "93.0", "b": "IALO", "c": "Coloration", "s": "IALO-93.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0033", "n": "103.0", "b": "IALO", "c": "Coloration", "s": "IALO-103.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0034", "n": "612.0", "b": "IALO", "c": "Coloration", "s": "IALO-612.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0035", "n": "712.0", "b": "IALO", "c": "Coloration", "s": "IALO-712.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0036", "n": "812.0", "b": "IALO", "c": "Coloration", "s": "IALO-812.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0037", "n": "731S", "b": "IALO", "c": "Coloration", "s": "IALO-731S", "m": 0, "sp": 0, "a": 0}, {"i": "P-0038", "n": "831S", "b": "IALO", "c": "Coloration", "s": "IALO-831S", "m": 0, "sp": 0, "a": 0}, {"i": "P-0039", "n": "931S", "b": "IALO", "c": "Coloration", "s": "IALO-931S", "m": 0, "sp": 0, "a": 0}, {"i": "P-0040", "n": "615.0", "b": "IALO", "c": "Coloration", "s": "IALO-615.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0041", "n": "715.0", "b": "IALO", "c": "Coloration", "s": "IALO-715.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0042", "n": "815.0", "b": "IALO", "c": "Coloration", "s": "IALO-815.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0043", "n": "703.0", "b": "IALO", "c": "Coloration", "s": "IALO-703.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0044", "n": "803.0", "b": "IALO", "c": "Coloration", "s": "IALO-803.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0045", "n": "903.0", "b": "IALO", "c": "Coloration", "s": "IALO-903.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0046", "n": "732B", "b": "IALO", "c": "Coloration", "s": "IALO-732B", "m": 0, "sp": 0, "a": 0}, {"i": "P-0047", "n": "832B", "b": "IALO", "c": "Coloration", "s": "IALO-832B", "m": 0, "sp": 0, "a": 0}, {"i": "P-0048", "n": "932B", "b": "IALO", "c": "Coloration", "s": "IALO-932B", "m": 0, "sp": 0, "a": 0}, {"i": "P-0049", "n": "1000.0", "b": "IALO", "c": "Coloration", "s": "IALO-1000.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0050", "n": "1100.0", "b": "IALO", "c": "Coloration", "s": "IALO-1100.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0051", "n": "1200.0", "b": "IALO", "c": "Coloration", "s": "IALO-1200.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0052", "n": "64.0", "b": "IALO", "c": "Coloration", "s": "IALO-64.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0053", "n": "74.0", "b": "IALO", "c": "Coloration", "s": "IALO-74.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0054", "n": "84.0", "b": "IALO", "c": "Coloration", "s": "IALO-84.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0055", "n": "94.0", "b": "IALO", "c": "Coloration", "s": "IALO-94.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0056", "n": "744.0", "b": "IALO", "c": "Coloration", "s": "IALO-744.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0057", "n": "CAPPUCCINO", "b": "IALO", "c": "Coloration", "s": "IALO-CAPPUCCINO", "m": 0, "sp": 0, "a": 0}, {"i": "P-0058", "n": "564.0", "b": "IALO", "c": "Coloration", "s": "IALO-564.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0059", "n": "664.0", "b": "IALO", "c": "Coloration", "s": "IALO-664.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0060", "n": "764.0", "b": "IALO", "c": "Coloration", "s": "IALO-764.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0061", "n": "864.0", "b": "IALO", "c": "Coloration", "s": "IALO-864.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0062", "n": "964.0", "b": "IALO", "c": "Coloration", "s": "IALO-964.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0063", "n": "455.0", "b": "IALO", "c": "Coloration", "s": "IALO-455.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0064", "n": "555.0", "b": "IALO", "c": "Coloration", "s": "IALO-555.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0065", "n": "655.0", "b": "IALO", "c": "Coloration", "s": "IALO-655.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0066", "n": "755.0", "b": "IALO", "c": "Coloration", "s": "IALO-755.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0067", "n": "453.0", "b": "IALO", "c": "Coloration", "s": "IALO-453.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0068", "n": "553.0", "b": "IALO", "c": "Coloration", "s": "IALO-553.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0069", "n": "653.0", "b": "IALO", "c": "Coloration", "s": "IALO-653.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0070", "n": "566.0", "b": "IALO", "c": "Coloration", "s": "IALO-566.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0071", "n": "666.0", "b": "IALO", "c": "Coloration", "s": "IALO-666.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0072", "n": "454.0", "b": "IALO", "c": "Coloration", "s": "IALO-454.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0073", "n": "554.0", "b": "IALO", "c": "Coloration", "s": "IALO-554.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0074", "n": "654.0", "b": "IALO", "c": "Coloration", "s": "IALO-654.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0075", "n": "754.0", "b": "IALO", "c": "Coloration", "s": "IALO-754.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0076", "n": "752.0", "b": "IALO", "c": "Coloration", "s": "IALO-752.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0077", "n": "852.0", "b": "IALO", "c": "Coloration", "s": "IALO-852.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0078", "n": "952.0", "b": "IALO", "c": "Coloration", "s": "IALO-952.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0079", "n": "435.0", "b": "IALO", "c": "Coloration", "s": "IALO-435.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0080", "n": "535.0", "b": "IALO", "c": "Coloration", "s": "IALO-535.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0081", "n": "635.0", "b": "IALO", "c": "Coloration", "s": "IALO-635.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0082", "n": "508.0", "b": "IALO", "c": "Coloration", "s": "IALO-508.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0083", "n": "608.0", "b": "IALO", "c": "Coloration", "s": "IALO-608.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0084", "n": "708.0", "b": "IALO", "c": "Coloration", "s": "IALO-708.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0085", "n": "445T", "b": "IALO", "c": "Coloration", "s": "IALO-445T", "m": 0, "sp": 0, "a": 0}, {"i": "P-0086", "n": "545T", "b": "IALO", "c": "Coloration", "s": "IALO-545T", "m": 0, "sp": 0, "a": 0}, {"i": "P-0087", "n": "645T", "b": "IALO", "c": "Coloration", "s": "IALO-645T", "m": 0, "sp": 0, "a": 0}, {"i": "P-0088", "n": "533.0", "b": "IALO", "c": "Coloration", "s": "IALO-533.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0089", "n": "633.0", "b": "IALO", "c": "Coloration", "s": "IALO-633.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0090", "n": "733.0", "b": "IALO", "c": "Coloration", "s": "IALO-733.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0091", "n": "45.0", "b": "IALO", "c": "Coloration", "s": "IALO-45.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0092", "n": "55.0", "b": "IALO", "c": "Coloration", "s": "IALO-55.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0093", "n": "65.0", "b": "IALO", "c": "Coloration", "s": "IALO-65.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0094", "n": "457.0", "b": "IALO", "c": "Coloration", "s": "IALO-457.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0095", "n": "42.0", "b": "IALO", "c": "Coloration", "s": "IALO-42.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0096", "n": "52.0", "b": "IALO", "c": "Coloration", "s": "IALO-52.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0097", "n": "62.0", "b": "IALO", "c": "Coloration", "s": "IALO-62.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0098", "n": "72.0", "b": "IALO", "c": "Coloration", "s": "IALO-72.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0099", "n": "11.3", "b": "IALO", "c": "Coloration", "s": "IALO-11.3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0100", "n": "11.1", "b": "IALO", "c": "Coloration", "s": "IALO-11.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0101", "n": "11.0", "b": "IALO", "c": "Coloration", "s": "IALO-11.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0102", "n": "10.31", "b": "IALO", "c": "Coloration", "s": "IALO-10.31", "m": 0, "sp": 0, "a": 0}, {"i": "P-0103", "n": "9.2", "b": "IALO", "c": "Coloration", "s": "IALO-9.2", "m": 0, "sp": 0, "a": 0}, {"i": "P-0104", "n": "MIEL", "b": "IALO", "c": "Coloration", "s": "IALO-MIEL", "m": 0, "sp": 0, "a": 0}, {"i": "P-0105", "n": "MOKA", "b": "IALO", "c": "Coloration", "s": "IALO-MOKA", "m": 0, "sp": 0, "a": 0}, {"i": "P-0106", "n": "CHATAIGNE", "b": "IALO", "c": "Coloration", "s": "IALO-CHATAIGNE", "m": 0, "sp": 0, "a": 0}, {"i": "P-0107", "n": "RED", "b": "IALO", "c": "Coloration", "s": "IALO-RED", "m": 0, "sp": 0, "a": 0}, {"i": "P-0108", "n": "ROUGE CUIVRE", "b": "IALO", "c": "Coloration", "s": "IALO-ROUGE CUIVRE", "m": 0, "sp": 0, "a": 0}, {"i": "P-0109", "n": "JAUNE OR", "b": "IALO", "c": "Coloration", "s": "IALO-JAUNE OR", "m": 0, "sp": 0, "a": 0}, {"i": "P-0110", "n": "VERT EMERAUDE", "b": "IALO", "c": "Coloration", "s": "IALO-VERT EMERAUDE", "m": 0, "sp": 0, "a": 0}, {"i": "P-0111", "n": "NEUTRE", "b": "IALO", "c": "Coloration", "s": "IALO-NEUTRE", "m": 0, "sp": 0, "a": 0}, {"i": "P-0112", "n": "CENDRE", "b": "IALO", "c": "Coloration", "s": "IALO-CENDRE", "m": 0, "sp": 0, "a": 0}, {"i": "P-0113", "n": "JAUNE", "b": "IALO", "c": "Coloration", "s": "IALO-JAUNE", "m": 0, "sp": 0, "a": 0}, {"i": "P-0114", "n": "VIOLET", "b": "IALO", "c": "Coloration", "s": "IALO-VIOLET", "m": 0, "sp": 0, "a": 0}, {"i": "P-0115", "n": "INTENSIFICATEUR ROUGE", "b": "IALO", "c": "Coloration", "s": "IALO-INTENSIFICATEUR ROUGE", "m": 0, "sp": 0, "a": 0}, {"i": "P-0116", "n": "BLEU", "b": "IALO", "c": "Coloration", "s": "IALO-BLEU", "m": 0, "sp": 0, "a": 0}, {"i": "P-0117", "n": "1.0", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-1.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0118", "n": "3.0", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-3.0", "m": 7, "sp": 0, "a": 0}, {"i": "P-0119", "n": "4.0", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-4.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0120", "n": "5.0", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-5.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0121", "n": "7.0", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-7.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0122", "n": "8.0", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-8.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0123", "n": "9.0", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-9.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0124", "n": "10.0", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-10.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0125", "n": "1.1", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-1.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0126", "n": "6.1", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-6.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0127", "n": "7.1", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-7.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0128", "n": "8.1", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-8.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0129", "n": "9.1", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-9.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0130", "n": "10.1", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-10.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0131", "n": "6.11", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-6.11", "m": 0, "sp": 0, "a": 0}, {"i": "P-0132", "n": "7.11", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-7.11", "m": 0, "sp": 0, "a": 0}, {"i": "P-0133", "n": "8.11", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-8.11", "m": 1, "sp": 0, "a": 0}, {"i": "P-0134", "n": "9.11", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-9.11", "m": 0, "sp": 0, "a": 0}, {"i": "P-0135", "n": "10.11", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-10.11", "m": 0, "sp": 0, "a": 0}, {"i": "P-0136", "n": "7.13", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-7.13", "m": 0, "sp": 0, "a": 0}, {"i": "P-0137", "n": "8.13", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-8.13", "m": 0, "sp": 0, "a": 0}, {"i": "P-0138", "n": "9.13", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-9.13", "m": 0, "sp": 0, "a": 0}, {"i": "P-0139", "n": "6.3", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-6.3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0140", "n": "7.3", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-7.3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0141", "n": "8.3", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-8.3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0142", "n": "9.3", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-9.3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0143", "n": "10.3", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-10.3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0144", "n": "7.31", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-7.31", "m": 0, "sp": 0, "a": 0}, {"i": "P-0145", "n": "8.31", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-8.31", "m": 0, "sp": 0, "a": 0}, {"i": "P-0146", "n": "9.31", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-9.31", "m": 0, "sp": 0, "a": 0}, {"i": "P-0147", "n": "7.83", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-7.83", "m": 18, "sp": 0, "a": 0}, {"i": "P-0148", "n": "8.83", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-8.83", "m": 0, "sp": 0, "a": 0}, {"i": "P-0149", "n": "6.4", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-6.4", "m": 0, "sp": 0, "a": 0}, {"i": "P-0150", "n": "7.4", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-7.4", "m": 0, "sp": 0, "a": 0}, {"i": "P-0151", "n": "8.44", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-8.44", "m": 0, "sp": 0, "a": 0}, {"i": "P-0152", "n": "6.36", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-6.36", "m": 0, "sp": 0, "a": 0}, {"i": "P-0153", "n": "7.36", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-7.36", "m": 0, "sp": 0, "a": 0}, {"i": "P-0154", "n": "5.84", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-5.84", "m": 0, "sp": 0, "a": 0}, {"i": "P-0155", "n": "6.84", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-6.84", "m": 0, "sp": 0, "a": 0}, {"i": "P-0156", "n": "6.58", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-6.58", "m": 0, "sp": 0, "a": 0}, {"i": "P-0157", "n": "5.56", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-5.56", "m": 0, "sp": 0, "a": 0}, {"i": "P-0158", "n": "6.56", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-6.56", "m": 0, "sp": 0, "a": 0}, {"i": "P-0159", "n": "7.56", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-7.56", "m": 0, "sp": 0, "a": 0}, {"i": "P-0160", "n": "5.66", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-5.66", "m": 0, "sp": 0, "a": 0}, {"i": "P-0161", "n": "6.66", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-6.66", "m": 0, "sp": 0, "a": 0}, {"i": "P-0162", "n": "5.2", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-5.2", "m": 0, "sp": 0, "a": 0}, {"i": "P-0163", "n": "6.2", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-6.2", "m": 0, "sp": 0, "a": 0}, {"i": "P-0164", "n": "7.2", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-7.2", "m": 0, "sp": 0, "a": 0}, {"i": "P-0165", "n": "7.26", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-7.26", "m": 0, "sp": 0, "a": 0}, {"i": "P-0166", "n": "11.1", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-11.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0167", "n": "11.2", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-11.2", "m": 0, "sp": 0, "a": 0}, {"i": "P-0168", "n": "11.0", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-11.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0169", "n": "NEUTRE", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-NEUTRE", "m": 0, "sp": 0, "a": 0}, {"i": "P-0170", "n": "RED", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-RED", "m": 0, "sp": 0, "a": 0}, {"i": "P-0171", "n": "BLEU", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-BLEU", "m": 0, "sp": 0, "a": 0}, {"i": "P-0172", "n": "CENDRE", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-CENDRE", "m": 0, "sp": 0, "a": 0}, {"i": "P-0173", "n": "VIOLET", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-VIOLET", "m": 0, "sp": 0, "a": 0}, {"i": "P-0174", "n": "VERT EMERAUDE", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-VERT EMERAUDE", "m": 0, "sp": 0, "a": 0}, {"i": "P-0175", "n": "US PLUS", "b": "RENE BLANCHE", "c": "Coloration", "s": "RENE BLANCHE-US PLUS", "m": 0, "sp": 0, "a": 0}, {"i": "P-0176", "n": "1.0", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-1.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0177", "n": "2.0", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-2.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0178", "n": "3.0", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-3.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0179", "n": "4.0", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-4.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0180", "n": "5.0", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-5.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0181", "n": "6.0", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-6.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0182", "n": "7.0", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-7.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0183", "n": "8.0", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-8.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0184", "n": "9.0", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-9.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0185", "n": "10.0", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-10.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0186", "n": "5.0", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-5.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0187", "n": "6.0", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-6.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0188", "n": "7.0", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-7.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0189", "n": "8.0", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-8.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0190", "n": "9.0", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-9.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0191", "n": "5.12", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-5.12", "m": 0, "sp": 0, "a": 0}, {"i": "P-0192", "n": "7.12", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-7.12", "m": 0, "sp": 0, "a": 0}, {"i": "P-0193", "n": "1.10", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-1.10", "m": 0, "sp": 0, "a": 0}, {"i": "P-0194", "n": "5.1", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-5.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0195", "n": "6.1", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-6.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0196", "n": "7.1", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-7.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0197", "n": "8.1", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-8.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0198", "n": "9.1", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-9.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0199", "n": "10.1", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-10.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0200", "n": "7.11", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-7.11", "m": 0, "sp": 0, "a": 0}, {"i": "P-0201", "n": "8.11", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-8.11", "m": 0, "sp": 0, "a": 0}, {"i": "P-0202", "n": "9.11", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-9.11", "m": 0, "sp": 0, "a": 0}, {"i": "P-0203", "n": "8.31", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-8.31", "m": 0, "sp": 0, "a": 0}, {"i": "P-0204", "n": "9.31", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-9.31", "m": 0, "sp": 0, "a": 0}, {"i": "P-0205", "n": "4.3", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-4.3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0206", "n": "5.3", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-5.3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0207", "n": "6.3", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-6.3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0208", "n": "7.3", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-7.3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0209", "n": "8.3", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-8.3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0210", "n": "9.3", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-9.3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0211", "n": "9.03", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-9.03", "m": 0, "sp": 0, "a": 0}, {"i": "P-0212", "n": "10.03", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-10.03", "m": 0, "sp": 0, "a": 0}, {"i": "P-0213", "n": "5.34", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-5.34", "m": 0, "sp": 0, "a": 0}, {"i": "P-0214", "n": "6.34", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-6.34", "m": 0, "sp": 0, "a": 0}, {"i": "P-0215", "n": "7.34", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-7.34", "m": 0, "sp": 0, "a": 0}, {"i": "P-0216", "n": "8.34", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-8.34", "m": 0, "sp": 0, "a": 0}, {"i": "P-0217", "n": "5.35", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-5.35", "m": 0, "sp": 0, "a": 0}, {"i": "P-0218", "n": "6.35", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-6.35", "m": 0, "sp": 0, "a": 0}, {"i": "P-0219", "n": "7.35", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-7.35", "m": 0, "sp": 0, "a": 0}, {"i": "P-0220", "n": "5.53", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-5.53", "m": 0, "sp": 0, "a": 0}, {"i": "P-0221", "n": "6.53", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-6.53", "m": 0, "sp": 0, "a": 0}, {"i": "P-0222", "n": "7.53", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-7.53", "m": 0, "sp": 0, "a": 0}, {"i": "P-0223", "n": "7.13", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-7.13", "m": 0, "sp": 0, "a": 0}, {"i": "P-0224", "n": "8.13", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-8.13", "m": 0, "sp": 0, "a": 0}, {"i": "P-0225", "n": "4B", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-4B", "m": 0, "sp": 0, "a": 0}, {"i": "P-0226", "n": "5G", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-5G", "m": 0, "sp": 0, "a": 0}, {"i": "P-0227", "n": "6N", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-6N", "m": 0, "sp": 0, "a": 0}, {"i": "P-0228", "n": "5.4", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-5.4", "m": 0, "sp": 0, "a": 0}, {"i": "P-0229", "n": "6.4", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-6.4", "m": 0, "sp": 0, "a": 0}, {"i": "P-0230", "n": "7.4", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-7.4", "m": 0, "sp": 0, "a": 0}, {"i": "P-0231", "n": "8.4", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-8.4", "m": 0, "sp": 0, "a": 0}, {"i": "P-0232", "n": "7.44", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-7.44", "m": 0, "sp": 0, "a": 0}, {"i": "P-0233", "n": "7.46", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-7.46", "m": 0, "sp": 0, "a": 0}, {"i": "P-0234", "n": "5.5", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-5.5", "m": 0, "sp": 0, "a": 0}, {"i": "P-0235", "n": "6.5", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-6.5", "m": 0, "sp": 0, "a": 0}, {"i": "P-0236", "n": "2.20", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-2.20", "m": 0, "sp": 0, "a": 0}, {"i": "P-0237", "n": "4.20", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-4.20", "m": 0, "sp": 0, "a": 0}, {"i": "P-0238", "n": "5.20", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-5.20", "m": 0, "sp": 0, "a": 0}, {"i": "P-0239", "n": "7.22", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-7.22", "m": 0, "sp": 0, "a": 0}, {"i": "P-0240", "n": "4.62", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-4.62", "m": 0, "sp": 0, "a": 0}, {"i": "P-0241", "n": "5.62", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-5.62", "m": 0, "sp": 0, "a": 0}, {"i": "P-0242", "n": "5.66", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-5.66", "m": 0, "sp": 0, "a": 0}, {"i": "P-0243", "n": "6.66", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-6.66", "m": 0, "sp": 0, "a": 0}, {"i": "P-0244", "n": "7.66", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-7.66", "m": 0, "sp": 0, "a": 0}, {"i": "P-0245", "n": "12.01", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-12.01", "m": 0, "sp": 0, "a": 0}, {"i": "P-0246", "n": "12.11", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-12.11", "m": 0, "sp": 0, "a": 0}, {"i": "P-0247", "n": "12.32", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-12.32", "m": 0, "sp": 0, "a": 0}, {"i": "P-0248", "n": "12.62", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-12.62", "m": 0, "sp": 0, "a": 0}, {"i": "P-0249", "n": "900.0", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-900.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0250", "n": "901.0", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-901.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0251", "n": "902.0", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-902.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0252", "n": "903.0", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-903.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0253", "n": "011", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-011", "m": 0, "sp": 0, "a": 0}, {"i": "P-0254", "n": "033", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-033", "m": 0, "sp": 0, "a": 0}, {"i": "P-0255", "n": "066", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-066", "m": 0, "sp": 0, "a": 0}, {"i": "P-0256", "n": "077", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-077", "m": 0, "sp": 0, "a": 0}, {"i": "P-0257", "n": "R18", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-R18", "m": 0, "sp": 0, "a": 0}, {"i": "P-0258", "n": "R11", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-R11", "m": 0, "sp": 0, "a": 0}, {"i": "P-0259", "n": "R21", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-R21", "m": 0, "sp": 0, "a": 0}, {"i": "P-0260", "n": "1000.0", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-1000.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0261", "n": "10.16", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-10.16", "m": 0, "sp": 0, "a": 0}, {"i": "P-0262", "n": "10.22", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-10.22", "m": 0, "sp": 0, "a": 0}, {"i": "P-0263", "n": "10.21", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-10.21", "m": 0, "sp": 0, "a": 0}, {"i": "P-0264", "n": "10.14", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-10.14", "m": 0, "sp": 0, "a": 0}, {"i": "P-0265", "n": "10.12", "b": "X-PERIENCE", "c": "Coloration", "s": "X-PERIENCE-10.12", "m": 0, "sp": 0, "a": 0}, {"i": "P-0266", "n": "1/0", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-1/0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0267", "n": "3/0", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-3/0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0268", "n": "4/0", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-4/0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0269", "n": "5/0", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-5/0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0270", "n": "6/0", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-6/0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0271", "n": "7/0", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-7/0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0272", "n": "8/0", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-8/0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0273", "n": "9/0", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-9/0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0274", "n": "10/0", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-10/0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0275", "n": "1/10", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-1/10", "m": 0, "sp": 0, "a": 0}, {"i": "P-0276", "n": "5/00", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-5/00", "m": 0, "sp": 0, "a": 0}, {"i": "P-0277", "n": "6/00", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-6/00", "m": 0, "sp": 0, "a": 0}, {"i": "P-0278", "n": "7/00", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-7/00", "m": 0, "sp": 0, "a": 0}, {"i": "P-0279", "n": "8/00", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-8/00", "m": 0, "sp": 0, "a": 0}, {"i": "P-0280", "n": "10/00", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-10/00", "m": 0, "sp": 0, "a": 0}, {"i": "P-0281", "n": "5/1", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-5/1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0282", "n": "6/1", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-6/1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0283", "n": "7/1", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-7/1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0284", "n": "8/1", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-8/1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0285", "n": "9/1", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-9/1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0286", "n": "10/1", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-10/1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0287", "n": "5/11", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-5/11", "m": 0, "sp": 0, "a": 0}, {"i": "P-0288", "n": "6/11", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-6/11", "m": 0, "sp": 0, "a": 0}, {"i": "P-0289", "n": "7/11", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-7/11", "m": 0, "sp": 0, "a": 0}, {"i": "P-0290", "n": "8/11", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-8/11", "m": 0, "sp": 0, "a": 0}, {"i": "P-0291", "n": "9/11", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-9/11", "m": 0, "sp": 0, "a": 0}, {"i": "P-0292", "n": "10/11", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-10/11", "m": 0, "sp": 0, "a": 0}, {"i": "P-0293", "n": "10/12", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-10/12", "m": 0, "sp": 0, "a": 0}, {"i": "P-0294", "n": "6/8", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-6/8", "m": 0, "sp": 0, "a": 0}, {"i": "P-0295", "n": "7/8", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-7/8", "m": 0, "sp": 0, "a": 0}, {"i": "P-0296", "n": "5/31", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-5/31", "m": 0, "sp": 0, "a": 0}, {"i": "P-0297", "n": "6/31", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-6/31", "m": 0, "sp": 0, "a": 0}, {"i": "P-0298", "n": "7/31", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-7/31", "m": 0, "sp": 0, "a": 0}, {"i": "P-0299", "n": "8/31", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-8/31", "m": 0, "sp": 0, "a": 0}, {"i": "P-0300", "n": "9/31", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-9/31", "m": 0, "sp": 0, "a": 0}, {"i": "P-0301", "n": "10/31", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-10/31", "m": 0, "sp": 0, "a": 0}, {"i": "P-0302", "n": "5/32", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-5/32", "m": 0, "sp": 0, "a": 0}, {"i": "P-0303", "n": "6/32", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-6/32", "m": 0, "sp": 0, "a": 0}, {"i": "P-0304", "n": "7/32", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-7/32", "m": 0, "sp": 0, "a": 0}, {"i": "P-0305", "n": "8/32", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-8/32", "m": 0, "sp": 0, "a": 0}, {"i": "P-0306", "n": "9/32", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-9/32", "m": 0, "sp": 0, "a": 0}, {"i": "P-0307", "n": "10/32", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-10/32", "m": 0, "sp": 0, "a": 0}, {"i": "P-0308", "n": "5/3", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-5/3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0309", "n": "6/3", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-6/3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0310", "n": "7/3", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-7/3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0311", "n": "8/3", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-8/3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0312", "n": "9/3", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-9/3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0313", "n": "10/3", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-10/3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0314", "n": "6/34", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-6/34", "m": 0, "sp": 0, "a": 0}, {"i": "P-0315", "n": "7/34", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-7/34", "m": 0, "sp": 0, "a": 0}, {"i": "P-0316", "n": "8/34", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-8/34", "m": 0, "sp": 0, "a": 0}, {"i": "P-0317", "n": "4/7", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-4/7", "m": 0, "sp": 0, "a": 0}, {"i": "P-0318", "n": "5/7", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-5/7", "m": 0, "sp": 0, "a": 0}, {"i": "P-0319", "n": "6/7", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-6/7", "m": 0, "sp": 0, "a": 0}, {"i": "P-0320", "n": "7/7", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-7/7", "m": 0, "sp": 0, "a": 0}, {"i": "P-0321", "n": "8/7", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-8/7", "m": 0, "sp": 0, "a": 0}, {"i": "P-0322", "n": "9/7", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-9/7", "m": 0, "sp": 0, "a": 0}, {"i": "P-0323", "n": "4/71", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-4/71", "m": 0, "sp": 0, "a": 0}, {"i": "P-0324", "n": "5/71", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-5/71", "m": 0, "sp": 0, "a": 0}, {"i": "P-0325", "n": "6/71", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-6/71", "m": 0, "sp": 0, "a": 0}, {"i": "P-0326", "n": "7/71", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-7/71", "m": 0, "sp": 0, "a": 0}, {"i": "P-0327", "n": "4/72", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-4/72", "m": 0, "sp": 0, "a": 0}, {"i": "P-0328", "n": "5/72", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-5/72", "m": 0, "sp": 0, "a": 0}, {"i": "P-0329", "n": "6/72", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-6/72", "m": 0, "sp": 0, "a": 0}, {"i": "P-0330", "n": "7/72", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-7/72", "m": 0, "sp": 0, "a": 0}, {"i": "P-0331", "n": "4/17", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-4/17", "m": 0, "sp": 0, "a": 0}, {"i": "P-0332", "n": "6/17", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-6/17", "m": 0, "sp": 0, "a": 0}, {"i": "P-0333", "n": "8/17", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-8/17", "m": 0, "sp": 0, "a": 0}, {"i": "P-0334", "n": "9/04", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-9/04", "m": 0, "sp": 0, "a": 0}, {"i": "P-0335", "n": "5/43", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-5/43", "m": 0, "sp": 0, "a": 0}, {"i": "P-0336", "n": "6/43", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-6/43", "m": 0, "sp": 0, "a": 0}, {"i": "P-0337", "n": "7/43", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-7/43", "m": 0, "sp": 0, "a": 0}, {"i": "P-0338", "n": "8/43", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-8/43", "m": 0, "sp": 0, "a": 0}, {"i": "P-0339", "n": "5/4", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-5/4", "m": 0, "sp": 0, "a": 0}, {"i": "P-0340", "n": "6/4", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-6/4", "m": 0, "sp": 0, "a": 0}, {"i": "P-0341", "n": "7/4", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-7/4", "m": 0, "sp": 0, "a": 0}, {"i": "P-0342", "n": "8/4", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-8/4", "m": 0, "sp": 0, "a": 0}, {"i": "P-0343", "n": "6/46", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-6/46", "m": 0, "sp": 0, "a": 0}, {"i": "P-0344", "n": "6/44", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-6/44", "m": 0, "sp": 0, "a": 0}, {"i": "P-0345", "n": "7/44", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-7/44", "m": 0, "sp": 0, "a": 0}, {"i": "P-0346", "n": "8/44", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-8/44", "m": 0, "sp": 0, "a": 0}, {"i": "P-0347", "n": "8/42", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-8/42", "m": 0, "sp": 0, "a": 0}, {"i": "P-0348", "n": "9/42", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-9/42", "m": 0, "sp": 0, "a": 0}, {"i": "P-0349", "n": "10/42", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-10/42", "m": 0, "sp": 0, "a": 0}, {"i": "P-0350", "n": "4/6", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-4/6", "m": 0, "sp": 0, "a": 0}, {"i": "P-0351", "n": "5/6", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-5/6", "m": 0, "sp": 0, "a": 0}, {"i": "P-0352", "n": "6/6", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-6/6", "m": 0, "sp": 0, "a": 0}, {"i": "P-0353", "n": "7/6", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-7/6", "m": 0, "sp": 0, "a": 0}, {"i": "P-0354", "n": "4/5", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-4/5", "m": 0, "sp": 0, "a": 0}, {"i": "P-0355", "n": "5/5", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-5/5", "m": 0, "sp": 0, "a": 0}, {"i": "P-0356", "n": "6/5", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-6/5", "m": 0, "sp": 0, "a": 0}, {"i": "P-0357", "n": "7/2", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-7/2", "m": 0, "sp": 0, "a": 0}, {"i": "P-0358", "n": "8/2", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-8/2", "m": 0, "sp": 0, "a": 0}, {"i": "P-0359", "n": "9/2", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-9/2", "m": 0, "sp": 0, "a": 0}, {"i": "P-0360", "n": "10/2", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-10/2", "m": 0, "sp": 0, "a": 0}, {"i": "P-0361", "n": "10/21", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-10/21", "m": 0, "sp": 0, "a": 0}, {"i": "P-0362", "n": "5/22", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-5/22", "m": 0, "sp": 0, "a": 0}, {"i": "P-0363", "n": "6/22", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-6/22", "m": 0, "sp": 0, "a": 0}, {"i": "P-0364", "n": "5/26", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-5/26", "m": 0, "sp": 0, "a": 0}, {"i": "P-0365", "n": "6/26", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-6/26", "m": 0, "sp": 0, "a": 0}, {"i": "P-0366", "n": "7/26", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-7/26", "m": 0, "sp": 0, "a": 0}, {"i": "P-0367", "n": "8/27", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-8/27", "m": 0, "sp": 0, "a": 0}, {"i": "P-0368", "n": "5/626", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-5/626", "m": 0, "sp": 0, "a": 0}, {"i": "P-0369", "n": "6/656", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-6/656", "m": 0, "sp": 0, "a": 0}, {"i": "P-0370", "n": "6/666", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-6/666", "m": 0, "sp": 0, "a": 0}, {"i": "P-0371", "n": "11/0SS", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-11/0SS", "m": 0, "sp": 0, "a": 0}, {"i": "P-0372", "n": "11/1SS", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-11/1SS", "m": 0, "sp": 0, "a": 0}, {"i": "P-0373", "n": "11/3SS", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-11/3SS", "m": 0, "sp": 0, "a": 0}, {"i": "P-0374", "n": "11/2SS", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-11/2SS", "m": 0, "sp": 0, "a": 0}, {"i": "P-0375", "n": "11/21SS", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-11/21SS", "m": 0, "sp": 0, "a": 0}, {"i": "P-0376", "n": "NEUTRE", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-NEUTRE", "m": 0, "sp": 0, "a": 0}, {"i": "P-0377", "n": "JAUNE", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-JAUNE", "m": 0, "sp": 0, "a": 0}, {"i": "P-0378", "n": "ORANGE", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-ORANGE", "m": 0, "sp": 0, "a": 0}, {"i": "P-0379", "n": "ROUGE", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-ROUGE", "m": 0, "sp": 0, "a": 0}, {"i": "P-0380", "n": "VERT", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-VERT", "m": 0, "sp": 0, "a": 0}, {"i": "P-0381", "n": "VIOLET", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-VIOLET", "m": 0, "sp": 0, "a": 0}, {"i": "P-0382", "n": "BLEU", "b": "TECHNO", "c": "Coloration", "s": "TECHNO-BLEU", "m": 0, "sp": 0, "a": 0}, {"i": "P-0383", "n": "1N", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-1N", "m": 10, "sp": 0, "a": 0}, {"i": "P-0384", "n": "2N", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-2N", "m": 0, "sp": 0, "a": 0}, {"i": "P-0385", "n": "3N", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-3N", "m": 0, "sp": 0, "a": 0}, {"i": "P-0386", "n": "4N", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-4N", "m": 0, "sp": 0, "a": 0}, {"i": "P-0387", "n": "5N", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-5N", "m": 0, "sp": 0, "a": 0}, {"i": "P-0388", "n": "6N", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-6N", "m": 0, "sp": 0, "a": 0}, {"i": "P-0389", "n": "7N", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-7N", "m": 0, "sp": 0, "a": 0}, {"i": "P-0390", "n": "8N", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-8N", "m": 10, "sp": 0, "a": 0}, {"i": "P-0391", "n": "9N", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-9N", "m": 0, "sp": 0, "a": 0}, {"i": "P-0392", "n": "4C", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-4C", "m": 0, "sp": 0, "a": 0}, {"i": "P-0393", "n": "5C", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-5C", "m": 0, "sp": 0, "a": 0}, {"i": "P-0394", "n": "6C", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-6C", "m": 0, "sp": 0, "a": 0}, {"i": "P-0395", "n": "7C", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-7C", "m": 0, "sp": 0, "a": 0}, {"i": "P-0396", "n": "8C", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-8C", "m": 0, "sp": 0, "a": 0}, {"i": "P-0397", "n": "7CC", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-7CC", "m": 0, "sp": 0, "a": 0}, {"i": "P-0398", "n": "9CC", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-9CC", "m": 0, "sp": 0, "a": 0}, {"i": "P-0399", "n": "6E", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-6E", "m": 0, "sp": 0, "a": 0}, {"i": "P-0400", "n": "6D", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-6D", "m": 0, "sp": 0, "a": 0}, {"i": "P-0401", "n": "7D", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-7D", "m": 0, "sp": 0, "a": 0}, {"i": "P-0402", "n": "8D", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-8D", "m": 0, "sp": 0, "a": 0}, {"i": "P-0403", "n": "9D", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-9D", "m": 0, "sp": 0, "a": 0}, {"i": "P-0404", "n": "5KR", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-5KR", "m": 0, "sp": 0, "a": 0}, {"i": "P-0405", "n": "6KR", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-6KR", "m": 0, "sp": 0, "a": 0}, {"i": "P-0406", "n": "7KR", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-7KR", "m": 0, "sp": 0, "a": 0}, {"i": "P-0407", "n": "65B", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-65B", "m": 0, "sp": 0, "a": 0}, {"i": "P-0408", "n": "75B", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-75B", "m": 15, "sp": 0, "a": 0}, {"i": "P-0409", "n": "85B", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-85B", "m": 0, "sp": 0, "a": 0}, {"i": "P-0410", "n": "95B", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-95B", "m": 0, "sp": 0, "a": 0}, {"i": "P-0411", "n": "4TC", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-4TC", "m": 0, "sp": 0, "a": 0}, {"i": "P-0412", "n": "5TC", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-5TC", "m": 0, "sp": 0, "a": 0}, {"i": "P-0413", "n": "6TC", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-6TC", "m": 0, "sp": 0, "a": 0}, {"i": "P-0414", "n": "7TC", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-7TC", "m": 0, "sp": 0, "a": 0}, {"i": "P-0415", "n": "8TC", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-8TC", "m": 0, "sp": 0, "a": 0}, {"i": "P-0416", "n": "9TC", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-9TC", "m": 0, "sp": 0, "a": 0}, {"i": "P-0417", "n": "5RN", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-5RN", "m": 0, "sp": 0, "a": 0}, {"i": "P-0418", "n": "6RN", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-6RN", "m": 0, "sp": 0, "a": 0}, {"i": "P-0419", "n": "7RN", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-7RN", "m": 0, "sp": 0, "a": 0}, {"i": "P-0420", "n": "6RS", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-6RS", "m": 0, "sp": 0, "a": 0}, {"i": "P-0421", "n": "6R", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-6R", "m": 0, "sp": 0, "a": 0}, {"i": "P-0422", "n": "7RN", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-7RN", "m": 0, "sp": 0, "a": 0}, {"i": "P-0423", "n": "8R", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-8R", "m": 0, "sp": 0, "a": 0}, {"i": "P-0424", "n": "3HR", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-3HR", "m": 0, "sp": 0, "a": 0}, {"i": "P-0425", "n": "4HR", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-4HR", "m": 0, "sp": 0, "a": 0}, {"i": "P-0426", "n": "4BV", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-4BV", "m": 0, "sp": 0, "a": 0}, {"i": "P-0427", "n": "4RV", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-4RV", "m": 0, "sp": 0, "a": 0}, {"i": "P-0428", "n": "5M", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-5M", "m": 0, "sp": 0, "a": 0}, {"i": "P-0429", "n": "6MV", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-6MV", "m": 0, "sp": 0, "a": 0}, {"i": "P-0430", "n": "8F", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-8F", "m": 0, "sp": 0, "a": 0}, {"i": "P-0431", "n": "9F", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-9F", "m": 0, "sp": 0, "a": 0}, {"i": "P-0432", "n": "9O", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-9O", "m": 99, "sp": 0, "a": 0}, {"i": "P-0433", "n": "10F", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-10F", "m": 0, "sp": 0, "a": 0}, {"i": "P-0434", "n": "US PLUS", "b": "FRAMCOLOR", "c": "Coloration", "s": "FRAMCOLOR-US PLUS", "m": 0, "sp": 0, "a": 0}, {"i": "P-0435", "n": "1.0", "b": "KYO", "c": "Coloration", "s": "KYO-1.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0436", "n": "3.0", "b": "KYO", "c": "Coloration", "s": "KYO-3.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0437", "n": "4.0", "b": "KYO", "c": "Coloration", "s": "KYO-4.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0438", "n": "5.0", "b": "KYO", "c": "Coloration", "s": "KYO-5.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0439", "n": "6.0", "b": "KYO", "c": "Coloration", "s": "KYO-6.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0440", "n": "7.0", "b": "KYO", "c": "Coloration", "s": "KYO-7.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0441", "n": "8.0", "b": "KYO", "c": "Coloration", "s": "KYO-8.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0442", "n": "9.0", "b": "KYO", "c": "Coloration", "s": "KYO-9.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0443", "n": "10.0", "b": "KYO", "c": "Coloration", "s": "KYO-10.0", "m": 0, "sp": 6, "a": 0}, {"i": "P-0444", "n": "11.0", "b": "KYO", "c": "Coloration", "s": "KYO-11.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0445", "n": "5.00", "b": "KYO", "c": "Coloration", "s": "KYO-5.00", "m": 0, "sp": 0, "a": 0}, {"i": "P-0446", "n": "6.00", "b": "KYO", "c": "Coloration", "s": "KYO-6.00", "m": 0, "sp": 0, "a": 0}, {"i": "P-0447", "n": "7.00", "b": "KYO", "c": "Coloration", "s": "KYO-7.00", "m": 0, "sp": 0, "a": 0}, {"i": "P-0448", "n": "8.00", "b": "KYO", "c": "Coloration", "s": "KYO-8.00", "m": 0, "sp": 0, "a": 0}, {"i": "P-0449", "n": "9.00", "b": "KYO", "c": "Coloration", "s": "KYO-9.00", "m": 0, "sp": 0, "a": 0}, {"i": "P-0450", "n": "10.00", "b": "KYO", "c": "Coloration", "s": "KYO-10.00", "m": 0, "sp": 0, "a": 0}, {"i": "P-0451", "n": "6.32", "b": "KYO", "c": "Coloration", "s": "KYO-6.32", "m": 0, "sp": 0, "a": 0}, {"i": "P-0452", "n": "7.32", "b": "KYO", "c": "Coloration", "s": "KYO-7.32", "m": 0, "sp": 0, "a": 0}, {"i": "P-0453", "n": "8.32", "b": "KYO", "c": "Coloration", "s": "KYO-8.32", "m": 0, "sp": 0, "a": 0}, {"i": "P-0454", "n": "9.32", "b": "KYO", "c": "Coloration", "s": "KYO-9.32", "m": 0, "sp": 0, "a": 0}, {"i": "P-0455", "n": "10.32", "b": "KYO", "c": "Coloration", "s": "KYO-10.32", "m": 0, "sp": 0, "a": 0}, {"i": "P-0456", "n": "11.32", "b": "KYO", "c": "Coloration", "s": "KYO-11.32", "m": 0, "sp": 0, "a": 0}, {"i": "P-0457", "n": "5.3", "b": "KYO", "c": "Coloration", "s": "KYO-5.3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0458", "n": "6.3", "b": "KYO", "c": "Coloration", "s": "KYO-6.3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0459", "n": "7.3", "b": "KYO", "c": "Coloration", "s": "KYO-7.3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0460", "n": "8.3", "b": "KYO", "c": "Coloration", "s": "KYO-8.3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0461", "n": "9.3", "b": "KYO", "c": "Coloration", "s": "KYO-9.3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0462", "n": "10.3", "b": "KYO", "c": "Coloration", "s": "KYO-10.3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0463", "n": "5.1", "b": "KYO", "c": "Coloration", "s": "KYO-5.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0464", "n": "6.1", "b": "KYO", "c": "Coloration", "s": "KYO-6.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0465", "n": "7.1", "b": "KYO", "c": "Coloration", "s": "KYO-7.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0466", "n": "8.1", "b": "KYO", "c": "Coloration", "s": "KYO-8.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0467", "n": "9.1", "b": "KYO", "c": "Coloration", "s": "KYO-9.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0468", "n": "10.1", "b": "KYO", "c": "Coloration", "s": "KYO-10.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0469", "n": "11.1", "b": "KYO", "c": "Coloration", "s": "KYO-11.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0470", "n": "1.10", "b": "KYO", "c": "Coloration", "s": "KYO-1.10", "m": 0, "sp": 0, "a": 0}, {"i": "P-0471", "n": "9.12", "b": "KYO", "c": "Coloration", "s": "KYO-9.12", "m": 0, "sp": 0, "a": 0}, {"i": "P-0472", "n": "10.12", "b": "KYO", "c": "Coloration", "s": "KYO-10.12", "m": 0, "sp": 0, "a": 0}, {"i": "P-0473", "n": "11.12", "b": "KYO", "c": "Coloration", "s": "KYO-11.12", "m": 0, "sp": 0, "a": 0}, {"i": "P-0474", "n": "4.23", "b": "KYO", "c": "Coloration", "s": "KYO-4.23", "m": 0, "sp": 0, "a": 0}, {"i": "P-0475", "n": "5.23", "b": "KYO", "c": "Coloration", "s": "KYO-5.23", "m": 0, "sp": 0, "a": 0}, {"i": "P-0476", "n": "6.23", "b": "KYO", "c": "Coloration", "s": "KYO-6.23", "m": 0, "sp": 0, "a": 0}, {"i": "P-0477", "n": "7.23", "b": "KYO", "c": "Coloration", "s": "KYO-7.23", "m": 0, "sp": 0, "a": 0}, {"i": "P-0478", "n": "8.23", "b": "KYO", "c": "Coloration", "s": "KYO-8.23", "m": 0, "sp": 0, "a": 0}, {"i": "P-0479", "n": "6.4", "b": "KYO", "c": "Coloration", "s": "KYO-6.4", "m": 0, "sp": 0, "a": 0}, {"i": "P-0480", "n": "7.4", "b": "KYO", "c": "Coloration", "s": "KYO-7.4", "m": 0, "sp": 0, "a": 0}, {"i": "P-0481", "n": "8.4", "b": "KYO", "c": "Coloration", "s": "KYO-8.4", "m": 0, "sp": 0, "a": 0}, {"i": "P-0482", "n": "6.34", "b": "KYO", "c": "Coloration", "s": "KYO-6.34", "m": 0, "sp": 0, "a": 0}, {"i": "P-0483", "n": "7.34", "b": "KYO", "c": "Coloration", "s": "KYO-7.34", "m": 0, "sp": 0, "a": 0}, {"i": "P-0484", "n": "8.34", "b": "KYO", "c": "Coloration", "s": "KYO-8.34", "m": 0, "sp": 0, "a": 0}, {"i": "P-0485", "n": "6.46", "b": "KYO", "c": "Coloration", "s": "KYO-6.46", "m": 0, "sp": 0, "a": 0}, {"i": "P-0486", "n": "7.46", "b": "KYO", "c": "Coloration", "s": "KYO-7.46", "m": 0, "sp": 0, "a": 0}, {"i": "P-0487", "n": "5.56", "b": "KYO", "c": "Coloration", "s": "KYO-5.56", "m": 0, "sp": 0, "a": 0}, {"i": "P-0488", "n": "6.56", "b": "KYO", "c": "Coloration", "s": "KYO-6.56", "m": 0, "sp": 0, "a": 0}, {"i": "P-0489", "n": "7.56", "b": "KYO", "c": "Coloration", "s": "KYO-7.56", "m": 0, "sp": 0, "a": 0}, {"i": "P-0490", "n": "4.35", "b": "KYO", "c": "Coloration", "s": "KYO-4.35", "m": 0, "sp": 0, "a": 0}, {"i": "P-0491", "n": "5.35", "b": "KYO", "c": "Coloration", "s": "KYO-5.35", "m": 0, "sp": 0, "a": 0}, {"i": "P-0492", "n": "6.35", "b": "KYO", "c": "Coloration", "s": "KYO-6.35", "m": 0, "sp": 0, "a": 0}, {"i": "P-0493", "n": "7.35", "b": "KYO", "c": "Coloration", "s": "KYO-7.35", "m": 0, "sp": 0, "a": 0}, {"i": "P-0494", "n": "4.5", "b": "KYO", "c": "Coloration", "s": "KYO-4.5", "m": 0, "sp": 0, "a": 0}, {"i": "P-0495", "n": "5.5", "b": "KYO", "c": "Coloration", "s": "KYO-5.5", "m": 0, "sp": 0, "a": 0}, {"i": "P-0496", "n": "6.5", "b": "KYO", "c": "Coloration", "s": "KYO-6.5", "m": 0, "sp": 0, "a": 0}, {"i": "P-0497", "n": "4.2", "b": "KYO", "c": "Coloration", "s": "KYO-4.2", "m": 0, "sp": 0, "a": 0}, {"i": "P-0498", "n": "5.2", "b": "KYO", "c": "Coloration", "s": "KYO-5.2", "m": 0, "sp": 0, "a": 0}, {"i": "P-0499", "n": "12.0", "b": "KYO", "c": "Coloration", "s": "KYO-12.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0500", "n": "12.1", "b": "KYO", "c": "Coloration", "s": "KYO-12.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0501", "n": "12.89", "b": "KYO", "c": "Coloration", "s": "KYO-12.89", "m": 0, "sp": 0, "a": 0}, {"i": "P-0502", "n": "ARGENT", "b": "KYO", "c": "Coloration", "s": "KYO-ARGENT", "m": 0, "sp": 0, "a": 0}, {"i": "P-0503", "n": "BLEU", "b": "KYO", "c": "Coloration", "s": "KYO-BLEU", "m": 0, "sp": 0, "a": 0}, {"i": "P-0504", "n": "ORO", "b": "KYO", "c": "Coloration", "s": "KYO-ORO", "m": 0, "sp": 0, "a": 0}, {"i": "P-0505", "n": "ROUGE", "b": "KYO", "c": "Coloration", "s": "KYO-ROUGE", "m": 0, "sp": 0, "a": 0}, {"i": "P-0506", "n": "VIOLET", "b": "KYO", "c": "Coloration", "s": "KYO-VIOLET", "m": 0, "sp": 0, "a": 0}, {"i": "P-0507", "n": "NEUTRE", "b": "KYO", "c": "Coloration", "s": "KYO-NEUTRE", "m": 0, "sp": 0, "a": 0}, {"i": "P-0508", "n": "1.0", "b": "ORO", "c": "Coloration", "s": "ORO-1.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0509", "n": "3.0", "b": "ORO", "c": "Coloration", "s": "ORO-3.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0510", "n": "4.0", "b": "ORO", "c": "Coloration", "s": "ORO-4.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0511", "n": "5.0", "b": "ORO", "c": "Coloration", "s": "ORO-5.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0512", "n": "6.0", "b": "ORO", "c": "Coloration", "s": "ORO-6.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0513", "n": "7.0", "b": "ORO", "c": "Coloration", "s": "ORO-7.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0514", "n": "8.0", "b": "ORO", "c": "Coloration", "s": "ORO-8.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0515", "n": "9.0", "b": "ORO", "c": "Coloration", "s": "ORO-9.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0516", "n": "10.0", "b": "ORO", "c": "Coloration", "s": "ORO-10.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0517", "n": "5.00", "b": "ORO", "c": "Coloration", "s": "ORO-5.00", "m": 0, "sp": 0, "a": 0}, {"i": "P-0518", "n": "6.00", "b": "ORO", "c": "Coloration", "s": "ORO-6.00", "m": 0, "sp": 0, "a": 0}, {"i": "P-0519", "n": "7.00", "b": "ORO", "c": "Coloration", "s": "ORO-7.00", "m": 0, "sp": 0, "a": 0}, {"i": "P-0520", "n": "8.00", "b": "ORO", "c": "Coloration", "s": "ORO-8.00", "m": 0, "sp": 0, "a": 0}, {"i": "P-0521", "n": "9.00", "b": "ORO", "c": "Coloration", "s": "ORO-9.00", "m": 0, "sp": 0, "a": 0}, {"i": "P-0522", "n": "10.00", "b": "ORO", "c": "Coloration", "s": "ORO-10.00", "m": 0, "sp": 0, "a": 0}, {"i": "P-0523", "n": "4.2", "b": "ORO", "c": "Coloration", "s": "ORO-4.2", "m": 0, "sp": 0, "a": 0}, {"i": "P-0524", "n": "5.2", "b": "ORO", "c": "Coloration", "s": "ORO-5.2", "m": 0, "sp": 0, "a": 0}, {"i": "P-0525", "n": "8.21", "b": "ORO", "c": "Coloration", "s": "ORO-8.21", "m": 0, "sp": 0, "a": 0}, {"i": "P-0526", "n": "9.21", "b": "ORO", "c": "Coloration", "s": "ORO-9.21", "m": 0, "sp": 0, "a": 0}, {"i": "P-0527", "n": "10.21", "b": "ORO", "c": "Coloration", "s": "ORO-10.21", "m": 0, "sp": 0, "a": 0}, {"i": "P-0528", "n": "1.10", "b": "ORO", "c": "Coloration", "s": "ORO-1.10", "m": 0, "sp": 0, "a": 0}, {"i": "P-0529", "n": "5.1", "b": "ORO", "c": "Coloration", "s": "ORO-5.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0530", "n": "6.1", "b": "ORO", "c": "Coloration", "s": "ORO-6.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0531", "n": "7.1", "b": "ORO", "c": "Coloration", "s": "ORO-7.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0532", "n": "8.1", "b": "ORO", "c": "Coloration", "s": "ORO-8.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0533", "n": "9.1", "b": "ORO", "c": "Coloration", "s": "ORO-9.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0534", "n": "10.1", "b": "ORO", "c": "Coloration", "s": "ORO-10.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0535", "n": "6.13", "b": "ORO", "c": "Coloration", "s": "ORO-6.13", "m": 0, "sp": 0, "a": 0}, {"i": "P-0536", "n": "7.13", "b": "ORO", "c": "Coloration", "s": "ORO-7.13", "m": 0, "sp": 0, "a": 0}, {"i": "P-0537", "n": "8.13", "b": "ORO", "c": "Coloration", "s": "ORO-8.13", "m": 0, "sp": 0, "a": 0}, {"i": "P-0538", "n": "9.13", "b": "ORO", "c": "Coloration", "s": "ORO-9.13", "m": 0, "sp": 0, "a": 0}, {"i": "P-0539", "n": "4.14", "b": "ORO", "c": "Coloration", "s": "ORO-4.14", "m": 0, "sp": 0, "a": 0}, {"i": "P-0540", "n": "5.14", "b": "ORO", "c": "Coloration", "s": "ORO-5.14", "m": 0, "sp": 0, "a": 0}, {"i": "P-0541", "n": "6.14", "b": "ORO", "c": "Coloration", "s": "ORO-6.14", "m": 0, "sp": 0, "a": 0}, {"i": "P-0542", "n": "7.14", "b": "ORO", "c": "Coloration", "s": "ORO-7.14", "m": 0, "sp": 0, "a": 0}, {"i": "P-0543", "n": "8.14", "b": "ORO", "c": "Coloration", "s": "ORO-8.14", "m": 0, "sp": 0, "a": 0}, {"i": "P-0544", "n": "5.3", "b": "ORO", "c": "Coloration", "s": "ORO-5.3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0545", "n": "6.3", "b": "ORO", "c": "Coloration", "s": "ORO-6.3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0546", "n": "7.3", "b": "ORO", "c": "Coloration", "s": "ORO-7.3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0547", "n": "8.3", "b": "ORO", "c": "Coloration", "s": "ORO-8.3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0548", "n": "9.3", "b": "ORO", "c": "Coloration", "s": "ORO-9.3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0549", "n": "10.3", "b": "ORO", "c": "Coloration", "s": "ORO-10.3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0550", "n": "6.31", "b": "ORO", "c": "Coloration", "s": "ORO-6.31", "m": 0, "sp": 0, "a": 0}, {"i": "P-0551", "n": "7.31", "b": "ORO", "c": "Coloration", "s": "ORO-7.31", "m": 0, "sp": 0, "a": 0}, {"i": "P-0552", "n": "8.31", "b": "ORO", "c": "Coloration", "s": "ORO-8.31", "m": 0, "sp": 0, "a": 0}, {"i": "P-0553", "n": "9.31", "b": "ORO", "c": "Coloration", "s": "ORO-9.31", "m": 0, "sp": 0, "a": 0}, {"i": "P-0554", "n": "6.34", "b": "ORO", "c": "Coloration", "s": "ORO-6.34", "m": 0, "sp": 0, "a": 0}, {"i": "P-0555", "n": "7.34", "b": "ORO", "c": "Coloration", "s": "ORO-7.34", "m": 0, "sp": 0, "a": 0}, {"i": "P-0556", "n": "8.34", "b": "ORO", "c": "Coloration", "s": "ORO-8.34", "m": 0, "sp": 0, "a": 0}, {"i": "P-0557", "n": "6.46", "b": "ORO", "c": "Coloration", "s": "ORO-6.46", "m": 0, "sp": 0, "a": 0}, {"i": "P-0558", "n": "7.4", "b": "ORO", "c": "Coloration", "s": "ORO-7.4", "m": 0, "sp": 0, "a": 0}, {"i": "P-0559", "n": "8.4", "b": "ORO", "c": "Coloration", "s": "ORO-8.4", "m": 0, "sp": 0, "a": 0}, {"i": "P-0560", "n": "4.5", "b": "ORO", "c": "Coloration", "s": "ORO-4.5", "m": 0, "sp": 0, "a": 0}, {"i": "P-0561", "n": "5.5", "b": "ORO", "c": "Coloration", "s": "ORO-5.5", "m": 0, "sp": 0, "a": 0}, {"i": "P-0562", "n": "6.5", "b": "ORO", "c": "Coloration", "s": "ORO-6.5", "m": 0, "sp": 0, "a": 0}, {"i": "P-0563", "n": "5.6", "b": "ORO", "c": "Coloration", "s": "ORO-5.6", "m": 0, "sp": 0, "a": 0}, {"i": "P-0564", "n": "6.6", "b": "ORO", "c": "Coloration", "s": "ORO-6.6", "m": 0, "sp": 0, "a": 0}, {"i": "P-0565", "n": "5.606", "b": "ORO", "c": "Coloration", "s": "ORO-5.606", "m": 0, "sp": 0, "a": 0}, {"i": "P-0566", "n": "6.606", "b": "ORO", "c": "Coloration", "s": "ORO-6.606", "m": 0, "sp": 0, "a": 0}, {"i": "P-0567", "n": "7.606", "b": "ORO", "c": "Coloration", "s": "ORO-7.606", "m": 0, "sp": 0, "a": 0}, {"i": "P-0568", "n": "10.0 EXTRA", "b": "ORO", "c": "Coloration", "s": "ORO-10.0 EXTRA", "m": 0, "sp": 0, "a": 0}, {"i": "P-0569", "n": "11.1 EXTRA", "b": "ORO", "c": "Coloration", "s": "ORO-11.1 EXTRA", "m": 0, "sp": 0, "a": 0}, {"i": "P-0570", "n": "10.13 EXTRA", "b": "ORO", "c": "Coloration", "s": "ORO-10.13 EXTRA", "m": 0, "sp": 0, "a": 0}, {"i": "P-0571", "n": "10.3 EXTRA", "b": "ORO", "c": "Coloration", "s": "ORO-10.3 EXTRA", "m": 0, "sp": 0, "a": 0}, {"i": "P-0572", "n": "ARGENT", "b": "ORO", "c": "Coloration", "s": "ORO-ARGENT", "m": 0, "sp": 0, "a": 0}, {"i": "P-0573", "n": "BLEU", "b": "ORO", "c": "Coloration", "s": "ORO-BLEU", "m": 0, "sp": 0, "a": 0}, {"i": "P-0574", "n": "ROUGE", "b": "ORO", "c": "Coloration", "s": "ORO-ROUGE", "m": 0, "sp": 0, "a": 0}, {"i": "P-0575", "n": "VIOLET", "b": "ORO", "c": "Coloration", "s": "ORO-VIOLET", "m": 0, "sp": 0, "a": 0}, {"i": "P-0576", "n": "11.0", "b": "ORO", "c": "Coloration", "s": "ORO-11.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0577", "n": "11.1", "b": "ORO", "c": "Coloration", "s": "ORO-11.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0578", "n": "11.7", "b": "ORO", "c": "Coloration", "s": "ORO-11.7", "m": 0, "sp": 0, "a": 0}, {"i": "P-0579", "n": "1.0", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-1.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0580", "n": "3.0", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-3.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0581", "n": "4.0", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-4.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0582", "n": "5.0", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-5.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0583", "n": "6.0", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-6.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0584", "n": "7.0", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-7.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0585", "n": "8.0", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-8.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0586", "n": "9.0", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-9.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0587", "n": "10.0", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-10.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0588", "n": "4.0", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-4.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0589", "n": "5.0", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-5.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0590", "n": "6.0", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-6.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0591", "n": "7.0", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-7.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0592", "n": "8.0", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-8.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0593", "n": "9.0", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-9.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0594", "n": "10.0", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-10.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0595", "n": "5.00", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-5.00", "m": 0, "sp": 0, "a": 0}, {"i": "P-0596", "n": "6.00", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-6.00", "m": 0, "sp": 0, "a": 0}, {"i": "P-0597", "n": "7.00", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-7.00", "m": 0, "sp": 0, "a": 0}, {"i": "P-0598", "n": "8.00", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-8.00", "m": 0, "sp": 0, "a": 0}, {"i": "P-0599", "n": "9.00", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-9.00", "m": 0, "sp": 0, "a": 0}, {"i": "P-0600", "n": "10.00", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-10.00", "m": 0, "sp": 0, "a": 0}, {"i": "P-0601", "n": "5.81", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-5.81", "m": 0, "sp": 0, "a": 0}, {"i": "P-0602", "n": "6.81", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-6.81", "m": 0, "sp": 0, "a": 0}, {"i": "P-0603", "n": "7.81", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-7.81", "m": 0, "sp": 0, "a": 0}, {"i": "P-0604", "n": "4.1", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-4.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0605", "n": "5.1", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-5.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0606", "n": "6.1", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-6.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0607", "n": "7.1", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-7.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0608", "n": "8.1", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-8.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0609", "n": "9.1", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-9.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0610", "n": "10.1", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-10.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0611", "n": "1.11", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-1.11", "m": 0, "sp": 0, "a": 0}, {"i": "P-0612", "n": "5.11", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-5.11", "m": 0, "sp": 0, "a": 0}, {"i": "P-0613", "n": "6.11", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-6.11", "m": 0, "sp": 0, "a": 0}, {"i": "P-0614", "n": "7.11", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-7.11", "m": 0, "sp": 0, "a": 0}, {"i": "P-0615", "n": "8.11", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-8.11", "m": 0, "sp": 0, "a": 0}, {"i": "P-0616", "n": "9.11", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-9.11", "m": 0, "sp": 0, "a": 0}, {"i": "P-0617", "n": "10.11", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-10.11", "m": 0, "sp": 0, "a": 0}, {"i": "P-0618", "n": "7.13", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-7.13", "m": 0, "sp": 0, "a": 0}, {"i": "P-0619", "n": "8.13", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-8.13", "m": 0, "sp": 0, "a": 0}, {"i": "P-0620", "n": "9.13", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-9.13", "m": 0, "sp": 0, "a": 0}, {"i": "P-0621", "n": "5.3", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-5.3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0622", "n": "6.3", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-6.3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0623", "n": "7.3", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-7.3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0624", "n": "8.3", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-8.3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0625", "n": "9.3", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-9.3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0626", "n": "10.3", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-10.3", "m": 0, "sp": 0, "a": 0}, {"i": "P-0627", "n": "7.34", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-7.34", "m": 0, "sp": 0, "a": 0}, {"i": "P-0628", "n": "8.34", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-8.34", "m": 0, "sp": 0, "a": 0}, {"i": "P-0629", "n": "6.4", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-6.4", "m": 0, "sp": 0, "a": 0}, {"i": "P-0630", "n": "7.4", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-7.4", "m": 0, "sp": 0, "a": 0}, {"i": "P-0631", "n": "8.4", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-8.4", "m": 0, "sp": 0, "a": 0}, {"i": "P-0632", "n": "8.42", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-8.42", "m": 0, "sp": 0, "a": 0}, {"i": "P-0633", "n": "9.42", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-9.42", "m": 0, "sp": 0, "a": 0}, {"i": "P-0634", "n": "10.42", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-10.42", "m": 0, "sp": 0, "a": 0}, {"i": "P-0635", "n": "5.5", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-5.5", "m": 0, "sp": 0, "a": 0}, {"i": "P-0636", "n": "6.5", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-6.5", "m": 0, "sp": 0, "a": 0}, {"i": "P-0637", "n": "5.22", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-5.22", "m": 0, "sp": 0, "a": 0}, {"i": "P-0638", "n": "6.22", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-6.22", "m": 0, "sp": 0, "a": 0}, {"i": "P-0639", "n": "7.22", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-7.22", "m": 0, "sp": 0, "a": 0}, {"i": "P-0640", "n": "5.66", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-5.66", "m": 0, "sp": 0, "a": 0}, {"i": "P-0641", "n": "6.66", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-6.66", "m": 0, "sp": 0, "a": 0}, {"i": "P-0642", "n": "7.66", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-7.66", "m": 0, "sp": 0, "a": 0}, {"i": "P-0643", "n": "4.72", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-4.72", "m": 0, "sp": 0, "a": 0}, {"i": "P-0644", "n": "5.72", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-5.72", "m": 0, "sp": 0, "a": 0}, {"i": "P-0645", "n": "6.72", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-6.72", "m": 0, "sp": 0, "a": 0}, {"i": "P-0646", "n": "7.72", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-7.72", "m": 0, "sp": 0, "a": 0}, {"i": "P-0647", "n": "8.72", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-8.72", "m": 0, "sp": 0, "a": 0}, {"i": "P-0648", "n": "5.7", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-5.7", "m": 0, "sp": 0, "a": 0}, {"i": "P-0649", "n": "6.7", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-6.7", "m": 0, "sp": 0, "a": 0}, {"i": "P-0650", "n": "7.7", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-7.7", "m": 0, "sp": 0, "a": 0}, {"i": "P-0651", "n": "5.73", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-5.73", "m": 0, "sp": 0, "a": 0}, {"i": "P-0652", "n": "6.73", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-6.73", "m": 0, "sp": 0, "a": 0}, {"i": "P-0653", "n": "7.73", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-7.73", "m": 0, "sp": 0, "a": 0}, {"i": "P-0654", "n": "11.0", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-11.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0655", "n": "11.1", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-11.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0656", "n": "12.0", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-12.0", "m": 0, "sp": 0, "a": 0}, {"i": "P-0657", "n": "12.1", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-12.1", "m": 0, "sp": 0, "a": 0}, {"i": "P-0658", "n": "12.11", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-12.11", "m": 0, "sp": 0, "a": 0}, {"i": "P-0659", "n": "12.21", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-12.21", "m": 0, "sp": 0, "a": 0}, {"i": "P-0660", "n": "CUIVRE BOOSTER", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-CUIVRE BOOSTER", "m": 0, "sp": 0, "a": 0}, {"i": "P-0661", "n": "BOSSTER ROUGE", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-BOSSTER ROUGE", "m": 0, "sp": 0, "a": 0}, {"i": "P-0662", "n": "BOOSTER VIOLET", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-BOOSTER VIOLET", "m": 0, "sp": 0, "a": 0}, {"i": "P-0663", "n": "SILVER", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-SILVER", "m": 0, "sp": 0, "a": 0}, {"i": "P-0664", "n": "CENDRE", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-CENDRE", "m": 0, "sp": 0, "a": 0}, {"i": "P-0665", "n": "PERLE", "b": "HS MILANO", "c": "Coloration", "s": "HS MILANO-PERLE", "m": 0, "sp": 0, "a": 0}]</script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--accent:#2563EB;--accent-light:#DBEAFE;--accent-glow:rgba(37,99,235,.08);--text:#18181B;--text2:#71717A;--bg:#FFFFFF;--surface:#F8FAFC;--surface2:#F1F5F9;--surface3:#E2E8F0;--border:#E4E4E7;--green:#16A34A;--red:#DC2626;--amber:#D97706;--radius-sm:3px;--radius:8px;--radius-lg:12px;--orange:#D97706}
+.dark{--accent:#60A5FA;--accent-light:#1E3A5F;--accent-glow:rgba(96,165,250,.1);--text:#E4E4E7;--text2:#A1A1AA;--bg:#09090B;--surface:#18181B;--surface2:#27272A;--surface3:#3F3F46;--border:#27272A;--green:#4ADE80;--red:#F87171;--amber:#FBBF24}
+body{font-family:Inter,system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden;font-size:14px;line-height:1.5}
+.bg-grid{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;background-image:linear-gradient(to right,var(--border) 1px,transparent 1px),linear-gradient(to bottom,var(--border) 1px,transparent 1px);opacity:0.35;background-size:40px 40px;mask-image:radial-gradient(circle,#000 30%,transparent 100%);-webkit-mask-image:radial-gradient(circle,#000 30%,transparent 100%)}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:var(--bg);border-right:1px solid var(--border);padding:1.25rem;z-index:10;overflow-y:auto;display:flex;flex-direction:column}
+.sidebar h1{font-size:.85rem;font-weight:600;color:var(--accent);margin-bottom:.25rem;letter-spacing:-.02em;display:flex;align-items:center;gap:.4rem}
+.sidebar .subhead{font-size:.7rem;color:var(--text2);margin-bottom:1.5rem;letter-spacing:.02em}
+.sidebar nav{display:flex;flex-direction:column;gap:.1rem;flex:1}
+.sidebar nav button{background:0;border:0;color:var(--text2);padding:.4rem .65rem;border-radius:var(--radius-sm);text-align:left;cursor:pointer;font-size:.8rem;font-weight:500;transition:.15s;display:flex;align-items:center;gap:.5rem;width:100%;font-family:inherit}
+.sidebar nav button:hover{background:var(--surface2);color:var(--text)}
+.sidebar nav button.active{background:var(--accent-light);color:var(--accent);font-weight:600}
+.sidebar .version{font-size:.65rem;color:var(--text2);padding-top:.5rem;border-top:1px solid var(--border);margin-top:.5rem}
+.main{margin-left:220px;padding:1.5rem 2rem;min-height:100vh;position:relative;z-index:1}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:.5rem}
+.header h2{font-size:1.1rem;font-weight:600;letter-spacing:-.02em;color:var(--text)}
+.badge{background:var(--accent-light);color:var(--accent);padding:.15rem .6rem;border-radius:20px;font-size:.7rem;font-weight:600;white-space:nowrap}
+.btn{display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .85rem;border:0;border-radius:var(--radius-sm);font-size:.78rem;font-weight:600;cursor:pointer;transition:.15s;font-family:inherit;white-space:nowrap}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{opacity:.9;box-shadow:0 2px 12px var(--accent-glow)}
+.btn-danger{background:var(--red);color:#fff}.btn-danger:hover{opacity:.85}
+.btn-outline{background:0;border:1px solid var(--border);color:var(--text2)}
+.btn-outline:hover{background:var(--surface2);color:var(--text);border-color:var(--accent)}
+.btn-success{background:var(--green);color:#fff}.btn-success:hover{opacity:.9}
+.btn-amber{background:var(--amber);color:#fff}
+.btn-sm{padding:.25rem .55rem;font-size:.72rem}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.65rem;margin-bottom:1.25rem}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.85rem 1rem;transition:.15s}
+.stat-card:hover{border-color:var(--accent);box-shadow:0 2px 16px var(--accent-glow)}
+.stat-card h3{font-size:.65rem;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em}
+.stat-card .value{font-size:1.35rem;font-weight:700;margin-top:.15rem;color:var(--text)}
+.stat-card .sub{font-size:.72rem;color:var(--text2);margin-top:.05rem}
+.toolbar{display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap;align-items:center}
+.toolbar input,.toolbar select{padding:.35rem .6rem;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.8rem;background:var(--bg);color:var(--text);font-family:inherit;outline:0;transition:.15s}
+.toolbar input:focus,.toolbar select:focus{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-glow)}
+.toolbar input{flex:1;min-width:140px}
+::placeholder{color:var(--text2)}
+table{width:100%;border-collapse:collapse;background:var(--bg);border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);font-size:.8rem}
+th{text-align:left;padding:.5rem .75rem;font-size:.68rem;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.04em;background:var(--surface);border-bottom:1px solid var(--border)}
+td{padding:.45rem .75rem;border-bottom:1px solid var(--border);color:var(--text)}
+tr:last-child td{border:0}
+tr:hover td{background:var(--surface2)}
+.stock-low{color:var(--red);font-weight:600}
+.stock-ok{color:var(--green)}
+.stock-medium{color:var(--amber)}
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.3);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:100}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;width:90%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 16px 48px rgba(0,0,0,.08)}
+.modal h3{font-size:.95rem;font-weight:600;margin-bottom:1rem;color:var(--text)}
+.modal-lg{max-width:720px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.65rem}
+.form-grid .full{grid-column:1/-1}
+.form-group label{display:block;font-size:.7rem;font-weight:600;color:var(--text2);margin-bottom:.2rem;letter-spacing:.02em}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:.35rem .55rem;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.8rem;background:var(--bg);color:var(--text);font-family:inherit;outline:0;transition:.15s}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-glow)}
+.form-group textarea{resize:vertical;min-height:45px}
+.form-actions{display:flex;gap:.5rem;justify-content:flex-end;margin-top:1rem}
+.hidden{display:none!important}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:1rem}
+.tabs button{background:0;border:0;border-bottom:2px solid transparent;color:var(--text2);padding:.45rem .9rem;cursor:pointer;font-size:.8rem;font-weight:500;transition:.15s;font-family:inherit}
+.tabs button:hover{color:var(--text)}
+.tabs button.active{color:var(--accent);border-bottom-color:var(--accent)}
+.chart{display:flex;align-items:flex-end;gap:2px;height:70px;margin-top:.4rem}
+.chart-bar{flex:1;border-radius:2px 2px 0 0;min-height:2px;transition:.3s}
+.chart-bar:hover{opacity:.7}
+.chart-label{font-size:.55rem;color:var(--text2);text-align:center;margin-top:2px}
+.alert-item{display:flex;justify-content:space-between;padding:.3rem 0;border-bottom:1px solid var(--border);font-size:.78rem}
+.alert-item:last-child{border:0}
+.store-chip{display:inline-flex;align-items:center;gap:.2rem;background:var(--surface2);padding:.1rem .4rem;border-radius:10px;font-size:.68rem;color:var(--text2)}
+.toast{position:fixed;bottom:1.25rem;right:1.25rem;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:.65rem 1rem;font-size:.8rem;z-index:200;opacity:0;transition:.25s;box-shadow:0 8px 24px rgba(0,0,0,.06)}
+.toast.show{opacity:1}
+.toast.success{border-color:var(--green)}
+.toast.error{border-color:var(--red)}
+.toast.warning{border-color:var(--orange)}
+table input[type=number]{width:52px;padding:.2rem .25rem;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.75rem;background:var(--bg);color:var(--text);text-align:center;outline:0}
+table input[type=number]:focus{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-glow)}
+.clickable{cursor:pointer;transition:background .15s}
+.clickable:hover{background:var(--surface2)}
+.stat-card.clickable{cursor:pointer}
+.stat-card.clickable:hover{border-color:var(--accent);box-shadow:0 2px 12px var(--accent-glow)}
+.modal-overlay{cursor:pointer}
+.modal-overlay .modal{cursor:default}
+.print-only{display:none}
+@media print{body{background:#fff!important}.sidebar{display:none!important}.main{margin:0!important;padding:.5in!important}table{border:1px solid #ddd!important}th{background:#f5f5f5!important;color:#333!important;-webkit-print-color-adjust:exact}td{color:#333!important}.no-print{display:none!important}.print-only{display:block!important}}
+@media(max-width:768px){.sidebar{width:48px;padding:.6rem}.sidebar h1 span,.sidebar .subhead,.sidebar nav button span,.sidebar .version{display:none}.sidebar nav button{padding:.3rem;justify-content:center}.sidebar h1 svg{margin:0 auto}.main{margin-left:48px;padding:.75rem}.stats{grid-template-columns:1fr 1fr}.form-grid{grid-template-columns:1fr}table{font-size:.7rem;display:block;overflow-x:auto;white-space:nowrap}th,td{padding:.3rem .45rem}.modal{width:95%;padding:1rem}.header h2{font-size:.9rem}.stat-card .value{font-size:1rem}}
+@media(max-width:480px){.stats{grid-template-columns:1fr}.toolbar{flex-direction:column}.toolbar input{min-width:auto;width:100%}.tabs{overflow-x:auto;flex-wrap:nowrap}.tabs button{font-size:.72rem;padding:.35rem .5rem;white-space:nowrap}}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:2px}
+.theme-toggle{background:0;border:0;color:var(--text2);cursor:pointer;padding:.3rem;border-radius:var(--radius-sm);font-size:.85rem;transition:.15s}
+.theme-toggle:hover{background:var(--surface2);color:var(--text)}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+
+<div class="sidebar">
+  <h1>
+    <svg width="20" height="20" viewBox="0 0 32 32" fill="none" style="flex-shrink:0">
+      <rect x="6" y="10" width="20" height="18" rx="2" fill="white" stroke="#2563EB" stroke-width="1.5"/>
+      <rect x="12" y="6" width="8" height="5" rx="0.8" fill="white" stroke="#2563EB" stroke-width="1.2"/>
+      <rect x="13" y="2" width="6" height="5" rx="0.8" fill="#2563EB" fill-opacity="0.15" stroke="#2563EB" stroke-width="1"/>
+      <rect x="8" y="15" width="16" height="3" rx="0.5" fill="#2563EB" fill-opacity="0.15"/>
+      <rect x="8" y="20" width="8" height="6" rx="0.5" fill="#2563EB" fill-opacity="0.2"/>
+      <circle cx="24" cy="6" r="1.5" fill="#2563EB" fill-opacity="0.3"/>
+      <circle cx="27" cy="3" r="1" fill="#2563EB" fill-opacity="0.2"/>
+      <circle cx="29" cy="1" r="0.8" fill="#2563EB" fill-opacity="0.1"/>
+    </svg>
+    <span>Stock &amp; Command</span>
+  </h1>
+  <div class="subhead">Gestion stocks &amp; commandes</div>
+  <nav id="sidebar-nav"></nav>
+  <div style="margin-top:.5rem;display:flex;gap:.35rem;align-items:center;border-top:1px solid var(--border);padding-top:.5rem">
+    <button class="theme-toggle" onclick="toggleTheme()" title="Mode sombre/clair">🌓</button>
+    <button class="btn btn-outline btn-sm" onclick="openSettings()" style="font-size:.65rem">Paramètres</button>
+  </div>
+  <div class="version">v1.0</div>
+</div>
+
+<div class="main">
+
+<!-- Dashboard -->
+<div id="page-dashboard" class="page">
+  <div class="header"><h2>Tableau de bord</h2></div>
+  <div class="stats">
+    <div class="stat-card clickable" onclick="navigate('products');renderPage('products')"><h3>Références</h3><div class="value" id="kpi-products">0</div></div>
+    <div class="stat-card clickable" onclick="navigate('suppliers');renderPage('suppliers')"><h3>Fournisseurs</h3><div class="value" id="kpi-suppliers">0</div></div>
+    <div class="stat-card clickable" onclick="navigate('orders');renderPage('orders')"><h3>Commandes</h3><div class="value" id="kpi-orders">0</div></div>
+  </div>
+  <div class="stats" style="grid-template-columns:2fr 1fr">
+    <div class="stat-card">
+      <h3>Répartition des produits par fournisseur</h3>
+      <div id="dash-cat-chart"></div>
+    </div>
+    <div class="stat-card">
+      <h3>Alertes stock</h3>
+      <div id="dash-alerts" style="max-height:200px;overflow-y:auto"></div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <h3>Dernières commandes</h3>
+    <div id="dash-recent-orders"></div>
+  </div>
+  <div class="stat-card" style="margin-top:.65rem">
+    <h3>Dernière commande</h3>
+    <div id="dash-last-order"></div>
+  </div>
+</div>
+
+<!-- Products -->
+<div id="page-products" class="page hidden">
+  <div class="header">
+    <h2>Références <span class="badge" id="prod-count">0</span></h2>
+    <button class="btn btn-primary btn-sm" onclick="openProduct()">+ Nouvelle référence</button>
+  </div>
+  <div class="toolbar">
+    <input type="text" id="prod-search" placeholder="Rechercher..." oninput="renderProducts()">
+    <select id="prod-brand-filter" onchange="renderProducts()"></select>
+  </div>
+  <table>
+    <thead><tr><th>Produit</th><th>Marque</th><th>SKU</th><th>Stock total</th><th style="width:100px"></th></tr></thead>
+    <tbody id="prod-body"></tbody>
+  </table>
+</div>
+
+<!-- Stock -->
+<!-- Suppliers -->
+<div id="page-suppliers" class="page hidden">
+  <div class="header">
+    <h2>Fournisseurs <span class="badge" id="sup-count">0</span></h2>
+    <button class="btn btn-primary btn-sm" onclick="openSupplier()">+ Nouveau fournisseur</button>
+  </div>
+  <div class="toolbar">
+    <input type="text" id="sup-search" placeholder="Rechercher..." oninput="renderSuppliers()">
+  </div>
+  <table>
+    <thead><tr><th>Nom</th><th>Code</th><th>Contact</th><th>Téléphone</th><th>Délai (j)</th><th>Commandes</th><th style="width:100px"></th></tr></thead>
+    <tbody id="sup-body"></tbody>
+  </table>
+</div>
+
+<!-- Orders -->
+<div id="page-orders" class="page hidden">
+  <div class="header"><h2>Commandes fournisseurs</h2></div>
+  <div class="tabs">
+    <button class="tab active" data-tab="create" onclick="switchOrderTab('create')">Créer</button>
+    <button class="tab" data-tab="pending" onclick="switchOrderTab('pending')">En attente</button>
+    <button class="tab" data-tab="received" onclick="switchOrderTab('received')">Reçues</button>
+  </div>
+  <div id="orders-create" class="order-panel">
+    <div class="toolbar">
+      <select id="order-supplier" onchange="renderOrderCreate()"></select>
+      <input type="text" id="order-search" placeholder="Rechercher produit..." oninput="renderOrderCreate()">
+      <button class="btn btn-primary" onclick="createOrder()">Passer commande</button>
+    </div>
+    <div id="order-summary" style="display:none;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:.65rem .85rem;margin-bottom:.75rem;font-size:.82rem"></div>
+    <div style="max-height:500px;overflow-y:auto">
+      <table>
+        <thead><tr><th>Produit</th><th>Stock magasins</th><th>Total</th><th>Qté</th><th>Répartition</th><th>Sous-total</th></tr></thead>
+        <tbody id="order-body"></tbody>
+      </table>
+    </div>
+  </div>
+  <div id="orders-pending" class="order-panel hidden">
+    <table>
+      <thead><tr><th>N°</th><th>Fournisseur</th><th>Date</th><th>Articles</th><th>Total</th><th style="width:160px"></th></tr></thead>
+      <tbody id="orders-pending-body"></tbody>
+    </table>
+  </div>
+  <div id="orders-received" class="order-panel hidden">
+    <table>
+      <thead><tr><th>N°</th><th>Fournisseur</th><th>Date réception</th><th>Articles</th><th>Total</th><th style="width:90px"></th></tr></thead>
+      <tbody id="orders-received-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Reports -->
+<div id="page-reports" class="page hidden">
+  <div class="header"><h2>Rapports & exports</h2></div>
+  <div class="tabs">
+    <button class="tab active" data-rtab="orders" onclick="switchReportTab('orders')">Commandes</button>
+    <button class="tab" data-rtab="products" onclick="switchReportTab('products')">Produits</button>
+  </div>
+  <div id="report-content"></div>
+</div>
+
+</div>
+
+<!-- Modals -->
+<div class="modal-overlay" id="prod-modal">
+  <div class="modal">
+    <h3 id="prod-modal-title">Nouveau produit</h3>
+    <div class="form-grid">
+      <input type="hidden" id="f-prod-id">
+      <div class="form-group full"><label>Nom</label><input id="f-prod-name" placeholder="Ex: IALO 1.1"></div>
+      <div class="form-group"><label>Marque</label>
+        <select id="f-prod-brand"></select>
+      </div>
+      <div class="form-group"><label>SKU / Réf.</label><input id="f-prod-sku" placeholder="Référence fournisseur"></div>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-outline" onclick="closeModal('prod-modal')">Annuler</button>
+      <button class="btn btn-primary" onclick="saveProduct()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="stock-modal">
+  <div class="modal">
+    <h3 id="stock-modal-title">Ajuster le stock</h3>
+    <p style="font-size:.8rem;color:var(--text2);margin-bottom:.75rem" id="stock-modal-product"></p>
+    <div id="stock-modal-stores"></div>
+    <div class="form-actions">
+      <button class="btn btn-outline" onclick="closeModal('stock-modal')">Annuler</button>
+      <button class="btn btn-primary" onclick="saveStockAdjustment()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="sup-modal">
+  <div class="modal">
+    <h3 id="sup-modal-title">Nouveau fournisseur</h3>
+    <div class="form-grid">
+      <input type="hidden" id="f-sup-id">
+      <div class="form-group"><label>Nom</label><input id="f-sup-name" placeholder="Nom fournisseur"></div>
+      <div class="form-group"><label>Code</label><input id="f-sup-code" placeholder="Code court" style="text-transform:uppercase"></div>
+      <div class="form-group"><label>Contact</label><input id="f-sup-contact" placeholder="Nom du contact"></div>
+      <div class="form-group"><label>Téléphone</label><input id="f-sup-phone" placeholder="+216 XX XXX XXX"></div>
+      <div class="form-group"><label>Email</label><input type="email" id="f-sup-email" placeholder="contact@fournisseur.com"></div>
+      <div class="form-group"><label>Délai (jours)</label><input type="number" id="f-sup-leadtime" value="7" min="1"></div>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-outline" onclick="closeModal('sup-modal')">Annuler</button>
+      <button class="btn btn-primary" onclick="saveSupplier()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="order-view-modal">
+  <div class="modal modal-lg" id="order-view-content"></div>
+</div>
+
+<div class="modal-overlay" id="settings-modal">
+  <div class="modal" style="max-width:600px">
+    <h3>Paramètres</h3>
+    <div class="form-grid">
+      <div class="form-group"><label>Enseigne</label><input id="set-company" placeholder="Mon entreprise"></div>
+      <div class="form-group"><label>Devise</label><input id="set-currency" value="TND"></div>
+      <div class="form-group"><label>Seuil alerte défaut</label><input type="number" id="set-threshold" value="3" min="1"></div>
+      <div class="form-group full"><label>Magasins</label><input id="set-stores" value="MANOUBA, SPROLLS, ARIANA" readonly style="background:var(--surface2);color:var(--text2)"></div>
+    </div>
+    <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.75rem;padding-top:.75rem;border-top:1px solid var(--border)">
+      <button class="btn btn-outline btn-sm" onclick="document.getElementById('excel-input').click()">📥 Importer depuis Commande ELEGANCE.xlsx</button>
+      <input type="file" id="excel-input" accept=".xlsx,.xls" style="display:none" onchange="importFromExcel(this)">
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-outline" onclick="closeModal('settings-modal')">Fermer</button>
+      <button class="btn btn-primary" onclick="saveSettings()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="confirm-modal">
+  <div class="modal" style="max-width:400px;text-align:center">
+    <h3 id="confirm-title">Confirmer</h3>
+    <p style="font-size:.85rem;color:var(--text2);margin-bottom:1rem" id="confirm-msg"></p>
+    <div class="form-actions" style="justify-content:center">
+      <button class="btn btn-outline" onclick="closeModal('confirm-modal')">Annuler</button>
+      <button class="btn btn-primary" id="confirm-btn" onclick="">Confirmer</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="pdf-preview-modal" onclick="if(event.target===this)closeModal('pdf-preview-modal')">
+  <div class="modal modal-lg" style="max-width:800px;padding:0;overflow:hidden;position:relative">
+    <button onclick="closeModal('pdf-preview-modal')" style="position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:1.1rem;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center;line-height:1">✕</button>
+    <div id="pdf-preview-header" style="display:flex;justify-content:space-between;align-items:center;padding:.75rem 1rem;border-bottom:1px solid var(--border);background:var(--surface)">
+      <h3 id="pdf-preview-title" style="font-size:.9rem;font-weight:600;color:var(--text)">Aperçu du bon de commande</h3>
+      <div style="display:flex;gap:.35rem">
+        <button class="btn btn-primary btn-sm" id="pdf-preview-download" onclick="">⬇ Télécharger</button>
+        <button class="btn btn-outline btn-sm" onclick="closeModal('pdf-preview-modal')">Annuler</button>
+      </div>
+    </div>
+    <div id="pdf-preview-body" style="height:70vh;overflow:auto;padding:1rem;background:#fff">
+      <div id="pdf-preview-content" style="font-family:monospace;font-size:.75rem;color:#333;max-width:700px;margin:0 auto;padding:2rem"></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var STORES = [
+  {id:'manouba', name:'MANOUBA'},{id:'sprolls', name:'SPROLLS'},{id:'ariana', name:'ARIANA'}
+];
+var CATEGORIES = ['Parfum','Soin','Maquillage','Accessoire','Autre'];
+var PREFIX = 'sc_';
+var orderItems = {};
+var orderTab = 'create', reportTab = 'orders';
+
+var state = {
+  products: [], stock: [], orders: [], suppliers: [],
+  settings: { companyName:'Mon entreprise', currency:'TND', defaultThreshold:3, stores:3 }
+};
+
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+
+function toast(msg, type) {
+  var el = document.getElementById('toast');
+  if (!el) return;
+  el.textContent = msg;
+  el.className = 'toast ' + (type||'') + ' show';
+  clearTimeout(el._t);
+  el._t = setTimeout(function(){ el.classList.remove('show'); }, 2500);
+}
+
+function fmtNum(n) { return (n||0).toLocaleString(); }
+function fmtPrice(n) { return (n||0).toFixed(2) + ' ' + state.settings.currency; }
+function esc(s) { if (typeof s !== 'string') return ''; var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+function storeName(id) { for (var i=0;i<STORES.length;i++) { if (STORES[i].id===id) return STORES[i].name; } return id; }
+function productMap() { var m={}; for (var i=0;i<state.products.length;i++) m[state.products[i].id]=state.products[i]; return m; }
+
+var db = {
+  save: function(k,d) { try { localStorage.setItem(PREFIX+k,JSON.stringify(d)); } catch(e) {} },
+  load: function(k,f) { try { var d=localStorage.getItem(PREFIX+k); return d?JSON.parse(d):f; } catch(e){return f} },
+  saveState: function() { this.save('products',state.products); this.save('stock',state.stock); this.save('orders',state.orders); this.save('suppliers',state.suppliers); this.save('settings',state.settings); this.save('stores',STORES); },
+  loadState: function() { state.products=this.load('products',[]); state.stock=this.load('stock',[]); state.orders=this.load('orders',[]); state.suppliers=this.load('suppliers',[]); state.settings=this.load('settings',state.settings); var ss=this.load('stores',null); if(ss) STORES.splice(0,STORES.length, ...ss); }
+};
+
+function initData() {
+  db.loadState();
+  if (state.products.length > 0) return;
+  var el = document.getElementById('seed-data');
+  if (!el) return;
+  var seed = [];
+  try { seed = JSON.parse(el.textContent); } catch(e) {}
+  if (seed.length === 0) return;
+  state.products = [];
+  for (var i=0; i<seed.length; i++) {
+    var p = seed[i];
+    state.products.push({ id:p.i, name:p.b+' '+p.n, brand:p.b, category:p.c||'Coloration', sku:p.s||'' });
+    state.stock.push({ id:uid(), productId:p.i, storeId:'manouba', qty:p.m||0, threshold:state.settings.defaultThreshold });
+    state.stock.push({ id:uid(), productId:p.i, storeId:'sprolls', qty:p.sp||0, threshold:state.settings.defaultThreshold });
+    state.stock.push({ id:uid(), productId:p.i, storeId:'ariana', qty:p.a||0, threshold:state.settings.defaultThreshold });
+  }
+  // Create suppliers from brands in seed data
+  var brandMap = {};
+  for (var i=0; i<seed.length; i++) { brandMap[seed[i].b] = true; }
+  for (var b in brandMap) {
+    if (brandMap.hasOwnProperty(b)) {
+      var code = b.split(' ').map(function(w){return w[0]}).join('').toUpperCase();
+      state.suppliers.push({ id:b.toLowerCase().replace(/ /g,'-'), name:b, code:code, contact:'', phone:'', email:'', leadTime:7 });
+    }
+  }
+  db.saveState();
+}
+
+// ============ THEME ============
+function toggleTheme() {
+  document.body.classList.toggle('dark');
+  localStorage.setItem(PREFIX+'theme', document.body.classList.contains('dark')?'dark':'');
+}
+(function(){ if (localStorage.getItem(PREFIX+'theme')==='dark') document.body.classList.add('dark'); })();
+
+// ============ NAVIGATION ============
+var PAGES = [
+  {id:'dashboard', icon:'D', label:'Dashboard'},
+  {id:'products', icon:'P', label:'Références'},
+  {id:'suppliers', icon:'F', label:'Fournisseurs'},
+  {id:'orders', icon:'O', label:'Commandes'},
+  {id:'reports', icon:'R', label:'Rapports'}
+];
+
+function renderSidebar() {
+  var nav = document.getElementById('sidebar-nav');
+  var h = '';
+  for (var i=0; i<PAGES.length; i++) {
+    var p = PAGES[i];
+    h += '<button data-page="'+p.id+'" class="'+(i===0?'active':'')+'">'+p.icon+' <span>'+p.label+'</span></button>';
+  }
+  nav.innerHTML = h;
+}
+
+function navigate(pageId) {
+  var btns = document.querySelectorAll('.sidebar nav button');
+  for (var i=0; i<btns.length; i++) btns[i].classList.toggle('active', btns[i].dataset.page===pageId);
+  var pages = document.querySelectorAll('.page');
+  for (var j=0; j<pages.length; j++) pages[j].classList.add('hidden');
+  var pg = document.getElementById('page-'+pageId);
+  if (pg) pg.classList.remove('hidden');
+}
+
+(function(){
+  document.getElementById('sidebar-nav').addEventListener('click', function(e) {
+    var btn = e.target.closest('button[data-page]');
+    if (!btn) return;
+    navigate(btn.dataset.page);
+    renderPage(btn.dataset.page);
+  });
+})();
+
+function renderPage(pageId) {
+  switch(pageId) {
+    case 'dashboard': renderDashboard(); break;
+    case 'products': renderProducts(); break;
+    case 'suppliers': renderSuppliers(); break;
+    case 'orders': renderOrders(); break;
+    case 'reports': renderReports(); break;
+  }
+}
+
+// ============ DASHBOARD ============
+function renderDashboard() {
+  document.getElementById('kpi-products').textContent = fmtNum(state.products.length);
+  document.getElementById('kpi-suppliers').textContent = fmtNum(state.suppliers.length);
+  document.getElementById('kpi-orders').textContent = fmtNum(state.orders.length);
+
+  // Alerts
+  var lowStock = [], outOfStock = [];
+  for (var j=0; j<state.stock.length; j++) {
+    var s = state.stock[j];
+    if (s.qty === 0) outOfStock.push(s);
+    else if (s.qty <= s.threshold) lowStock.push(s);
+  }
+  var alertEl = document.getElementById('dash-alerts');
+  if (lowStock.length === 0 && outOfStock.length === 0) {
+    alertEl.innerHTML = '<p style="color:var(--green);font-size:.82rem">Tous les stocks sont OK.</p>';
+  } else {
+    var pm = productMap();
+    var h = '';
+    var all = lowStock.concat(outOfStock).slice(0,20);
+    for (var c=0; c<all.length; c++) {
+      var s2 = all[c], p2 = pm[s2.productId];
+      var clr = s2.qty === 0 ? 'var(--red)' : 'var(--amber)';
+      h += '<div class="alert-item clickable" onclick="navigate(\'products\');renderPage(\'products\')">' +
+        '<span>'+esc(p2?p2.name:s2.productId)+' <span class="store-chip">'+esc(storeName(s2.storeId))+'</span></span>' +
+        '<span style="color:'+clr+';font-weight:600">'+fmtNum(s2.qty)+' / '+fmtNum(s2.threshold)+'</span></div>';
+    }
+    alertEl.innerHTML = h;
+  }
+
+  // Répartition des produits par fournisseur — barres horizontales
+  var supCounts = {};
+  for (var i=0; i<state.suppliers.length; i++) supCounts[state.suppliers[i].name] = 0;
+  for (var i=0; i<state.products.length; i++) {
+    var p = state.products[i];
+    if (supCounts[p.brand] !== undefined) supCounts[p.brand]++;
+  }
+  var entries = [];
+  for (var cn in supCounts) { if (supCounts.hasOwnProperty(cn)) entries.push([cn, supCounts[cn]]); }
+  entries.sort(function(a,b){return b[1]-a[1]});
+  var maxC = 1;
+  for (var mi=0; mi<entries.length; mi++) { if (entries[mi][1] > maxC) maxC = entries[mi][1]; }
+  var barColors = ['#2563EB','#7C3AED','#059669','#D97706','#DC2626','#0891B2','#DB2777','#65A30D'];
+  var ch = '<div style="display:flex;flex-direction:column;gap:.35rem">';
+  for (var ci=0; ci<entries.length; ci++) {
+    var e = entries[ci];
+    var pct = Math.round((e[1]/maxC)*100);
+    ch += '<div class="clickable" onclick="navigate(\'orders\');renderPage(\'orders\')" style="display:flex;align-items:center;gap:.5rem">' +
+      '<span style="font-size:.72rem;font-weight:600;min-width:70px;text-align:right;color:var(--text)">'+esc(e[0].split(' ')[0])+'</span>' +
+      '<div style="flex:1;height:22px;background:var(--surface2);border-radius:4px;overflow:hidden;position:relative">' +
+      '<div style="height:100%;width:'+pct+'%;background:'+barColors[ci%barColors.length]+';border-radius:4px;transition:width .4s"></div>' +
+      '</div>' +
+      '<span style="font-size:.78rem;font-weight:700;min-width:30px;color:var(--accent)">'+fmtNum(e[1])+'</span></div>';
+  }
+  ch += '</div>';
+  document.getElementById('dash-cat-chart').innerHTML = ch;
+
+  // Recent orders
+  var oh = '';
+  if (state.orders.length === 0) {
+    oh = '<p style="color:var(--text2);font-size:.8rem">Aucune commande.</p>';
+  } else {
+    oh = '<table><thead><tr><th>N°</th><th>Fournisseur</th><th>Date</th><th>Statut</th><th>Total</th></tr></thead><tbody>';
+    var show = state.orders.slice(-5).reverse();
+    for (var oi=0; oi<show.length; oi++) {
+      var o = show[oi];
+      var supName = o.supplierName||'';
+      var statusLabel = o.received ? '<span style="color:var(--green)">Reçue</span>' : '<span style="color:var(--amber)">En attente</span>';
+      oh += '<tr><td>'+esc(o.ref||'#')+'</td><td>'+esc(supName)+'</td><td>'+new Date(o.date).toLocaleDateString('fr-FR')+'</td><td>'+statusLabel+'</td><td style="font-weight:600;text-align:right">'+fmtPrice(o.total||0)+'</td></tr>';
+    }
+    oh += '</tbody></table>';
+  }
+  document.getElementById('dash-recent-orders').innerHTML = oh;
+
+  // Dernière commande — total et répartition par magasin
+  if (state.orders.length === 0) {
+    document.getElementById('dash-last-order').innerHTML = '<p style="color:var(--text2);font-size:.82rem">Aucune commande pour l\'instant.</p>';
+  } else {
+    var lastOrder = state.orders[state.orders.length - 1];
+    var pm2 = productMap();
+    // Aggregate allocation by store across all items
+    var storeQtys = {};
+    for (var si=0; si<STORES.length; si++) storeQtys[STORES[si].id] = 0;
+    for (var ii=0; ii<lastOrder.items.length; ii++) {
+      var item = lastOrder.items[ii];
+      var alloc = item.allocation || {};
+      for (var sid in alloc) {
+        if (alloc.hasOwnProperty(sid) && storeQtys[sid] !== undefined) storeQtys[sid] += alloc[sid];
+      }
+    }
+    var totalQty = lastOrder.items.reduce(function(s,it){return s+it.qty;},0);
+    var maxQty = 1;
+    for (var sid in storeQtys) { if (storeQtys[sid] > maxQty) maxQty = storeQtys[sid]; }
+    var sch = '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;flex-wrap:wrap;gap:.5rem">' +
+      '<div><strong style="font-size:.9rem">' + esc(lastOrder.ref) + '</strong>' +
+      ' — <span style="color:var(--accent);font-weight:600">' + esc(lastOrder.supplierName) + '</span></div>' +
+      '<div style="font-size:.85rem;color:var(--text2)">' + new Date(lastOrder.date).toLocaleDateString('fr-FR') + '</div>' +
+      '</div>' +
+      '<div style="font-size:.9rem;font-weight:700;margin-bottom:.65rem;color:var(--accent)">Total: ' + fmtNum(totalQty) + ' article' + (totalQty>1?'s':'') + '</div>' +
+      '<div style="display:flex;gap:.5rem;flex-wrap:wrap">';
+    for (var si=0; si<STORES.length; si++) {
+      var qty = storeQtys[STORES[si].id] || 0;
+      var pct = maxQty > 0 ? Math.round((qty/maxQty)*100) : 0;
+      sch += '<div style="flex:1;min-width:100px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:.5rem .65rem;text-align:center">' +
+        '<div style="font-size:.65rem;font-weight:600;color:var(--text2);text-transform:uppercase">' + esc(STORES[si].name) + '</div>' +
+        '<div style="font-size:1.1rem;font-weight:700;color:var(--accent);margin-top:.1rem">' + fmtNum(qty) + '</div>' +
+        '<div style="height:4px;background:var(--border);border-radius:2px;margin-top:.3rem;overflow:hidden">' +
+        '<div style="height:100%;width:'+pct+'%;background:var(--accent);border-radius:2px"></div></div></div>';
+    }
+    sch += '</div>';
+    document.getElementById('dash-last-order').innerHTML = sch;
+  }
+}
+
+// ============ PRODUCTS ============
+function renderProducts() {
+  var q = (document.getElementById('prod-search').value||'').toLowerCase();
+  var brandFilter = document.getElementById('prod-brand-filter').value;
+  document.getElementById('prod-count').textContent = fmtNum(state.products.length);
+
+  // Populate brand filter
+  var sel = document.getElementById('prod-brand-filter');
+  if (sel.options.length === 0) {
+    var brands = {};
+    for (var i=0; i<state.products.length; i++) brands[state.products[i].brand]=1;
+    var ch = '<option value="">Toutes marques</option>';
+    for (var b in brands) ch += '<option value="'+esc(b)+'">'+esc(b)+'</option>';
+    sel.innerHTML = ch;
+  }
+
+  var list = [];
+  for (var i=0; i<state.products.length; i++) {
+    var p = state.products[i];
+    if (q && p.name.toLowerCase().indexOf(q)<0 && p.sku.toLowerCase().indexOf(q)<0 && (p.brand||'').toLowerCase().indexOf(q)<0) continue;
+    if (brandFilter && p.brand !== brandFilter) continue;
+    list.push(p);
+  }
+
+  var stockTotals = {};
+  for (var i=0; i<state.stock.length; i++) {
+    var s = state.stock[i];
+    stockTotals[s.productId] = (stockTotals[s.productId]||0) + s.qty;
+  }
+
+  var h = '';
+  for (var i=0; i<list.length; i++) {
+    var p = list[i];
+    var total = stockTotals[p.id] || 0;
+    h += '<tr><td><strong>'+esc(p.name)+'</strong></td>' +
+      '<td><span class="store-chip" style="background:var(--accent-light);color:var(--accent)">'+esc(p.brand)+'</span></td>' +
+      '<td style="font-family:monospace;font-size:.75rem">'+esc(p.sku||'-')+'</td>' +
+      '<td style="font-weight:600">'+fmtNum(total)+'</td>' +
+      '<td><div style="display:flex;gap:.25rem"><button class="btn btn-outline btn-sm" onclick="openProduct('+i+')">✎</button>' +
+      '<button class="btn btn-danger btn-sm" onclick="deleteProduct(\''+p.id+'\')">✕</button></div></td></tr>';
+  }
+  if (list.length === 0) h = '<tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--text2)">Aucune référence.</td></tr>';
+  document.getElementById('prod-body').innerHTML = h;
+}
+
+function openProduct(idx) {
+  document.getElementById('prod-modal-title').textContent = idx !== undefined ? 'Modifier le produit' : 'Nouveau produit';
+  var p = idx !== undefined ? state.products[idx] : {};
+  document.getElementById('f-prod-id').value = p.id || '';
+  document.getElementById('f-prod-name').value = p.name || '';
+
+  // Populate brand select
+  var sel = document.getElementById('f-prod-brand');
+  var brands = {};
+  for (var i=0; i<state.products.length; i++) brands[state.products[i].brand]=1;
+  var opts = '';
+  for (var b in brands) opts += '<option value="'+esc(b)+'">'+esc(b)+'</option>';
+  sel.innerHTML = opts;
+  sel.value = p.brand || '';
+
+  document.getElementById('f-prod-sku').value = p.sku || '';
+  document.getElementById('prod-modal').classList.add('open');
+  document.getElementById('f-prod-name').focus();
+}
+
+function saveProduct() {
+  var id = document.getElementById('f-prod-id').value;
+  var name = document.getElementById('f-prod-name').value.trim();
+  if (!name) { toast('Nom requis', 'error'); return; }
+  var brand = document.getElementById('f-prod-brand').value;
+  var sku = document.getElementById('f-prod-sku').value.trim();
+
+  if (id) {
+    for (var i=0; i<state.products.length; i++) {
+      if (state.products[i].id === id) {
+        state.products[i].name = name;
+        state.products[i].brand = brand;
+        state.products[i].category = 'Coloration';
+        state.products[i].sku = sku;
+        break;
+      }
+    }
+  } else {
+    var p = { id: uid(), name: name, brand: brand, category: 'Coloration', sku: sku };
+    state.products.push(p);
+    // Create initial stock entries
+    for (var si=0; si<STORES.length; si++) {
+      state.stock.push({ id:uid(), productId:p.id, storeId:STORES[si].id, qty:0, threshold:state.settings.defaultThreshold });
+    }
+  }
+  db.saveState();
+  closeModal('prod-modal');
+  renderProducts();
+  toast('Référence enregistrée', 'success');
+}
+
+function deleteProduct(id) {
+  showConfirm('Supprimer cette référence ?', 'Les données de stock associées seront également supprimées.', function() {
+    state.products = state.products.filter(function(p){return p.id!==id});
+    state.stock = state.stock.filter(function(s){return s.productId!==id});
+    db.saveState();
+    renderProducts();
+    toast('Référence supprimée', 'success');
+  });
+}
+
+// ============ STOCK ============
+function renderStock() {
+  var q = (document.getElementById('stock-search').value||'').toLowerCase();
+  var storeF = document.getElementById('stock-store-filter').value;
+
+  // Populate store filter
+  var sf = document.getElementById('stock-store-filter');
+  if (sf.options.length === 0) {
+    var ch = '<option value="">Tous magasins</option>';
+    for (var i=0; i<STORES.length; i++) ch += '<option value="'+STORES[i].id+'">'+esc(STORES[i].name)+'</option>';
+    sf.innerHTML = ch;
+  }
+
+  var pm = productMap();
+  var rows = {};
+  for (var i=0; i<state.stock.length; i++) {
+    var s = state.stock[i];
+    if (!rows[s.productId]) rows[s.productId] = {};
+    rows[s.productId][s.storeId] = s;
+  }
+
+  var h = '';
+  for (var pid in rows) {
+    if (!rows.hasOwnProperty(pid)) continue;
+    var p = pm[pid];
+    if (q && p && p.name.toLowerCase().indexOf(q)<0) continue;
+    if (q && !p) continue;
+    var storeChips = '', total = 0, minQty = Infinity, minThreshold = Infinity;
+    for (var j=0; j<STORES.length; j++) {
+      var sid = STORES[j].id;
+      var rec = rows[pid][sid];
+      var qty = rec ? rec.qty : 0;
+      var thr = rec ? rec.threshold : state.settings.defaultThreshold;
+      total += qty;
+      if (qty < minQty) minQty = qty;
+      if (thr < minThreshold) minThreshold = thr;
+      var cls = qty === 0 ? 'stock-low' : (qty <= thr ? 'stock-medium' : 'stock-ok');
+      storeChips += '<span class="store-chip" style="margin-right:2px;color:'+cls.replace('stock-','')+'">'+STORES[j].name.split(' ')[1]+':'+qty+'</span>';
+    }
+    if (storeF) {
+      var fRec = rows[pid][storeF];
+      if (!fRec) continue;
+    }
+    var status = minQty === 0 ? '<span class="stock-low">Rupture</span>' : (minQty <= minThreshold ? '<span class="stock-medium">Stock bas</span>' : '<span class="stock-ok">OK</span>');
+    h += '<tr><td><strong class="clickable" onclick="openStockAdjustment(\''+pid+'\')">'+esc(p?p.name:pid)+'</strong>' +
+      '<br><span style="font-size:.7rem;color:var(--text2)">'+esc(p?p.brand:'')+'</span></td>' +
+      '<td>'+storeChips+'</td><td style="font-weight:600">'+fmtNum(total)+'</td><td>'+status+'</td>' +
+      '<td><button class="btn btn-outline btn-sm" onclick="openStockAdjustment(\''+pid+'\')">Ajuster</button></td></tr>';
+  }
+  if (!h) h = '<tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--text2)">Aucun stock.</td></tr>';
+  document.getElementById('stock-body').innerHTML = h;
+}
+
+var currentStockProductId = null;
+
+function openStockAdjustment(pid) {
+  currentStockProductId = pid;
+  var pm = productMap();
+  var p = pm[pid];
+  document.getElementById('stock-modal-title').textContent = 'Ajuster le stock';
+  document.getElementById('stock-modal-product').textContent = esc(p?p.name:pid) + ' (' + esc(p?p.brand:'') + ')';
+  var h = '';
+  for (var i=0; i<STORES.length; i++) {
+    var rec = null;
+    for (var j=0; j<state.stock.length; j++) { if (state.stock[j].productId===pid && state.stock[j].storeId===STORES[i].id) { rec=state.stock[j]; break; } }
+    var qty = rec ? rec.qty : 0;
+    var thr = rec ? rec.threshold : state.settings.defaultThreshold;
+    h += '<div style="display:flex;gap:.5rem;align-items:center;margin-bottom:.5rem;padding:.35rem 0;border-bottom:1px solid var(--border)">' +
+      '<span style="flex:1;font-size:.8rem;font-weight:500">'+esc(STORES[i].name)+'</span>' +
+      '<label style="font-size:.7rem;color:var(--text2)">Qté</label><input type="number" class="stock-adjust-qty" data-store="'+STORES[i].id+'" value="'+qty+'" min="0" style="width:60px;padding:.25rem;border:1px solid var(--border);border-radius:3px;font-size:.8rem;background:var(--bg);color:var(--text);text-align:center;outline:0">' +
+      '<label style="font-size:.7rem;color:var(--text2)">Seuil</label><input type="number" class="stock-adjust-thr" data-store="'+STORES[i].id+'" value="'+thr+'" min="0" style="width:50px;padding:.25rem;border:1px solid var(--border);border-radius:3px;font-size:.75rem;background:var(--bg);color:var(--text);text-align:center;outline:0"></div>';
+  }
+  document.getElementById('stock-modal-stores').innerHTML = h;
+  document.getElementById('stock-modal').classList.add('open');
+}
+
+function saveStockAdjustment() {
+  var qtys = document.querySelectorAll('.stock-adjust-qty');
+  var thrs = document.querySelectorAll('.stock-adjust-thr');
+  for (var i=0; i<qtys.length; i++) {
+    var storeId = qtys[i].dataset.store;
+    var qty = parseInt(qtys[i].value) || 0;
+    var thr = parseInt(thrs[i].value) || state.settings.defaultThreshold;
+    var found = false;
+    for (var j=0; j<state.stock.length; j++) {
+      if (state.stock[j].productId===currentStockProductId && state.stock[j].storeId===storeId) {
+        state.stock[j].qty = qty;
+        state.stock[j].threshold = thr;
+        found = true; break;
+      }
+    }
+    if (!found) {
+      state.stock.push({ id:uid(), productId:currentStockProductId, storeId:storeId, qty:qty, threshold:thr });
+    }
+  }
+  db.saveState();
+  closeModal('stock-modal');
+  renderStock();
+  toast('Stock mis à jour', 'success');
+}
+
+// ============ SUPPLIERS ============
+function renderSuppliers() {
+  var q = (document.getElementById('sup-search').value||'').toLowerCase();
+  document.getElementById('sup-count').textContent = fmtNum(state.suppliers.length);
+
+  var orderCounts = {};
+  for (var i=0; i<state.orders.length; i++) {
+    var o = state.orders[i];
+    orderCounts[o.supplierId] = (orderCounts[o.supplierId]||0) + 1;
+  }
+
+  var h = '';
+  for (var i=0; i<state.suppliers.length; i++) {
+    var s = state.suppliers[i];
+    if (q && s.name.toLowerCase().indexOf(q)<0 && s.code.toLowerCase().indexOf(q)<0) continue;
+    h += '<tr><td><strong>'+esc(s.name)+'</strong></td><td style="font-family:monospace;font-size:.75rem">'+esc(s.code)+'</td>' +
+      '<td>'+esc(s.contact||'-')+'</td><td>'+esc(s.phone||'-')+'</td><td style="text-align:center;font-weight:600">'+fmtNum(s.leadTime)+'</td>' +
+      '<td style="text-align:center;font-weight:600">'+fmtNum(orderCounts[s.id]||0)+'</td>' +
+      '<td><div style="display:flex;gap:.25rem"><button class="btn btn-outline btn-sm" onclick="openSupplier('+i+')">✎</button>' +
+      '<button class="btn btn-danger btn-sm" onclick="deleteSupplier(\''+s.id+'\')">✕</button></div></td></tr>';
+  }
+  if (!h) h = '<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--text2)">Aucun fournisseur.</td></tr>';
+  document.getElementById('sup-body').innerHTML = h;
+}
+
+function openSupplier(idx) {
+  document.getElementById('sup-modal-title').textContent = idx !== undefined ? 'Modifier le fournisseur' : 'Nouveau fournisseur';
+  var s = idx !== undefined ? state.suppliers[idx] : {};
+  document.getElementById('f-sup-id').value = s.id || '';
+  document.getElementById('f-sup-name').value = s.name || '';
+  document.getElementById('f-sup-code').value = s.code || '';
+  document.getElementById('f-sup-contact').value = s.contact || '';
+  document.getElementById('f-sup-phone').value = s.phone || '';
+  document.getElementById('f-sup-email').value = s.email || '';
+  document.getElementById('f-sup-leadtime').value = s.leadTime || 7;
+  document.getElementById('sup-modal').classList.add('open');
+}
+
+function saveSupplier() {
+  var id = document.getElementById('f-sup-id').value;
+  var name = document.getElementById('f-sup-name').value.trim();
+  if (!name) { toast('Nom requis', 'error'); return; }
+  var data = {
+    name: name,
+    code: document.getElementById('f-sup-code').value.trim().toUpperCase(),
+    contact: document.getElementById('f-sup-contact').value.trim(),
+    phone: document.getElementById('f-sup-phone').value.trim(),
+    email: document.getElementById('f-sup-email').value.trim(),
+    leadTime: parseInt(document.getElementById('f-sup-leadtime').value) || 7
+  };
+  if (id) {
+    for (var i=0; i<state.suppliers.length; i++) {
+      if (state.suppliers[i].id === id) { Object.assign(state.suppliers[i], data); break; }
+    }
+  } else {
+    data.id = uid();
+    state.suppliers.push(data);
+  }
+  db.saveState();
+  closeModal('sup-modal');
+  renderSuppliers();
+  toast('Fournisseur enregistré', 'success');
+}
+
+function deleteSupplier(id) {
+  showConfirm('Supprimer ce fournisseur ?', 'Les commandes associées ne seront pas supprimées.', function() {
+    state.suppliers = state.suppliers.filter(function(s){return s.id!==id});
+    db.saveState();
+    renderSuppliers();
+    toast('Fournisseur supprimé', 'success');
+  });
+}
+
+// ============ ORDERS ============
+function switchOrderTab(tab) {
+  orderTab = tab;
+  var tabs = document.querySelectorAll('#page-orders .tab');
+  for (var i=0; i<tabs.length; i++) tabs[i].classList.toggle('active', tabs[i].dataset.tab===tab);
+  document.getElementById('orders-create').classList.toggle('hidden', tab!=='create');
+  document.getElementById('orders-pending').classList.toggle('hidden', tab!=='pending');
+  document.getElementById('orders-received').classList.toggle('hidden', tab!=='received');
+  if (tab==='create') renderOrderCreate();
+  else if (tab==='pending') renderOrdersList(false);
+  else if (tab==='received') renderOrdersList(true);
+}
+
+function renderOrders() {
+  switchOrderTab(orderTab);
+}
+
+function renderOrderCreate() {
+  // Populate suppliers, preserve selection
+  var sel = document.getElementById('order-supplier');
+  var prevVal = sel.value;
+  var h = '<option value="">Sélectionner un fournisseur</option>';
+  for (var i=0; i<state.suppliers.length; i++) h += '<option value="'+state.suppliers[i].id+'">'+esc(state.suppliers[i].name)+'</option>';
+  sel.innerHTML = h;
+  if (prevVal) { try { sel.value = prevVal; } catch(e) {} }
+
+  var supId = sel.value;
+  var sup = null;
+  for (var i=0; i<state.suppliers.length; i++) { if (state.suppliers[i].id===supId) { sup=state.suppliers[i]; break; } }
+
+  // Filter products by selected supplier's brand
+  var search = (document.getElementById('order-search').value||'').toLowerCase();
+  var list = [];
+  for (var i=0; i<state.products.length; i++) {
+    var p = state.products[i];
+    if (sup && p.brand !== sup.name) continue;
+    if (search && p.name.toLowerCase().indexOf(search)<0 && p.sku.toLowerCase().indexOf(search)<0) continue;
+    list.push(p);
+  }
+
+  // Summary header
+  var totalOrdered = 0;
+  for (var pid in orderItems) { if (orderItems.hasOwnProperty(pid)) totalOrdered += orderItems[pid] || 0; }
+  var summaryEl = document.getElementById('order-summary');
+  if (sup) {
+    summaryEl.style.display = 'block';
+    summaryEl.innerHTML = '<strong style="color:var(--accent)">' + esc(sup.name) + '</strong>' +
+      ' — Total commandé : <strong style="font-size:1rem;color:var(--accent)">' + fmtNum(totalOrdered) + '</strong> article' + (totalOrdered > 1 ? 's' : '') +
+      ' sur ' + fmtNum(list.length) + ' référence' + (list.length > 1 ? 's' : '');
+  } else {
+    summaryEl.style.display = 'none';
+    summaryEl.innerHTML = '';
+  }
+
+  var stockMap = {};
+  for (var i=0; i<state.stock.length; i++) {
+    var s = state.stock[i];
+    if (!stockMap[s.productId]) stockMap[s.productId] = {};
+    stockMap[s.productId][s.storeId] = s.qty;
+  }
+
+  if (list.length === 0) {
+    document.getElementById('order-body').innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--text2)">'+(sup?'Aucun produit pour cette marque.':'Sélectionnez d\'abord un fournisseur.')+'</td></tr>';
+    return;
+  }
+
+  var rows = '';
+  for (var i=0; i<list.length; i++) {
+    var p = list[i];
+    var storeQtys = [], totalStk = 0;
+    for (var j=0; j<STORES.length; j++) {
+      var qty = stockMap[p.id] ? (stockMap[p.id][STORES[j].id]||0) : 0;
+      storeQtys.push(qty);
+      totalStk += qty;
+    }
+    var orderQty = orderItems[p.id] || 0;
+    var chips = '';
+    for (var j=0; j<STORES.length; j++) chips += '<span class="store-chip" style="margin-right:2px">'+STORES[j].name.substring(0,3)+':'+storeQtys[j]+'</span>';
+    var allocs = '';
+    for (var j=0; j<STORES.length; j++) allocs += '<input type="number" class="order-alloc" data-pid="'+p.id+'" data-store="'+STORES[j].id+'" value="0" min="0" style="width:38px;margin-right:2px;padding:.15rem;border:1px solid var(--border);border-radius:3px;font-size:.7rem;background:var(--bg);color:var(--text);text-align:center;outline:0" onchange="syncOrderFromAlloc(this)">';
+    rows += '<tr><td><strong>'+esc(p.name)+'</strong></td>' +
+      '<td>'+chips+'</td><td style="font-weight:600">'+fmtNum(totalStk)+'</td>' +
+      '<td><input type="number" class="order-qty" data-pid="'+p.id+'" value="'+(orderQty||'')+'" min="0" style="width:55px;padding:.25rem;border:1px solid var(--border);border-radius:3px;font-size:.8rem;background:var(--bg);color:var(--text);text-align:center;outline:0" onchange="updateOrderQty(this)"></td>' +
+      '<td>'+allocs+'</td><td style="font-weight:600" class="order-subtotal">'+fmtNum(orderQty)+'</td></tr>';
+  }
+  document.getElementById('order-body').innerHTML = rows;
+}
+
+function updateOrderQty(inp) {
+  var pid = inp.dataset.pid;
+  var val = parseInt(inp.value) || 0;
+  if (val < 0) val = 0;
+  orderItems[pid] = val;
+  var row = inp.closest('tr');
+  if (row) {
+    row.querySelector('.order-subtotal').textContent = fmtNum(val);
+    var allocs = row.querySelectorAll('.order-alloc');
+    if (allocs.length > 0 && val > 0) {
+      var per = Math.floor(val / allocs.length);
+      var rem = val - per * allocs.length;
+      for (var i=0; i<allocs.length; i++) allocs[i].value = i===0 ? (per+rem) : per;
+    }
+  }
+  // Refresh summary
+  var totalOrdered = 0;
+  for (var pid2 in orderItems) { if (orderItems.hasOwnProperty(pid2)) totalOrdered += orderItems[pid2] || 0; }
+  var summaryEl = document.getElementById('order-summary');
+  if (summaryEl && summaryEl.style.display !== 'none') {
+    var supName = summaryEl.querySelector('strong') ? summaryEl.querySelector('strong').textContent : '';
+    var refCount = document.querySelectorAll('#order-body tr').length;
+    summaryEl.innerHTML = '<strong style="color:var(--accent)">' + esc(supName) + '</strong>' +
+      ' — Total commandé : <strong style="font-size:1rem;color:var(--accent)">' + fmtNum(totalOrdered) + '</strong> article' + (totalOrdered > 1 ? 's' : '') +
+      ' sur ' + fmtNum(refCount) + ' référence' + (refCount > 1 ? 's' : '');
+  }
+}
+
+function syncOrderFromAlloc(inp) {
+  var pid = inp.dataset.pid;
+  var row = inp.closest('tr');
+  if (!row) return;
+  var allocs = row.querySelectorAll('.order-alloc');
+  var total = 0;
+  for (var i=0; i<allocs.length; i++) total += parseInt(allocs[i].value) || 0;
+  var qtyInput = row.querySelector('.order-qty');
+  if (qtyInput) qtyInput.value = total || '';
+  orderItems[pid] = total;
+  var sub = row.querySelector('.order-subtotal');
+  if (sub) sub.textContent = fmtNum(total);
+  // Refresh summary
+  var totalOrdered = 0;
+  for (var pid2 in orderItems) { if (orderItems.hasOwnProperty(pid2)) totalOrdered += orderItems[pid2] || 0; }
+  var summaryEl = document.getElementById('order-summary');
+  if (summaryEl && summaryEl.style.display !== 'none') {
+    var supName = summaryEl.querySelector('strong') ? summaryEl.querySelector('strong').textContent : '';
+    var refCount = document.querySelectorAll('#order-body tr').length;
+    summaryEl.innerHTML = '<strong style="color:var(--accent)">' + esc(supName) + '</strong>' +
+      ' — Total commandé : <strong style="font-size:1rem;color:var(--accent)">' + fmtNum(totalOrdered) + '</strong> article' + (totalOrdered > 1 ? 's' : '') +
+      ' sur ' + fmtNum(refCount) + ' référence' + (refCount > 1 ? 's' : '');
+  }
+}
+
+function createOrder() {
+  var supId = document.getElementById('order-supplier').value;
+  if (!supId) { toast('Sélectionnez un fournisseur', 'error'); return; }
+  var sup = null;
+  for (var i=0; i<state.suppliers.length; i++) { if (state.suppliers[i].id===supId) { sup=state.suppliers[i]; break; } }
+  if (!sup) { toast('Fournisseur introuvable', 'error'); return; }
+
+  var items = [];
+  for (var pid in orderItems) {
+    if (!orderItems.hasOwnProperty(pid)) continue;
+    var qty = orderItems[pid];
+    if (qty <= 0) continue;
+    var allocs = {};
+    var allocInputs = document.querySelectorAll('.order-alloc[data-pid="'+pid+'"]');
+    for (var i=0; i<allocInputs.length; i++) {
+      var v = parseInt(allocInputs[i].value) || 0;
+      if (v > 0) allocs[allocInputs[i].dataset.store] = v;
+    }
+    items.push({ productId: pid, qty: qty, allocation: allocs });
+  }
+  if (items.length === 0) { toast('Ajoutez au moins un produit', 'error'); return; }
+
+  var ref = 'CMD-' + Date.now().toString(36).toUpperCase() + '-' + sup.code;
+  var order = {
+    id: uid(), ref: ref, supplierId: supId, supplierName: sup.name,
+    date: new Date().toISOString(), received: false, receivedDate: null,
+    items: items, total: items.reduce(function(sum,it){return sum+it.qty;},0)
+  };
+  state.orders.push(order);
+  orderItems = {};
+  db.saveState();
+
+  // Show PDF preview modal
+  loadPDFLib(function() { showOrderPDFPreview(order); });
+  switchOrderTab('pending');
+
+  toast('Commande ' + ref + ' créée', 'success');
+}
+
+function renderOrdersList(received) {
+  var list = state.orders.filter(function(o){return !!o.received === received});
+  var tbody = document.getElementById(received ? 'orders-received-body' : 'orders-pending-body');
+  if (list.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--text2)">Aucune commande '+(received?'reçue':'en attente')+'.</td></tr>';
+    return;
+  }
+  var h = '';
+  for (var i=list.length-1; i>=0; i--) {
+    var o = list[i];
+    var count = o.items.reduce(function(s,it){return s+it.qty;},0);
+    if (!received) {
+      h += '<tr><td style="font-family:monospace;font-size:.75rem">'+esc(o.ref)+'</td><td>'+esc(o.supplierName)+'</td>' +
+        '<td>'+new Date(o.date).toLocaleDateString('fr-FR')+'</td><td style="text-align:center;font-weight:600">'+fmtNum(count)+'</td>' +
+        '<td style="text-align:right;font-weight:600">'+fmtPrice(o.total)+'</td>' +
+        '<td><div style="display:flex;gap:.25rem"><button class="btn btn-success btn-sm" onclick="receiveOrder(\''+o.id+'\')">Récep.</button>' +
+        '<button class="btn btn-outline btn-sm" onclick="viewOrder(\''+o.id+'\')">Voir</button>' +
+        '<button class="btn btn-amber btn-sm" onclick="downloadOrderPDF(\''+o.id+'\')">PDF</button>' +
+        (o.pdfData ? '<button class="btn btn-outline btn-sm" onclick="window.open(\''+o.pdfData+'\')">👁</button>' : '') +
+        '<button class="btn btn-danger btn-sm" onclick="deleteOrder(\''+o.id+'\')">Suppr.</button></div></td></tr>';
+    } else {
+      h += '<tr><td style="font-family:monospace;font-size:.75rem">'+esc(o.ref)+'</td><td>'+esc(o.supplierName)+'</td>' +
+        '<td>'+new Date(o.receivedDate).toLocaleDateString('fr-FR')+'</td><td style="text-align:center;font-weight:600">'+fmtNum(count)+'</td>' +
+        '<td style="text-align:right;font-weight:600">'+fmtPrice(o.total)+'</td>' +
+        '<td style="display:flex;gap:.25rem">'+(o.pdfData ? '<button class="btn btn-outline btn-sm" onclick="window.open(\''+o.pdfData+'\')">Voir PDF</button>' : '')+
+        '<button class="btn btn-danger btn-sm" onclick="deleteOrder(\''+o.id+'\')">Suppr.</button></td></tr>';
+    }
+  }
+  tbody.innerHTML = h;
+}
+
+function receiveOrder(orderId) {
+  showConfirm('Réceptionner cette commande ?', 'Le stock sera mis à jour automatiquement.', function() {
+    for (var i=0; i<state.orders.length; i++) {
+      if (state.orders[i].id === orderId) {
+        var o = state.orders[i];
+        o.received = true;
+        o.receivedDate = new Date().toISOString();
+        // Update stock
+        for (var j=0; j<o.items.length; j++) {
+          var item = o.items[j];
+          var alloc = item.allocation || {};
+          for (var storeId in alloc) {
+            if (!alloc.hasOwnProperty(storeId)) continue;
+            var qty = alloc[storeId];
+            var found = false;
+            for (var k=0; k<state.stock.length; k++) {
+              if (state.stock[k].productId===item.productId && state.stock[k].storeId===storeId) {
+                state.stock[k].qty += qty;
+                found = true; break;
+              }
+            }
+            if (!found) {
+              state.stock.push({ id:uid(), productId:item.productId, storeId:storeId, qty:qty, threshold:state.settings.defaultThreshold });
+            }
+          }
+        }
+        db.saveState();
+        renderOrdersList(false);
+        toast('Commande réceptionnée - Stock mis à jour', 'success');
+        return;
+      }
+    }
+  }
+}
+
+function deleteOrder(orderId) {
+  var found = false;
+  for (var i=0; i<state.orders.length; i++) {
+    if (state.orders[i].id === orderId) { found = state.orders[i]; break; }
+  }
+  if (!found) return;
+  showConfirm('Supprimer la commande', 'Supprimer définitivement ' + found.ref + ' (' + found.supplierName + ') ? Cette action est irréversible.', function() {
+    state.orders = state.orders.filter(function(o){return o.id!==orderId});
+    db.saveState();
+    renderOrders();
+    toast('Commande supprimée', 'success');
+  });
+}
+
+function viewOrder(orderId) {
+  for (var i=0; i<state.orders.length; i++) {
+    if (state.orders[i].id === orderId) {
+      var o = state.orders[i];
+      var pm = productMap();
+      var h = '<div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:.75rem">' +
+        '<div><h3>'+esc(o.ref)+'</h3><p style="font-size:.8rem;color:var(--text2)">Fournisseur: '+esc(o.supplierName)+' | Date: '+new Date(o.date).toLocaleDateString('fr-FR')+'</p></div>' +
+        '<span class="badge">'+(o.received?'Reçue':'En attente')+'</span></div>' +
+        '<table><thead><tr><th>Produit</th><th>Qté</th><th>Répartition</th></tr></thead><tbody>';
+      for (var j=0; j<o.items.length; j++) {
+        var item = o.items[j];
+        var p = pm[item.productId];
+        var allocStr = '';
+        var alloc = item.allocation || {};
+        for (var sid in alloc) {
+          if (alloc.hasOwnProperty(sid)) allocStr += storeName(sid)+': '+fmtNum(alloc[sid])+' ';
+        }
+        h += '<tr><td>'+esc(p?p.name:item.productId)+'</td><td style="text-align:center;font-weight:600">'+fmtNum(item.qty)+'</td><td>'+esc(allocStr||'-')+'</td></tr>';
+      }
+      h += '</tbody></table></div>';
+      if (o.pdfData) {
+        h += '<div style="margin-top:.75rem;display:flex;gap:.5rem"><button class="btn btn-primary btn-sm" onclick="window.open(\''+o.pdfData+'\')">📄 Voir le PDF</button>' +
+          '<button class="btn btn-amber btn-sm" onclick="downloadOrderPDF(\''+o.id+'\')">⬇ Télécharger le PDF</button></div>';
+      }
+      document.getElementById('order-view-content').innerHTML = h;
+      document.getElementById('order-view-modal').classList.add('open');
+      return;
+    }
+  }
+}
+
+// ============ PDF ============
+var _pendingPDFOrder = null;
+
+function showOrderPDFPreview(order) {
+  _pendingPDFOrder = order;
+  document.getElementById('pdf-preview-title').textContent = 'Aperçu — ' + order.ref;
+  document.getElementById('pdf-preview-download').onclick = function() {
+    loadPDFLib(function() { generateOrderPDF(_pendingPDFOrder, true); });
+    closeModal('pdf-preview-modal');
+  };
+
+  var pm = productMap();
+  var company = state.settings.companyName || 'Mon entreprise';
+  var allocTotal = {};
+  for (var i=0; i<STORES.length; i++) allocTotal[STORES[i].id] = 0;
+
+  var rows = '';
+  for (var i=0; i<order.items.length; i++) {
+    var item = order.items[i];
+    var p = pm[item.productId];
+    var alloc = item.allocation || {};
+    var allocStr = '';
+    for (var sid in alloc) {
+      if (alloc.hasOwnProperty(sid)) {
+        allocStr += STORES.filter(function(s){return s.id===sid})[0]?.name.substring(0,3)+':'+alloc[sid]+' ';
+        allocTotal[sid] = (allocTotal[sid]||0) + alloc[sid];
+      }
+    }
+    rows += '<tr><td style="padding:4px 8px;border:1px solid #ddd">'+esc(p?p.name:item.productId)+'</td>' +
+      '<td style="padding:4px 8px;border:1px solid #ddd;text-align:center">'+fmtNum(item.qty)+'</td>' +
+      '<td style="padding:4px 8px;border:1px solid #ddd">'+esc(allocStr||'-')+'</td></tr>';
+  }
+
+  var totalAlloc = '';
+  for (var i=0; i<STORES.length; i++) {
+    totalAlloc += '<span style="margin-right:8px"><strong>'+STORES[i].name.substring(0,3)+':</strong> '+fmtNum(allocTotal[STORES[i].id]||0)+'</span>';
+  }
+
+  document.getElementById('pdf-preview-content').innerHTML =
+    '<div style="border-bottom:2px solid #2563EB;padding-bottom:12px;margin-bottom:16px">' +
+    '<h2 style="font-size:18px;margin:0 0 4px 0;color:#2563EB">BON DE COMMANDE</h2>' +
+    '<div style="font-size:12px;color:#666">N°: <strong>'+esc(order.ref)+'</strong></div>' +
+    '<div style="font-size:12px;color:#666">Date: '+new Date(order.date).toLocaleDateString('fr-FR')+'</div>' +
+    '<div style="font-size:12px;color:#666">Fournisseur: <strong>'+esc(order.supplierName)+'</strong></div>' +
+    '<div style="font-size:12px;color:#666">Client: '+esc(company)+'</div></div>' +
+    '<table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:12px">' +
+    '<thead><tr style="background:#2563EB;color:#fff"><th style="padding:6px 8px;text-align:left">Produit</th><th style="padding:6px 8px;text-align:center">Qté</th><th style="padding:6px 8px;text-align:left">Répartition</th></tr></thead>' +
+    '<tbody>'+rows+'</tbody></table>' +
+    '<div style="border-top:1px solid #ddd;padding-top:8px;font-size:12px">' +
+    '<div><strong>Total articles: '+fmtNum(order.total)+'</strong></div>' +
+    '<div style="margin-top:4px">'+totalAlloc+'</div>' +
+    '<div style="margin-top:12px;font-size:10px;color:#999">Généré par STOCK & COMMAND — Statut: En attente de réception</div></div>';
+
+  document.getElementById('pdf-preview-modal').classList.add('open');
+}
+
+function downloadOrderPDF(orderId) {
+  loadPDFLib(function() {
+    for (var i=0; i<state.orders.length; i++) {
+      if (state.orders[i].id === orderId) {
+        generateOrderPDF(state.orders[i]);
+        return;
+      }
+    }
+    toast('Commande introuvable', 'error');
+  });
+}
+
+var _pdfLoaded = false;
+function loadPDFLib(cb) {
+  if (typeof jspdf !== 'undefined' && typeof jspdf.jsPDF !== 'undefined') { cb(); return; }
+  if (_pdfLoaded) { setTimeout(function(){cb();},100); return; }
+  _pdfLoaded = true;
+  var s = document.createElement('script');
+  s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+  s.onload = function() {
+    var s2 = document.createElement('script');
+    s2.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js';
+    s2.onload = cb;
+    s2.onerror = function() { toast('Erreur chargement PDF', 'error'); _pdfLoaded = false; };
+    document.head.appendChild(s2);
+  };
+  s.onerror = function() { toast('Erreur chargement PDF', 'error'); _pdfLoaded = false; };
+  document.head.appendChild(s);
+}
+
+function generateOrderPDF(order, autoDownload) {
+  try {
+    var doc = new jspdf.jsPDF({ unit: 'mm', format: 'a4' });
+    var pm = productMap();
+    var company = state.settings.companyName || 'Mon entreprise';
+
+    doc.setFontSize(16);
+    doc.text('BON DE COMMANDE', 14, 20);
+    doc.setFontSize(10);
+    doc.text('N°: ' + order.ref, 14, 28);
+    doc.text('Date: ' + new Date(order.date).toLocaleDateString('fr-FR'), 14, 34);
+    doc.text('Fournisseur: ' + order.supplierName, 14, 40);
+    doc.text('Client: ' + company, 14, 46);
+    doc.setDrawColor(200);
+    doc.line(14, 50, 196, 50);
+
+    var rows = [];
+    for (var i=0; i<order.items.length; i++) {
+      var item = order.items[i];
+      var p = pm[item.productId];
+      var allocStr = '';
+      var alloc = item.allocation || {};
+      for (var sid in alloc) {
+        if (alloc.hasOwnProperty(sid)) allocStr += storeName(sid) + ': ' + alloc[sid] + '  ';
+      }
+      rows.push([esc(p?p.name:item.productId), esc(p?p.brand:''), item.qty, allocStr]);
+    }
+
+    doc.autoTable({
+      startY: 54,
+      head: [['Produit', 'Marque', 'Qté', 'Répartition']],
+      body: rows,
+      styles: { fontSize: 9, cellPadding: 3 },
+      headStyles: { fillColor: [37, 99, 235], textColor: 255 },
+      alternateRowStyles: { fillColor: [248, 250, 252] }
+    });
+
+    var finalY = doc.lastAutoTable.finalY + 10;
+    doc.setFontSize(9);
+    doc.text('Total articles: ' + order.total, 14, finalY);
+    doc.text('Statut: ' + (order.received ? 'Reçue le ' + new Date(order.receivedDate).toLocaleDateString('fr-FR') : 'En attente de réception'), 14, finalY + 6);
+    doc.text('Généré par STOCK & COMMAND', 14, finalY + 14);
+
+    // Store PDF as base64 in the order for later viewing
+    order.pdfData = doc.output('datauristring');
+    // Also store product names map at time of order
+    order.items = order.items.map(function(it) {
+      var p2 = pm[it.productId];
+      return { productId: it.productId, productName: p2 ? p2.name : it.productId, productBrand: p2 ? p2.brand : '', qty: it.qty, allocation: it.allocation || {} };
+    });
+    db.saveState();
+
+    if (autoDownload) doc.save('BC-' + order.ref + '.pdf');
+    toast('PDF ' + (autoDownload ? 'téléchargé' : 'prêt'), 'success');
+  } catch(e) {
+    toast('Erreur génération PDF: ' + e.message, 'error');
+    console.error(e);
+  }
+}
+
+// ============ REPORTS ============
+function switchReportTab(tab) {
+  reportTab = tab;
+  var tabs = document.querySelectorAll('#page-reports .tab');
+  for (var i=0; i<tabs.length; i++) tabs[i].classList.toggle('active', tabs[i].dataset.rtab===tab);
+  renderReports();
+}
+
+function renderReports() {
+  var el = document.getElementById('report-content');
+  if (reportTab === 'orders') renderReportOrders(el);
+  else if (reportTab === 'products') renderReportProducts(el);
+}
+
+function renderReportOrders(el) {
+  var pending = state.orders.filter(function(o){return !o.received});
+  var received = state.orders.filter(function(o){return o.received});
+  var h = '<div class="stats">' +
+    '<div class="stat-card"><h3>Total commandes</h3><div class="value">'+fmtNum(state.orders.length)+'</div></div>' +
+    '<div class="stat-card"><h3>En attente</h3><div class="value" style="color:var(--amber)">'+fmtNum(pending.length)+'</div></div>' +
+    '<div class="stat-card"><h3>Reçues</h3><div class="value" style="color:var(--green)">'+fmtNum(received.length)+'</div></div></div>' +
+    '<div class="toolbar"><button class="btn btn-outline btn-sm" onclick="exportReportCSV(\'orders\')">Export CSV</button></div>' +
+    '<table><thead><tr><th>N°</th><th>Fournisseur</th><th>Date</th><th>Articles</th><th>Statut</th></tr></thead><tbody>';
+  var all = state.orders.slice().reverse();
+  for (var i=0; i<all.length; i++) {
+    var o = all[i];
+    var count = o.items.reduce(function(s,it){return s+it.qty;},0);
+    var status = o.received ? '<span style="color:var(--green);font-weight:600">Reçue</span>' : '<span style="color:var(--amber);font-weight:600">En attente</span>';
+    h += '<tr><td style="font-family:monospace;font-size:.75rem">'+esc(o.ref)+'</td><td>'+esc(o.supplierName)+'</td>' +
+      '<td>'+new Date(o.date).toLocaleDateString('fr-FR')+'</td><td style="text-align:center;font-weight:600">'+fmtNum(count)+'</td><td>'+status+'</td></tr>';
+  }
+  h += '</tbody></table>';
+  el.innerHTML = h;
+}
+
+function renderReportProducts(el) {
+  var catCounts = {};
+  for (var i=0; i<state.products.length; i++) {
+    var c = state.products[i].category || 'Autre';
+    catCounts[c] = (catCounts[c]||0) + 1;
+  }
+  var h = '<div class="stats">' +
+    '<div class="stat-card"><h3>Total références</h3><div class="value">'+fmtNum(state.products.length)+'</div></div>' +
+    '<div class="stat-card"><h3>Marques</h3><div class="value">'+fmtNum(Object.keys(catCounts).length)+'</div></div></div>' +
+    '<div class="toolbar"><button class="btn btn-outline btn-sm" onclick="exportReportCSV(\'products\')">Export CSV</button></div>' +
+    '<table><thead><tr><th>Produit</th><th>Marque</th><th>SKU</th></tr></thead><tbody>';
+  for (var i=0; i<state.products.length; i++) {
+    var p = state.products[i];
+    h += '<tr><td>'+esc(p.name)+'</td><td><span class="store-chip" style="background:var(--accent-light);color:var(--accent)">'+esc(p.brand||'-')+'</span></td><td style="font-family:monospace;font-size:.75rem">'+esc(p.sku||'-')+'</td></tr>';
+  }
+  h += '</tbody></table>';
+  el.innerHTML = h;
+}
+
+// ============ EXPORTS ============
+function exportReportCSV(type) {
+  var lines = [], headers = [];
+  if (type === 'stock') {
+    headers = ['Produit', 'Marque', 'Stock total'];
+    for (var i=0; i<STORES.length; i++) headers.push(STORES[i].name);
+    lines.push(headers.join(','));
+    var pm = productMap();
+    for (var i=0; i<state.products.length; i++) {
+      var p = state.products[i];
+      var total = 0;
+      var row = [csvEsc(p.name), csvEsc(p.brand||'')];
+      for (var j=0; j<STORES.length; j++) {
+        var q = 0;
+        for (var k=0; k<state.stock.length; k++) { if (state.stock[k].productId===p.id && state.stock[k].storeId===STORES[j].id) { q=state.stock[k].qty; break; } }
+        total += q;
+        row.push(q);
+      }
+      row.splice(2, 0, total);
+      lines.push(row.join(','));
+    }
+  } else if (type === 'orders') {
+    var all = state.orders.slice().reverse();
+    headers = ['N°', 'Fournisseur', 'Date', 'Articles', 'Statut'];
+    lines.push(headers.join(','));
+    for (var i=0; i<all.length; i++) {
+      var o = all[i];
+      var count = o.items.reduce(function(s,it){return s+it.qty;},0);
+      var status = o.received ? 'Reçue' : 'En attente';
+      lines.push([csvEsc(o.ref), csvEsc(o.supplierName), new Date(o.date).toLocaleDateString('fr-FR'), count, status].join(','));
+    }
+  } else if (type === 'products') {
+    headers = ['Produit', 'Marque', 'SKU'];
+    lines.push(headers.join(','));
+    for (var i=0; i<state.products.length; i++) {
+      var p = state.products[i];
+      lines.push([csvEsc(p.name), csvEsc(p.brand||''), csvEsc(p.sku||'')].join(','));
+    }
+  }
+  if (lines.length <= 1) { toast('Aucune donnée à exporter', 'warning'); return; }
+  var csv = lines.join('\n');
+  var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url; a.download = type + '-' + new Date().toISOString().slice(0,10) + '.csv';
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a); URL.revokeObjectURL(url);
+  toast('CSV exporté', 'success');
+}
+
+function csvEsc(s) {
+  s = String(s).replace(/"/g, '""');
+  return s.indexOf(',') >= 0 || s.indexOf('"') >= 0 ? '"' + s + '"' : s;
+}
+
+// ============ EXCEL IMPORT ============
+function importFromExcel(input) {
+  var file = input.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var data = new Uint8Array(e.target.result);
+      var workbook = XLSX.read(data, {type:'array'});
+      var products = [], stock = [];
+      var pid = 0;
+      var storeCols = {MANOUBA:4, SPROLLS:5, ARIANA:6};
+      var storeKeys = Object.keys(storeCols);
+
+      for (var si=0; si<workbook.SheetNames.length; si++) {
+        var sn = workbook.SheetNames[si];
+        if (sn === 'MASTERDATA') continue;
+        var sheet = workbook.Sheets[sn];
+        var json = XLSX.utils.sheet_to_json(sheet, {header:1});
+        var marque = null;
+        for (var r=1; r<json.length; r++) {
+          var row = json[r];
+          if (!row) continue;
+          var num = row[0];
+          var marqueCell = row[1];
+          var ref = row[2];
+          if (marqueCell) { var m = String(marqueCell).trim(); if (m) marque = m; }
+          if (!ref || !marque) continue;
+          ref = String(ref).trim();
+          if (ref.length > 25) continue;
+          pid++;
+          var prodId = 'P-'+String(pid).padStart(4,'0');
+          products.push({ id:prodId, name:marque+' '+ref, brand:marque, category:'Coloration', sku:marque+'-'+ref });
+          for (var si2=0; si2<storeKeys.length; si2++) {
+            var storeId = storeKeys[si2].toLowerCase();
+            var col = storeCols[storeKeys[si2]];
+            var val = row[col-1];
+            var qty = (val !== undefined && val !== null && val !== '-') ? (parseInt(String(val).trim())||0) : 0;
+            stock.push({ id:'s'+(pid+si2), productId:prodId, storeId:storeId, qty:qty, threshold:state.settings.defaultThreshold });
+          }
+        }
+      }
+
+      if (products.length === 0) { toast('Aucun produit trouvé', 'error'); return; }
+
+      // Replace state
+      state.products = products;
+      state.stock = stock;
+      state.suppliers = [];
+      var brandMap = {};
+      for (var i=0; i<products.length; i++) brandMap[products[i].brand]=1;
+      for (var b in brandMap) {
+        if (brandMap.hasOwnProperty(b)) {
+          var code = b.split(' ').map(function(w){return w[0]}).join('').toUpperCase();
+          state.suppliers.push({ id:b.toLowerCase().replace(/ /g,'-'), name:b, code:code, contact:'', phone:'', email:'', leadTime:7 });
+        }
+      }
+      state.orders = [];
+      db.saveState();
+      closeModal('settings-modal');
+      toast(products.length+' produits importés depuis '+file.name, 'success');
+      renderPage(document.querySelector('.sidebar nav button.active')?.dataset?.page || 'dashboard');
+    } catch(err) {
+      toast('Erreur import: '+err.message, 'error');
+      console.error(err);
+    }
+  };
+  reader.readAsArrayBuffer(file);
+  input.value = '';
+}
+
+// ============ SETTINGS ============
+function openSettings() {
+  document.getElementById('set-company').value = state.settings.companyName || '';
+  document.getElementById('set-currency').value = state.settings.currency || 'TND';
+  document.getElementById('set-threshold').value = state.settings.defaultThreshold || 3;
+  document.getElementById('set-stores').value = STORES.map(function(s){return s.name}).join(', ');
+  document.getElementById('settings-modal').classList.add('open');
+}
+
+function saveSettings() {
+  state.settings.companyName = document.getElementById('set-company').value.trim() || 'Mon entreprise';
+  state.settings.currency = document.getElementById('set-currency').value.trim() || 'TND';
+  state.settings.defaultThreshold = parseInt(document.getElementById('set-threshold').value) || 3;
+  db.saveState();
+  closeModal('settings-modal');
+  toast('Paramètres enregistrés', 'success');
+  var activeBtn = document.querySelector('.sidebar nav button.active');
+  if (activeBtn) renderPage(activeBtn.dataset.page);
+}
+
+// ============ UTILS ============
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+function showConfirm(title, msg, cb) {
+  document.getElementById('confirm-title').textContent = title;
+  document.getElementById('confirm-msg').textContent = msg;
+  document.getElementById('confirm-btn').onclick = function() { closeModal('confirm-modal'); cb(); };
+  document.getElementById('confirm-modal').classList.add('open');
+}
+
+// ============ INIT ============
+(function() {
+  initData();
+  renderSidebar();
+  navigate('dashboard');
+  renderPage('dashboard');
+})();
+</script>
+</body>
+</html>
