@@ -194,7 +194,8 @@ table input[type=number]:focus{border-color:var(--accent);box-shadow:0 0 0 2px v
     <div class="toolbar">
       <select id="order-supplier" onchange="renderOrderCreate()"></select>
       <input type="text" id="order-search" placeholder="Rechercher produit..." oninput="renderOrderCreate()">
-      <button class="btn btn-primary" onclick="createOrder()">Passer commande</button>
+      <button class="btn btn-primary" id="order-submit-btn" onclick="createOrder()">Passer commande</button>
+      <button class="btn btn-outline btn-sm hidden" id="order-cancel-edit" onclick="cancelEditOrder()">Annuler</button>
     </div>
     <div id="order-summary" style="display:none;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:.65rem .85rem;margin-bottom:.75rem;font-size:.82rem"></div>
     <div style="max-height:500px;overflow-y:auto">
@@ -296,7 +297,11 @@ table input[type=number]:focus{border-color:var(--accent);box-shadow:0 0 0 2px v
     <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.75rem;padding-top:.75rem;border-top:1px solid var(--border)">
       <button class="btn btn-outline btn-sm" onclick="document.getElementById('excel-input').click()">📥 Importer depuis Commande ELEGANCE.xlsx</button>
       <input type="file" id="excel-input" accept=".xlsx,.xls" style="display:none" onchange="importFromExcel(this)">
+      <button class="btn btn-outline btn-sm" onclick="backupData()">💾 Sauvegarder (.json)</button>
+      <button class="btn btn-outline btn-sm" onclick="document.getElementById('restore-input').click()">📂 Restaurer (.json)</button>
+      <input type="file" id="restore-input" accept=".json" style="display:none" onchange="restoreData(this)">
     </div>
+    <div style="margin-top:.5rem;font-size:.7rem;color:var(--text2)" id="backup-info"></div>
     <div class="form-actions">
       <button class="btn btn-outline" onclick="closeModal('settings-modal')">Fermer</button>
       <button class="btn btn-primary" onclick="saveSettings()">Enregistrer</button>
@@ -340,6 +345,7 @@ var STORES = [
 var CATEGORIES = ['Parfum','Soin','Maquillage','Accessoire','Autre'];
 var PREFIX = 'sc_';
 var orderItems = {};
+var editingOrderId = null;
 var orderTab = 'create', reportTab = 'orders';
 
 var state = {
@@ -967,6 +973,45 @@ function syncOrderFromAlloc(inp) {
   }
 }
 
+function editOrder(orderId) {
+  for (var i=0; i<state.orders.length; i++) {
+    if (state.orders[i].id === orderId) {
+      var o = state.orders[i];
+      if (o.received) { toast('Impossible de modifier une commande reçue', 'error'); return; }
+      editingOrderId = o.id;
+      orderItems = {};
+      for (var j=0; j<o.items.length; j++) {
+        orderItems[o.items[j].productId] = o.items[j].qty;
+      }
+      document.getElementById('order-submit-btn').textContent = 'Mettre à jour';
+      document.getElementById('order-cancel-edit').classList.remove('hidden');
+      switchOrderTab('create');
+      // Set supplier
+      var sel = document.getElementById('order-supplier');
+      sel.value = o.supplierId;
+      renderOrderCreate();
+      // Re-fill quantities after render
+      for (var pid in orderItems) {
+        if (!orderItems.hasOwnProperty(pid)) continue;
+        var qty = orderItems[pid];
+        var row = document.querySelector('.order-qty[data-pid="'+pid+'"]');
+        if (row) { row.value = qty; row.dispatchEvent(new Event('change')); }
+      }
+      toast('Modification de ' + o.ref, 'success');
+      return;
+    }
+  }
+}
+
+function cancelEditOrder() {
+  editingOrderId = null;
+  orderItems = {};
+  document.getElementById('order-submit-btn').textContent = 'Passer commande';
+  document.getElementById('order-cancel-edit').classList.add('hidden');
+  switchOrderTab('create');
+  toast('Modification annulée', 'warning');
+}
+
 function createOrder() {
   var supId = document.getElementById('order-supplier').value;
   if (!supId) { toast('Sélectionnez un fournisseur', 'error'); return; }
@@ -988,6 +1033,30 @@ function createOrder() {
     items.push({ productId: pid, qty: qty, allocation: allocs });
   }
   if (items.length === 0) { toast('Ajoutez au moins un produit', 'error'); return; }
+
+  if (editingOrderId) {
+    // Update existing order
+    for (var i=0; i<state.orders.length; i++) {
+      if (state.orders[i].id === editingOrderId) {
+        var o = state.orders[i];
+        o.items = items;
+        o.total = items.reduce(function(sum,it){return sum+it.qty;},0);
+        o.supplierId = supId;
+        o.supplierName = sup.name;
+        // Clear old PDF data since order changed
+        o.pdfData = null;
+        db.saveState();
+        editingOrderId = null;
+        orderItems = {};
+        document.getElementById('order-submit-btn').textContent = 'Passer commande';
+        document.getElementById('order-cancel-edit').classList.add('hidden');
+        loadPDFLib(function() { showOrderPDFPreview(o); });
+        switchOrderTab('pending');
+        toast('Commande ' + o.ref + ' mise à jour', 'success');
+        return;
+      }
+    }
+  }
 
   var ref = 'CMD-' + Date.now().toString(36).toUpperCase() + '-' + sup.code;
   var order = {
@@ -1021,8 +1090,9 @@ function renderOrdersList(received) {
       h += '<tr><td style="font-family:monospace;font-size:.75rem">'+esc(o.ref)+'</td><td>'+esc(o.supplierName)+'</td>' +
         '<td>'+new Date(o.date).toLocaleDateString('fr-FR')+'</td><td style="text-align:center;font-weight:600">'+fmtNum(count)+'</td>' +
         '<td style="text-align:right;font-weight:600">'+fmtNum(o.total)+'</td>' +
-        '<td><div style="display:flex;gap:.25rem"><button class="btn btn-success btn-sm" onclick="receiveOrder(\''+o.id+'\')">Récep.</button>' +
+        '<td><div style="display:flex;gap:.25rem;flex-wrap:wrap"><button class="btn btn-success btn-sm" onclick="receiveOrder(\''+o.id+'\')">Récep.</button>' +
         '<button class="btn btn-outline btn-sm" onclick="viewOrder(\''+o.id+'\')">Voir</button>' +
+        '<button class="btn btn-outline btn-sm" onclick="editOrder(\''+o.id+'\')">Modifier</button>' +
         '<button class="btn btn-amber btn-sm" onclick="downloadOrderPDF(\''+o.id+'\')">PDF</button>' +
         (o.pdfData ? '<button class="btn btn-outline btn-sm" onclick="window.open(\''+o.pdfData+'\')">👁</button>' : '') +
         '<button class="btn btn-danger btn-sm" onclick="deleteOrder(\''+o.id+'\')">Suppr.</button></div></td></tr>';
@@ -1497,12 +1567,92 @@ function showConfirm(title, msg, cb) {
   document.getElementById('confirm-modal').classList.add('open');
 }
 
+// ============ BACKUP ============
+var BACKUP_KEY = 'sc_backups';
+
+function backupData() {
+  var data = {
+    version: 1,
+    date: new Date().toISOString(),
+    products: state.products,
+    stock: state.stock,
+    suppliers: state.suppliers,
+    orders: state.orders,
+    settings: state.settings,
+    stores: STORES
+  };
+  var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'elegance360-backup-' + new Date().toISOString().slice(0, 10) + '.json';
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a); URL.revokeObjectURL(url);
+  toast('Sauvegarde téléchargée', 'success');
+}
+
+function restoreData(input) {
+  var file = input.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var data = JSON.parse(e.target.result);
+      if (!data.products || !data.stock || !data.suppliers) {
+        toast('Fichier de sauvegarde invalide', 'error'); return;
+      }
+      showConfirm('Restaurer les données ?', 'Toutes les données actuelles seront remplacées. Cette action est irréversible.', function() {
+        state.products = data.products;
+        state.stock = data.stock;
+        state.suppliers = data.suppliers;
+        state.orders = data.orders || [];
+        state.settings = data.settings || state.settings;
+        if (data.stores) STORES.splice(0, STORES.length, ...data.stores);
+        db.saveState();
+        closeModal('settings-modal');
+        toast('Données restaurées (' + data.products.length + ' produits)', 'success');
+        renderPage(document.querySelector('.sidebar nav button.active')?.dataset?.page || 'dashboard');
+      });
+    } catch(err) {
+      toast('Erreur restauration: ' + err.message, 'error');
+    }
+  };
+  reader.readAsText(file);
+  input.value = '';
+}
+
+// Auto-backup localStorage (10 derniers snapshots)
+function autoBackup() {
+  var backups = JSON.parse(localStorage.getItem(BACKUP_KEY) || '[]');
+  var snapshot = {
+    date: new Date().toISOString(),
+    products: state.products.length,
+    orders: state.orders.length
+  };
+  backups.push(snapshot);
+  if (backups.length > 10) backups = backups.slice(-10);
+  localStorage.setItem(BACKUP_KEY, JSON.stringify(backups));
+  var el = document.getElementById('backup-info');
+  if (el) el.textContent = 'Dernière sauvegarde auto: ' + new Date(snapshot.date).toLocaleString('fr-FR');
+}
+
+// Intercept saveState pour déclencher l'auto-backup
+var _origSaveState = db.saveState;
+db.saveState = function() {
+  _origSaveState.call(db);
+  autoBackup();
+};
+
 // ============ INIT ============
 (function() {
   initData();
   renderSidebar();
   navigate('dashboard');
   renderPage('dashboard');
+  // Restore backup info
+  var backups = JSON.parse(localStorage.getItem(BACKUP_KEY) || '[]');
+  var el = document.getElementById('backup-info');
+  if (el && backups.length > 0) el.textContent = 'Dernière sauvegarde auto: ' + new Date(backups[backups.length-1].date).toLocaleString('fr-FR');
 })();
 </script>
 </body>
