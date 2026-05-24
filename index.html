@@ -1737,6 +1737,20 @@ db.saveState = function() {
       console.warn('SW registration failed:', err);
     });
   }
+  // Vérifier commandes en attente de plus de 14 jours
+  var now = Date.now();
+  var overdue = [];
+  for (var i=0; i<state.orders.length; i++) {
+    var o = state.orders[i];
+    if (!o.received && (now - new Date(o.date).getTime()) > 14*24*60*60*1000) {
+      overdue.push(o);
+    }
+  }
+  if (overdue.length > 0) {
+    var names = overdue.slice(0,3).map(function(o){return o.ref}).join(', ');
+    if (overdue.length > 3) names += ' et ' + (overdue.length-3) + ' autre(s)';
+    setTimeout(function(){ toast('⚠ ' + overdue.length + ' commande' + (overdue.length>1?'s':'') + ' en attente depuis +14j : ' + names, 'warning'); }, 1500);
+  }
 })();
 </script>
 </body>
