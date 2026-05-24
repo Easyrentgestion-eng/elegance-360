@@ -43,6 +43,7 @@ body{font-family:Inter,system-ui,-apple-system,sans-serif;background:var(--bg);c
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.65rem;margin-bottom:1.25rem}
 .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.85rem 1rem;transition:.15s;overflow:hidden}
 .stat-card table{overflow:hidden;display:table;white-space:normal}
+.chart-wrap{position:relative;max-height:200px;height:200px}
 .stat-card:hover{border-color:var(--accent);box-shadow:0 2px 16px var(--accent-glow)}
 .stat-card h3{font-size:.65rem;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em}
 .stat-card .value{font-size:1.35rem;font-weight:700;margin-top:.15rem;color:var(--text)}
@@ -146,7 +147,7 @@ table input[type=number]:focus{border-color:var(--accent);box-shadow:0 0 0 2px v
   </div>
   <div class="stat-card">
     <h3>Répartition des produits par fournisseur</h3>
-    <canvas id="dash-cat-chart" height="200" style="touch-action:none"></canvas>
+    <div class="chart-wrap"><canvas id="dash-cat-chart" height="200" style="touch-action:none"></canvas></div>
   </div>
   <div class="stat-card">
     <h3>Dernières commandes</h3>
@@ -583,7 +584,7 @@ function renderDashboard() {
     window._supChart = new Chart(ctx, {
       type: 'bar',
       data: { labels: supLabels, datasets: [{ data: supData, backgroundColor: supColors.slice(0, supData.length).reverse(), borderRadius: 4 }] },
-      options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, interaction: { mode: 'none' }, plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { beginAtZero: true, ticks: { font: { size: 9 } } }, y: { ticks: { font: { size: 9 } } } } }
+      options: { indexAxis: 'y', responsive: true, maintainAspectRatio: true, interaction: { mode: 'none' }, plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { beginAtZero: true, ticks: { font: { size: 9 } } }, y: { ticks: { font: { size: 9 } } } } }
     });
   }
 
