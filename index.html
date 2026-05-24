@@ -14,8 +14,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--accent:#2563EB;--accent-light:#DBEAFE;--accent-glow:rgba(37,99,235,.08);--text:#18181B;--text2:#71717A;--bg:#FFFFFF;--surface:#F8FAFC;--surface2:#F1F5F9;--surface3:#E2E8F0;--border:#E4E4E7;--green:#16A34A;--red:#DC2626;--amber:#D97706;--radius-sm:3px;--radius:8px;--radius-lg:12px;--orange:#D97706}
-.dark{--accent:#60A5FA;--accent-light:#1E3A5F;--accent-glow:rgba(96,165,250,.1);--text:#E4E4E7;--text2:#A1A1AA;--bg:#09090B;--surface:#18181B;--surface2:#27272A;--surface3:#3F3F46;--border:#27272A;--green:#4ADE80;--red:#F87171;--amber:#FBBF24}
+:root{--accent:#006BB8;--accent-light:#E8F2FF;--accent-glow:rgba(0,107,184,.1);--text:#18181B;--text2:#64748B;--bg:#FFFFFF;--surface:#F8FAFC;--surface2:#F1F5F9;--surface3:#E2E8F0;--border:#E2E8F0;--green:#16A34A;--red:#DC2626;--amber:#D97706;--radius-sm:3px;--radius:8px;--radius-lg:12px;--orange:#D97706}
+.dark{--accent:#60A5FA;--accent-light:#1A304A;--accent-glow:rgba(96,165,250,.12);--text:#E4E4E7;--text2:#94A3B8;--bg:#09090B;--surface:#18181B;--surface2:#27272A;--surface3:#3F3F46;--border:#27272A;--green:#4ADE80;--red:#F87171;--amber:#FBBF24}
 body{font-family:Inter,system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden;font-size:14px;line-height:1.5}
 .bg-grid{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;background-image:linear-gradient(to right,var(--border) 1px,transparent 1px),linear-gradient(to bottom,var(--border) 1px,transparent 1px);opacity:0.35;background-size:40px 40px;mask-image:radial-gradient(circle,#000 30%,transparent 100%);-webkit-mask-image:radial-gradient(circle,#000 30%,transparent 100%)}
 .sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:var(--bg);border-right:1px solid var(--border);padding:1.25rem;z-index:10;overflow-y:auto;display:flex;flex-direction:column}
@@ -26,7 +26,7 @@ body{font-family:Inter,system-ui,-apple-system,sans-serif;background:var(--bg);c
 .sidebar nav{display:flex;flex-direction:column;gap:.1rem;flex:1}
 .sidebar nav button{background:0;border:0;color:var(--text2);padding:.4rem .65rem;border-radius:var(--radius-sm);text-align:left;cursor:pointer;font-size:.8rem;font-weight:500;transition:.15s;display:flex;align-items:center;gap:.5rem;width:100%;font-family:inherit}
 .sidebar nav button:hover{background:var(--surface2);color:var(--text)}
-.sidebar nav button.active{background:var(--accent-light);color:var(--accent);font-weight:600}
+.sidebar nav button.active{background:var(--accent-light);color:#014185;font-weight:600}
 .sidebar .version{font-size:.65rem;color:var(--text2);padding-top:.5rem;border-top:1px solid var(--border);margin-top:.5rem}
 .main{margin-left:220px;padding:1.5rem 2rem;min-height:100vh;position:relative;z-index:1}
 .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:.5rem}
@@ -104,11 +104,11 @@ table input[type=number]:focus{border-color:var(--accent);box-shadow:0 0 0 2px v
 .stat-card + .cockpit-grid{margin-top:1rem}
 .stat-card + .dash-grid-2{margin-top:1rem}
 .cockpit-grid + .stat-card{margin-top:1rem}
-.kpi-prod::before{background:#3B82F6}
-.kpi-sup::before{background:#8B5CF6}
-.kpi-cmd::before{background:#F59E0B}
-.kpi-delai::before{background:#10B981}
-.kpi-panier::before{background:#EC4899}
+.kpi-prod::before{background:#014185}
+.kpi-sup::before{background:#006BB8}
+.kpi-cmd::before{background:#3B82F6}
+.kpi-delai::before{background:#60A5FA}
+.kpi-panier::before{background:#93C5FD}
 .modal-overlay{cursor:pointer}
 .modal-overlay .modal{cursor:default}
 .print-only{display:none}
@@ -635,7 +635,7 @@ function renderDashboard() {
   var maxM = 1;
   for (var mi=0; mi<monthVals.length; mi++) { if (monthVals[mi] > maxM) maxM = monthVals[mi]; }
   var mh = '<div style="display:flex;align-items:flex-end;gap:.5rem;height:90px;padding:.2rem 0">';
-  var barColors = ['#3B82F6','#60A5FA','#3B82F6','#60A5FA','#3B82F6','#60A5FA'];
+  var barColors = ['#014185','#006BB8','#3B82F6','#60A5FA','#93C5FD','#014185'];
   for (var mi=0; mi<monthLabels.length; mi++) {
     var pct = Math.round((monthVals[mi]/maxM)*100);
     mh += '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:.25rem">' +
