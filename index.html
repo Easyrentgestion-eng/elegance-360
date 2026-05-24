@@ -39,13 +39,15 @@ body{font-family:Inter,system-ui,-apple-system,sans-serif;background:var(--bg);c
 .btn-success{background:var(--green);color:#fff}.btn-success:hover{opacity:.9}
 .btn-amber{background:var(--amber);color:#fff}
 .btn-sm{padding:.25rem .55rem;font-size:.72rem}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.65rem;margin-bottom:1.25rem}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.85rem 1rem;transition:.15s;overflow:hidden}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.75rem;margin-bottom:1.5rem}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:.85rem 1rem;transition:.2s;overflow:hidden;position:relative}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--radius-lg) var(--radius-lg) 0 0}
 .stat-card table{overflow:hidden;display:table;white-space:normal}
-.stat-card:hover{border-color:var(--accent);box-shadow:0 2px 16px var(--accent-glow)}
-.stat-card h3{font-size:.65rem;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em}
-.stat-card .value{font-size:1.35rem;font-weight:700;margin-top:.15rem;color:var(--text)}
-.stat-card .sub{font-size:.72rem;color:var(--text2);margin-top:.05rem}
+.stat-card:hover{border-color:var(--accent);box-shadow:0 4px 20px var(--accent-glow);transform:translateY(-1px)}
+.stat-card h3{font-size:.65rem;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.25rem}
+.stat-card .value{font-size:1.4rem;font-weight:700;margin-top:.1rem;color:var(--text);line-height:1.2}
+.stat-card .sub{font-size:.7rem;color:var(--text2);margin-top:.15rem}
+.section-title{font-size:.75rem;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.75rem;padding-bottom:.35rem;border-bottom:2px solid var(--border)}
 .toolbar{display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap;align-items:center}
 .toolbar input,.toolbar select{padding:.35rem .6rem;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.8rem;background:var(--bg);color:var(--text);font-family:inherit;outline:0;transition:.15s}
 .toolbar input:focus,.toolbar select:focus{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-glow)}
@@ -94,9 +96,14 @@ table input[type=number]:focus{border-color:var(--accent);box-shadow:0 0 0 2px v
 .clickable:hover{background:var(--surface2)}
 .stat-card.clickable{cursor:pointer}
 .stat-card.clickable:hover{border-color:var(--accent);box-shadow:0 2px 12px var(--accent-glow)}
-.cockpit-grid{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin-top:.65rem}
+.cockpit-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:.75rem}
 .cockpit-grid .stat-card{margin-bottom:0}
-.dash-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin-top:.65rem}
+.dash-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:.75rem}
+.kpi-prod::before{background:#3B82F6}
+.kpi-sup::before{background:#8B5CF6}
+.kpi-cmd::before{background:#F59E0B}
+.kpi-delai::before{background:#10B981}
+.kpi-panier::before{background:#EC4899}
 .modal-overlay{cursor:pointer}
 .modal-overlay .modal{cursor:default}
 .print-only{display:none}
@@ -142,11 +149,11 @@ table input[type=number]:focus{border-color:var(--accent);box-shadow:0 0 0 2px v
 <div id="page-dashboard" class="page">
   <div class="header"><h2>Cockpit</h2></div>
   <div class="stats">
-    <div class="stat-card clickable" onclick="navigate('products');renderPage('products')"><h3>Références</h3><div class="value" id="kpi-products">0</div></div>
-    <div class="stat-card clickable" onclick="navigate('suppliers');renderPage('suppliers')"><h3>Fournisseurs</h3><div class="value" id="kpi-suppliers">0</div></div>
-    <div class="stat-card clickable" onclick="navigate('orders');renderPage('orders')"><h3>Commandes</h3><div class="value" id="kpi-orders">0</div></div>
-    <div class="stat-card"><h3>Délai livraison</h3><div class="value" id="kpi-delai">—</div><div class="sub" id="kpi-delai-sub"></div></div>
-    <div class="stat-card"><h3>Panier moyen</h3><div class="value" id="kpi-panier">—</div><div class="sub" id="kpi-panier-sub"></div></div>
+    <div class="stat-card kpi-prod clickable" onclick="navigate('products');renderPage('products')"><h3>Références</h3><div class="value" id="kpi-products">0</div></div>
+    <div class="stat-card kpi-sup clickable" onclick="navigate('suppliers');renderPage('suppliers')"><h3>Fournisseurs</h3><div class="value" id="kpi-suppliers">0</div></div>
+    <div class="stat-card kpi-cmd clickable" onclick="navigate('orders');renderPage('orders')"><h3>Commandes</h3><div class="value" id="kpi-orders">0</div></div>
+    <div class="stat-card kpi-delai"><h3>Délai livraison</h3><div class="value" id="kpi-delai">—</div><div class="sub" id="kpi-delai-sub"></div></div>
+    <div class="stat-card kpi-panier"><h3>Panier moyen</h3><div class="value" id="kpi-panier">—</div><div class="sub" id="kpi-panier-sub"></div></div>
   </div>
   <div class="cockpit-grid">
     <div class="stat-card">
@@ -158,10 +165,10 @@ table input[type=number]:focus{border-color:var(--accent);box-shadow:0 0 0 2px v
       <div id="dash-never"></div>
     </div>
   </div>
-  <div class="stat-card">
-    <h3>Commandes / mois (6 derniers)</h3>
-    <div id="dash-monthly"></div>
-  </div>
+    <div class="stat-card">
+      <h3>Commandes / mois</h3>
+      <div id="dash-monthly"></div>
+    </div>
   <div class="dash-grid-2">
     <div class="stat-card">
       <h3>Dernières commandes</h3>
@@ -620,14 +627,15 @@ function renderDashboard() {
   var monthVals = monthLabels.map(function(k){return monthData[k]});
   var maxM = 1;
   for (var mi=0; mi<monthVals.length; mi++) { if (monthVals[mi] > maxM) maxM = monthVals[mi]; }
-  var mh = '<div style="display:flex;align-items:flex-end;gap:.4rem;height:70px;padding:.2rem 0">';
+  var mh = '<div style="display:flex;align-items:flex-end;gap:.5rem;height:90px;padding:.2rem 0">';
+  var barColors = ['#3B82F6','#60A5FA','#3B82F6','#60A5FA','#3B82F6','#60A5FA'];
   for (var mi=0; mi<monthLabels.length; mi++) {
     var pct = Math.round((monthVals[mi]/maxM)*100);
-    mh += '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:.2rem">' +
-      '<div style="flex:1;width:100%;display:flex;align-items:flex-end">' +
-      '<div style="width:100%;height:'+pct+'%;background:var(--accent);border-radius:3px 3px 0 0;min-height:'+(monthVals[mi]>0?4:0)+'px;transition:height .4s"></div></div>' +
-      '<span style="font-size:.55rem;color:var(--text2);white-space:nowrap">'+monthLabels[mi]+'</span>' +
-      '<span style="font-size:.65rem;font-weight:600;color:var(--text)">'+monthVals[mi]+'</span></div>';
+    mh += '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:.25rem">' +
+      '<span style="font-size:.7rem;font-weight:600;color:var(--text)">'+monthVals[mi]+'</span>' +
+      '<div style="width:100%;display:flex;align-items:flex-end;justify-content:center">' +
+      '<div style="width:70%;height:'+pct+'%;background:linear-gradient(to top,'+barColors[mi]+','+barColors[mi]+'cc);border-radius:4px 4px 2px 2px;min-height:'+(monthVals[mi]>0?6:0)+'px;transition:height .5s;box-shadow:0 1px 4px '+barColors[mi]+'33"></div></div>' +
+      '<span style="font-size:.55rem;color:var(--text2);white-space:nowrap">'+monthLabels[mi]+'</span></div>';
   }
   mh += '</div>';
   document.getElementById('dash-monthly').innerHTML = mh;
@@ -707,7 +715,7 @@ function renderDashboard() {
   } else {
     var maxTop = topEntries[0][1] || 1;
     var th = '<div style="display:flex;flex-direction:column;gap:.3rem">';
-    var topColors = ['#1E3A8A','#1D4ED8','#2563EB','#3B82F6','#60A5FA','#93C5FD','#BFDBFE','#DBEAFE','#EFF6FF','#BFDBFE'];
+    var topColors = ['#1E3A8A','#2563EB','#3B82F6','#60A5FA','#93C5FD','#BFDBFE','#DBEAFE','#EFF6FF','#BFDBFE','#93C5FD'];
     for (var ti=0; ti<topEntries.length; ti++) {
       var p = pm[topEntries[ti][0]];
       var label = p ? p.name : topEntries[ti][0];
