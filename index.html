@@ -145,6 +145,7 @@ table input[type=number]:focus{border-color:var(--accent);box-shadow:0 0 0 2px v
     <div class="stat-card clickable" onclick="navigate('products');renderPage('products')"><h3>Références</h3><div class="value" id="kpi-products">0</div></div>
     <div class="stat-card clickable" onclick="navigate('suppliers');renderPage('suppliers')"><h3>Fournisseurs</h3><div class="value" id="kpi-suppliers">0</div></div>
     <div class="stat-card clickable" onclick="navigate('orders');renderPage('orders')"><h3>Commandes</h3><div class="value" id="kpi-orders">0</div></div>
+    <div class="stat-card"><h3>Délai livraison</h3><div class="value" id="kpi-delai">—</div><div class="sub" id="kpi-delai-sub"></div></div>
   </div>
   <div class="cockpit-grid">
     <div class="stat-card">
@@ -579,6 +580,23 @@ function renderDashboard() {
   document.getElementById('kpi-products').textContent = fmtNum(state.products.length);
   document.getElementById('kpi-suppliers').textContent = fmtNum(state.suppliers.length);
   document.getElementById('kpi-orders').textContent = fmtNum(state.orders.length);
+  // Délai moyen livraison (jours)
+  var delaiTotal = 0, delaiCount = 0;
+  for (var d=0; d<state.orders.length; d++) {
+    var o = state.orders[d];
+    if (o.received && o.date && o.receivedDate) {
+      delaiTotal += (new Date(o.receivedDate) - new Date(o.date)) / 86400000;
+      delaiCount++;
+    }
+  }
+  if (delaiCount > 0) {
+    var avg = Math.round(delaiTotal / delaiCount);
+    document.getElementById('kpi-delai').innerHTML = avg + ' <span style="font-size:.7rem;font-weight:400;color:var(--text2)">j</span>';
+    document.getElementById('kpi-delai-sub').textContent = 'sur ' + delaiCount + ' commande' + (delaiCount>1?'s reçues':' reçue');
+  } else {
+    document.getElementById('kpi-delai').textContent = '—';
+    document.getElementById('kpi-delai-sub').textContent = 'aucune commande reçue';
+  }
 
   // Recent orders
   var oh = '';
