@@ -146,6 +146,7 @@ table input[type=number]:focus{border-color:var(--accent);box-shadow:0 0 0 2px v
     <div class="stat-card clickable" onclick="navigate('suppliers');renderPage('suppliers')"><h3>Fournisseurs</h3><div class="value" id="kpi-suppliers">0</div></div>
     <div class="stat-card clickable" onclick="navigate('orders');renderPage('orders')"><h3>Commandes</h3><div class="value" id="kpi-orders">0</div></div>
     <div class="stat-card"><h3>Délai livraison</h3><div class="value" id="kpi-delai">—</div><div class="sub" id="kpi-delai-sub"></div></div>
+    <div class="stat-card"><h3>Panier moyen</h3><div class="value" id="kpi-panier">—</div><div class="sub" id="kpi-panier-sub"></div></div>
   </div>
   <div class="cockpit-grid">
     <div class="stat-card">
@@ -1362,7 +1363,21 @@ function receiveOrder(orderId) {
               if (state.stock[k].productId===item.productId && state.stock[k].storeId===storeId) {
                 state.stock[k].qty += qty;
                 found = true; break;
-              }
+  }
+  // Panier moyen (articles par commande)
+  var totalArticles = 0;
+  for (var pi=0; pi<state.orders.length; pi++) {
+    var items = state.orders[pi].items || [];
+    for (var pj=0; pj<items.length; pj++) totalArticles += items[pj].qty;
+  }
+  if (state.orders.length > 0) {
+    var avgPanier = Math.round(totalArticles / state.orders.length);
+    document.getElementById('kpi-panier').textContent = avgPanier;
+    document.getElementById('kpi-panier-sub').textContent = 'sur ' + state.orders.length + ' commande' + (state.orders.length>1?'s':'');
+  } else {
+    document.getElementById('kpi-panier').textContent = '—';
+    document.getElementById('kpi-panier-sub').textContent = 'aucune commande';
+  }
             }
             if (!found) {
               state.stock.push({ id:uid(), productId:item.productId, storeId:storeId, qty:qty, threshold:state.settings.defaultThreshold });
