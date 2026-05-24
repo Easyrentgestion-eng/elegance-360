@@ -390,6 +390,7 @@ var PREFIX = 'sc_';
 var orderItems = {};
 var editingOrderId = null;
 var orderTab = 'create', reportTab = 'orders';
+var formDirty = false;
 
 var state = {
   products: [], stock: [], orders: [], suppliers: [],
@@ -490,8 +491,18 @@ function navigate(pageId) {
   document.getElementById('sidebar-nav').addEventListener('click', function(e) {
     var btn = e.target.closest('button[data-page]');
     if (!btn) return;
-    navigate(btn.dataset.page);
-    renderPage(btn.dataset.page);
+    var page = btn.dataset.page;
+    if (formDirty && page !== 'orders') {
+      showConfirm('Formulaire en cours', 'Vous avez des quantités saisies dans la commande. Quitter sans passer commande ?', function() {
+        formDirty = false;
+        orderItems = {};
+        navigate(page);
+        renderPage(page);
+      });
+    } else {
+      navigate(page);
+      renderPage(page);
+    }
   });
 })();
 
@@ -970,7 +981,9 @@ function updateOrderQty(inp) {
   var pid = inp.dataset.pid;
   var val = parseInt(inp.value) || 0;
   if (val < 0) val = 0;
+  var prev = orderItems[pid] || 0;
   orderItems[pid] = val;
+  if (val !== prev) formDirty = true;
   var row = inp.closest('tr');
   if (row) {
     row.querySelector('.order-subtotal').textContent = fmtNum(val);
@@ -1003,7 +1016,9 @@ function syncOrderFromAlloc(inp) {
   for (var i=0; i<allocs.length; i++) total += parseInt(allocs[i].value) || 0;
   var qtyInput = row.querySelector('.order-qty');
   if (qtyInput) qtyInput.value = total || '';
+  var prev = orderItems[pid] || 0;
   orderItems[pid] = total;
+  if (total !== prev) formDirty = true;
   var sub = row.querySelector('.order-subtotal');
   if (sub) sub.textContent = fmtNum(total);
   // Refresh summary
@@ -1052,6 +1067,7 @@ function editOrder(orderId) {
 function cancelEditOrder() {
   editingOrderId = null;
   orderItems = {};
+  formDirty = false;
   document.getElementById('order-submit-btn').textContent = 'Passer commande';
   document.getElementById('order-cancel-edit').classList.add('hidden');
   switchOrderTab('create');
@@ -1094,6 +1110,7 @@ function createOrder() {
         db.saveState();
         editingOrderId = null;
         orderItems = {};
+        formDirty = false;
         document.getElementById('order-submit-btn').textContent = 'Passer commande';
         document.getElementById('order-cancel-edit').classList.add('hidden');
         loadPDFLib(function() { showOrderPDFPreview(o); });
@@ -1112,6 +1129,7 @@ function createOrder() {
   };
   state.orders.push(order);
   orderItems = {};
+  formDirty = false;
   db.saveState();
 
   // Show PDF preview modal
@@ -1704,6 +1722,10 @@ db.saveState = function() {
   var backups = JSON.parse(localStorage.getItem(BACKUP_KEY) || '[]');
   var el = document.getElementById('backup-info');
   if (el && backups.length > 0) el.textContent = 'Dernière sauvegarde auto: ' + new Date(backups[backups.length-1].date).toLocaleString('fr-FR');
+  // Confirm before closing if form is dirty
+  window.addEventListener('beforeunload', function(e) {
+    if (formDirty) { e.preventDefault(); e.returnValue = ''; }
+  });
 })();
 </script>
 </body>
