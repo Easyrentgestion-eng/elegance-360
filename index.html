@@ -48,7 +48,6 @@ body{font-family:Inter,system-ui,-apple-system,sans-serif;background:var(--bg);c
 .stat-card h3{font-size:.65rem;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em}
 .stat-card .value{font-size:1.35rem;font-weight:700;margin-top:.15rem;color:var(--text)}
 .stat-card .sub{font-size:.72rem;color:var(--text2);margin-top:.05rem}
-.kpi-sub{font-size:.7rem;font-weight:500;color:var(--amber)}
 .toolbar{display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap;align-items:center}
 .toolbar input,.toolbar select{padding:.35rem .6rem;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.8rem;background:var(--bg);color:var(--text);font-family:inherit;outline:0;transition:.15s}
 .toolbar input:focus,.toolbar select:focus{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-glow)}
@@ -98,9 +97,9 @@ table input[type=number]:focus{border-color:var(--accent);box-shadow:0 0 0 2px v
 .stat-card.clickable{cursor:pointer}
 .stat-card.clickable:hover{border-color:var(--accent);box-shadow:0 2px 12px var(--accent-glow)}
 .stat-kpi{border-left:3px solid var(--border)}
-.stat-kpi-prod{border-left-color:var(--accent)}
-.stat-kpi-sup{border-left-color:#8B5CF6}
-.stat-kpi-cmd{border-left-color:var(--amber)}
+.stat-kpi-prod{border-left-color:#2563EB}
+.stat-kpi-sup{border-left-color:#7C3AED}
+.stat-kpi-cmd{border-left-color:#D97706}
 .cockpit-grid{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin-bottom:.65rem}
 .cockpit-grid .stat-card{margin-bottom:0}
 .card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
@@ -591,14 +590,13 @@ function renderPage(pageId) {
 function renderDashboard() {
   document.getElementById('kpi-products').textContent = fmtNum(state.products.length);
   document.getElementById('kpi-suppliers').textContent = fmtNum(state.suppliers.length);
-  var pendingCount = state.orders.filter(function(o){return !o.received}).length;
-  document.getElementById('kpi-orders').innerHTML = fmtNum(state.orders.length) + (pendingCount > 0 ? ' <span class="kpi-sub">' + pendingCount + ' en att.</span>' : '');
+  document.getElementById('kpi-orders').textContent = fmtNum(state.orders.length);
 
   // Répartition des produits par fournisseur — barres horizontales Chart.js
   var supCounts = {};
   for (var i=0; i<state.suppliers.length; i++) supCounts[state.suppliers[i].name] = 0;
   for (var i=0; i<state.products.length; i++) { var p = state.products[i]; if (supCounts[p.brand] !== undefined) supCounts[p.brand]++; }
-  var supLabels = [], supData = [], supColors = ['#3B82F6','#8B5CF6','#10B981','#F59E0B','#EF4444','#06B6D4','#EC4899','#84CC16'];
+  var supLabels = [], supData = [], supColors = ['#2563EB','#7C3AED','#059669','#D97706','#DC2626','#0891B2','#DB2777','#65A30D'];
   for (var cn in supCounts) { if (supCounts.hasOwnProperty(cn)) { supLabels.push(cn.split(' ')[0]); supData.push(supCounts[cn]); } }
   supLabels.reverse(); supData.reverse();
   if (window._supChart) { window._supChart.destroy(); }
@@ -686,7 +684,7 @@ function renderDashboard() {
   } else {
     var maxTop = topEntries[0][1] || 1;
     var th = '<div style="display:flex;flex-direction:column;gap:.35rem">';
-    var topColors = ['#3B82F6','#8B5CF6','#10B981','#F59E0B','#EF4444'];
+    var topColors = ['#2563EB','#7C3AED','#059669','#D97706','#DC2626'];
     for (var ti=0; ti<topEntries.length; ti++) {
       var p = pm[topEntries[ti][0]];
       var label = p ? p.name : topEntries[ti][0];
