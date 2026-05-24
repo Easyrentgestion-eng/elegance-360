@@ -586,7 +586,7 @@ function renderDashboard() {
     window._supChart = new Chart(ctx, {
       type: 'bar',
       data: { labels: supLabels, datasets: [{ data: supData, backgroundColor: supColors.slice(0, supData.length).reverse(), borderRadius: 4 }] },
-      options: { indexAxis: 'y', responsive: true, maintainAspectRatio: true, interaction: { mode: 'none' }, plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { beginAtZero: true, grid: { display: false }, ticks: { display: false } }, y: { ticks: { font: { size: 9 } } } }, datasets: { bar: { categoryPercentage: 1, barPercentage: 1 } } }
+      options: { indexAxis: 'y', responsive: true, maintainAspectRatio: true, interaction: { mode: 'none' }, plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { beginAtZero: true, ticks: { font: { size: 9 } } }, y: { ticks: { font: { size: 9 } } } } }
     });
   }
 
