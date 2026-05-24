@@ -103,6 +103,7 @@ table input[type=number]:focus{border-color:var(--accent);box-shadow:0 0 0 2px v
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:2px}
 .theme-toggle{background:0;border:0;color:var(--text2);cursor:pointer;padding:.3rem;border-radius:var(--radius-sm);font-size:.85rem;transition:.15s}
 .theme-toggle:hover{background:var(--surface2);color:var(--text)}
+.sidebar-badge{display:inline-flex;align-items:center;justify-content:center;min-width:16px;height:16px;padding:0 4px;border-radius:8px;background:var(--amber);color:#fff;font-size:.6rem;font-weight:700;margin-left:auto;line-height:1}
 </style>
 </head>
 <body>
@@ -167,7 +168,7 @@ table input[type=number]:focus{border-color:var(--accent);box-shadow:0 0 0 2px v
     <select id="prod-brand-filter" onchange="renderProducts()"></select>
   </div>
   <table>
-    <thead><tr><th>Produit</th><th>Marque</th><th>SKU</th><th>Stock total</th><th style="width:100px"></th></tr></thead>
+    <thead><tr><th onclick="sortToggle('name')" style="cursor:pointer">Produit<span id="sort-name"></span></th><th onclick="sortToggle('brand')" style="cursor:pointer">Marque<span id="sort-brand"></span></th><th>SKU</th><th>Stock total</th><th style="width:100px"></th></tr></thead>
     <tbody id="prod-body"></tbody>
   </table>
 </div>
@@ -183,7 +184,7 @@ table input[type=number]:focus{border-color:var(--accent);box-shadow:0 0 0 2px v
     <input type="text" id="sup-search" placeholder="Rechercher..." oninput="renderSuppliers()">
   </div>
   <table>
-    <thead><tr><th>Nom</th><th>Code</th><th>Contact</th><th>Téléphone</th><th>Délai (j)</th><th>Commandes</th><th style="width:100px"></th></tr></thead>
+    <thead><tr><th onclick="sortToggle('name')" style="cursor:pointer">Nom<span id="sort-sup-name"></span></th><th>Code</th><th>Contact</th><th>Téléphone</th><th>Délai (j)</th><th>Commandes</th><th style="width:100px"></th></tr></thead>
     <tbody id="sup-body"></tbody>
   </table>
 </div>
@@ -212,12 +213,26 @@ table input[type=number]:focus{border-color:var(--accent);box-shadow:0 0 0 2px v
     </div>
   </div>
   <div id="orders-pending" class="order-panel hidden">
+    <div class="toolbar" style="gap:.35rem">
+      <input type="text" id="order-pending-search" placeholder="Rechercher..." oninput="renderOrdersList(false)" style="flex:0 0 140px">
+      <input type="date" id="order-pending-from" onchange="renderOrdersList(false)" style="width:130px;font-size:.72rem">
+      <span style="font-size:.7rem;color:var(--text2)">→</span>
+      <input type="date" id="order-pending-to" onchange="renderOrdersList(false)" style="width:130px;font-size:.72rem">
+      <button class="btn btn-outline btn-sm" onclick="document.getElementById('order-pending-search').value='';document.getElementById('order-pending-from').value='';document.getElementById('order-pending-to').value='';renderOrdersList(false)">✕</button>
+    </div>
     <table>
       <thead><tr><th>N°</th><th>Fournisseur</th><th>Date</th><th>Articles</th><th>Total</th><th style="width:300px"></th></tr></thead>
       <tbody id="orders-pending-body"></tbody>
     </table>
   </div>
   <div id="orders-received" class="order-panel hidden">
+    <div class="toolbar" style="gap:.35rem">
+      <input type="text" id="order-received-search" placeholder="Rechercher..." oninput="renderOrdersList(true)" style="flex:0 0 140px">
+      <input type="date" id="order-received-from" onchange="renderOrdersList(true)" style="width:130px;font-size:.72rem">
+      <span style="font-size:.7rem;color:var(--text2)">→</span>
+      <input type="date" id="order-received-to" onchange="renderOrdersList(true)" style="width:130px;font-size:.72rem">
+      <button class="btn btn-outline btn-sm" onclick="document.getElementById('order-received-search').value='';document.getElementById('order-received-from').value='';document.getElementById('order-received-to').value='';renderOrdersList(true)">✕</button>
+    </div>
     <table>
       <thead><tr><th>N°</th><th>Fournisseur</th><th>Date réception</th><th>Articles</th><th>Total</th><th style="width:90px"></th></tr></thead>
       <tbody id="orders-received-body"></tbody>
@@ -396,6 +411,7 @@ var orderItems = {};
 var editingOrderId = null;
 var orderTab = 'create', reportTab = 'orders';
 var formDirty = false;
+var sortState = {};
 
 var state = {
   products: [], stock: [], orders: [], suppliers: [],
@@ -419,6 +435,22 @@ function esc(s) { if (typeof s !== 'string') return ''; var d = document.createE
 
 function storeName(id) { for (var i=0;i<STORES.length;i++) { if (STORES[i].id===id) return STORES[i].name; } return id; }
 function productMap() { var m={}; for (var i=0;i<state.products.length;i++) m[state.products[i].id]=state.products[i]; return m; }
+
+function sortToggle(key) {
+  if (sortState.key === key) sortState.dir = -sortState.dir; else { sortState.key = key; sortState.dir = 1; }
+  var activePage = document.querySelector('.sidebar nav button.active');
+  if (activePage) renderPage(activePage.dataset.page);
+}
+function sortArrow(key) { return sortState.key===key ? (sortState.dir>0?' ▲':' ▼') : ''; }
+function sortList(arr, key) {
+  var d = sortState.dir || 1;
+  if (!sortState.key) return arr;
+  return arr.slice().sort(function(a,b) {
+    var va = a[key]||'', vb = b[key]||'';
+    if (typeof va === 'number') return (va - vb) * d;
+    return String(va).localeCompare(String(vb)) * d;
+  });
+}
 
 var db = {
   save: function(k,d) { try { localStorage.setItem(PREFIX+k,JSON.stringify(d)); } catch(e) {} },
@@ -478,9 +510,19 @@ function renderSidebar() {
   var h = '';
   for (var i=0; i<PAGES.length; i++) {
     var p = PAGES[i];
-    h += '<button data-page="'+p.id+'" class="'+(i===0?'active':'')+'">'+p.icon+' <span>'+p.label+'</span></button>';
+    var badge = p.id==='orders' ? ' <span class="sidebar-badge" id="order-badge"></span>' : '';
+    h += '<button data-page="'+p.id+'" class="'+(i===0?'active':'')+'">'+p.icon+' <span>'+p.label+'</span>'+badge+'</button>';
   }
   nav.innerHTML = h;
+  updateOrderBadge();
+}
+
+function updateOrderBadge() {
+  var el = document.getElementById('order-badge');
+  if (!el) return;
+  var count = 0;
+  for (var i=0; i<state.orders.length; i++) { if (!state.orders[i].received) count++; }
+  el.textContent = count > 0 ? count : '';
 }
 
 function navigate(pageId) {
@@ -642,6 +684,10 @@ function renderProducts() {
   }
 
   var h = '';
+  list = sortList(list, sortState.key || 'name');
+  // Update sort arrows in products table
+  document.getElementById('sort-name').textContent = sortArrow('name');
+  document.getElementById('sort-brand').textContent = sortArrow('brand');
   for (var i=0; i<list.length; i++) {
     var p = list[i];
     var total = stockTotals[p.id] || 0;
@@ -832,23 +878,32 @@ function renderSuppliers() {
     orderCounts[o.supplierId] = (orderCounts[o.supplierId]||0) + 1;
   }
 
-  var h = '';
+  var list = [];
   for (var i=0; i<state.suppliers.length; i++) {
     var s = state.suppliers[i];
     if (q && s.name.toLowerCase().indexOf(q)<0 && s.code.toLowerCase().indexOf(q)<0) continue;
+    list.push(s);
+  }
+  list = sortList(list, sortState.key || 'name');
+  document.getElementById('sort-sup-name').textContent = sortArrow('name');
+
+  var h = '';
+  for (var i=0; i<list.length; i++) {
+    var s = list[i];
     h += '<tr><td><strong>'+esc(s.name)+'</strong></td><td style="font-family:monospace;font-size:.75rem">'+esc(s.code)+'</td>' +
       '<td>'+esc(s.contact||'-')+'</td><td>'+esc(s.phone||'-')+'</td><td style="text-align:center;font-weight:600">'+fmtNum(s.leadTime)+'</td>' +
       '<td style="text-align:center;font-weight:600">'+fmtNum(orderCounts[s.id]||0)+'</td>' +
-      '<td><div style="display:flex;gap:.25rem"><button class="btn btn-outline btn-sm" onclick="openSupplier('+i+')">✎</button>' +
+      '<td><div style="display:flex;gap:.25rem"><button class="btn btn-outline btn-sm" onclick="openSupplier(\''+s.id+'\')">✎</button>' +
       '<button class="btn btn-danger btn-sm" onclick="deleteSupplier(\''+s.id+'\')">✕</button></div></td></tr>';
   }
   if (!h) h = '<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--text2)">Aucun fournisseur.</td></tr>';
   document.getElementById('sup-body').innerHTML = h;
 }
 
-function openSupplier(idx) {
-  document.getElementById('sup-modal-title').textContent = idx !== undefined ? 'Modifier le fournisseur' : 'Nouveau fournisseur';
-  var s = idx !== undefined ? state.suppliers[idx] : {};
+function openSupplier(id) {
+  document.getElementById('sup-modal-title').textContent = id ? 'Modifier le fournisseur' : 'Nouveau fournisseur';
+  var s = {};
+  if (id) { for (var i=0; i<state.suppliers.length; i++) { if (state.suppliers[i].id === id) { s = state.suppliers[i]; break; } } }
   document.getElementById('f-sup-id').value = s.id || '';
   document.getElementById('f-sup-name').value = s.name || '';
   document.getElementById('f-sup-code').value = s.code || '';
@@ -1136,6 +1191,7 @@ function createOrder() {
   orderItems = {};
   formDirty = false;
   db.saveState();
+  updateOrderBadge();
 
   // Show PDF preview modal
   loadPDFLib(function() { showOrderPDFPreview(order); });
@@ -1147,6 +1203,23 @@ function createOrder() {
 function renderOrdersList(received) {
   var list = state.orders.filter(function(o){return !!o.received === received});
   var tbody = document.getElementById(received ? 'orders-received-body' : 'orders-pending-body');
+
+  // Apply search + date filters
+  var search = (document.getElementById(received ? 'order-received-search' : 'order-pending-search').value||'').toLowerCase();
+  var fromVal = document.getElementById(received ? 'order-received-from' : 'order-pending-from').value;
+  var toVal = document.getElementById(received ? 'order-received-to' : 'order-pending-to').value;
+  if (search || fromVal || toVal) {
+    var fromDate = fromVal ? new Date(fromVal+'T00:00:00').getTime() : 0;
+    var toDate = toVal ? new Date(toVal+'T23:59:59').getTime() : Infinity;
+    list = list.filter(function(o) {
+      var oDate = new Date(received ? o.receivedDate : o.date).getTime();
+      if (fromDate && oDate < fromDate) return false;
+      if (toDate !== Infinity && oDate > toDate) return false;
+      if (search && o.ref.toLowerCase().indexOf(search)<0 && o.supplierName.toLowerCase().indexOf(search)<0) return false;
+      return true;
+    });
+  }
+
   if (list.length === 0) {
     tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--text2)">Aucune commande '+(received?'reçue':'en attente')+'.</td></tr>';
     return;
@@ -1168,7 +1241,7 @@ function renderOrdersList(received) {
       h += '<tr style="background:rgba(22,163,74,.08)"><td style="font-family:monospace;font-size:.75rem">'+esc(o.ref)+'</td><td>'+esc(o.supplierName)+'</td>' +
         '<td>'+new Date(o.receivedDate).toLocaleDateString('fr-FR')+'</td><td style="text-align:center;font-weight:600">'+fmtNum(count)+'</td>' +
         '<td style="text-align:right;font-weight:600">'+fmtNum(o.total)+'</td>' +
-        '<td style="display:flex;gap:.25rem"><button class="btn btn-outline btn-sm" onclick="viewOrder(\''+o.id+'\')">Voir</button>' +
+        '<td style="display:flex;gap:.25rem"><button class="btn btn-outline btn-sm" onclick="viewOrder(\''+o.id+'\')">Consulter</button>' +
         '<button class="btn btn-amber btn-sm" onclick="downloadOrderPDF(\''+o.id+'\')">📄</button>' +
         '<button class="btn btn-danger btn-sm" onclick="deleteOrder(\''+o.id+'\')">Suppr.</button></td></tr>';
     }
@@ -1205,6 +1278,7 @@ function receiveOrder(orderId) {
         // Regenerate PDF with received status
         o.pdfData = null;
         db.saveState();
+        updateOrderBadge();
         loadPDFLib(function() {
           generateOrderPDF(o, false);
           renderOrdersList(true);
@@ -1226,6 +1300,7 @@ function deleteOrder(orderId) {
   showConfirm('Supprimer la commande', 'Supprimer définitivement ' + found.ref + ' (' + found.supplierName + ') ? Cette action est irréversible.', function() {
     state.orders = state.orders.filter(function(o){return o.id!==orderId});
     db.saveState();
+    updateOrderBadge();
     renderOrders();
     toast('Commande supprimée', 'success');
   });
