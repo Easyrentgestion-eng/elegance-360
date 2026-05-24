@@ -144,12 +144,8 @@ table input[type=number]:focus{border-color:var(--accent);box-shadow:0 0 0 2px v
     <div class="stat-card clickable" onclick="navigate('orders');renderPage('orders')"><h3>Commandes</h3><div class="value" id="kpi-orders">0</div></div>
   </div>
   <div class="stat-card">
-    <h3>Répartition par fournisseur</h3>
-    <canvas id="dash-donut" height="180"></canvas>
-  </div>
-  <div class="stat-card">
-    <h3>Commandes par mois</h3>
-    <canvas id="dash-bars" height="180"></canvas>
+    <h3>Répartition des produits par fournisseur</h3>
+    <div id="dash-cat-chart"></div>
   </div>
   <div class="stat-card">
     <h3>Dernières commandes</h3>
@@ -573,39 +569,32 @@ function renderDashboard() {
   document.getElementById('kpi-suppliers').textContent = fmtNum(state.suppliers.length);
   document.getElementById('kpi-orders').textContent = fmtNum(state.orders.length);
 
-  // Répartition des produits par fournisseur — donut Chart.js
+  // Répartition des produits par fournisseur — barres horizontales
   var supCounts = {};
   for (var i=0; i<state.suppliers.length; i++) supCounts[state.suppliers[i].name] = 0;
-  for (var i=0; i<state.products.length; i++) { var p = state.products[i]; if (supCounts[p.brand] !== undefined) supCounts[p.brand]++; }
-  var supLabels = [], supData = [], supColors = ['#2563EB','#7C3AED','#059669','#D97706','#DC2626','#0891B2','#DB2777','#65A30D'];
-  for (var cn in supCounts) { if (supCounts.hasOwnProperty(cn)) { supLabels.push(cn.split(' ')[0]); supData.push(supCounts[cn]); } }
-  if (window._donutChart) { window._donutChart.destroy(); }
-  if (supData.length > 0) {
-    var ctx1 = document.getElementById('dash-donut').getContext('2d');
-    window._donutChart = new Chart(ctx1, {
-      type: 'doughnut',
-      data: { labels: supLabels, datasets: [{ data: supData, backgroundColor: supColors.slice(0, supData.length), borderWidth: 0 }] },
-      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { boxWidth: 10, font: { size: 10 } } } } }
-    });
+  for (var i=0; i<state.products.length; i++) {
+    var p = state.products[i];
+    if (supCounts[p.brand] !== undefined) supCounts[p.brand]++;
   }
-
-  // Commandes par mois — barres Chart.js
-  var monthTotals = {};
-  for (var i=0; i<state.orders.length; i++) {
-    var m = new Date(state.orders[i].date).toLocaleString('fr-FR', { month: 'short', year: '2-digit' });
-    monthTotals[m] = (monthTotals[m]||0) + state.orders[i].total;
+  var entries = [];
+  for (var cn in supCounts) { if (supCounts.hasOwnProperty(cn)) entries.push([cn, supCounts[cn]]); }
+  entries.sort(function(a,b){return b[1]-a[1]});
+  var maxC = 1;
+  for (var mi=0; mi<entries.length; mi++) { if (entries[mi][1] > maxC) maxC = entries[mi][1]; }
+  var barColors = ['#2563EB','#7C3AED','#059669','#D97706','#DC2626','#0891B2','#DB2777','#65A30D'];
+  var ch = '<div style="display:flex;flex-direction:column;gap:.35rem">';
+  for (var ci=0; ci<entries.length; ci++) {
+    var e = entries[ci];
+    var pct = Math.round((e[1]/maxC)*100);
+    ch += '<div class="clickable" onclick="navigate(\'orders\');renderPage(\'orders\')" style="display:flex;align-items:center;gap:.5rem">' +
+      '<span style="font-size:.72rem;font-weight:600;min-width:70px;text-align:right;color:var(--text)">'+esc(e[0].split(' ')[0])+'</span>' +
+      '<div style="flex:1;height:22px;background:var(--surface2);border-radius:4px;overflow:hidden;position:relative">' +
+      '<div style="height:100%;width:'+pct+'%;background:'+barColors[ci%barColors.length]+';border-radius:4px;transition:width .4s"></div>' +
+      '</div>' +
+      '<span style="font-size:.78rem;font-weight:700;min-width:30px;color:var(--accent)">'+fmtNum(e[1])+'</span></div>';
   }
-  var monthLabels = Object.keys(monthTotals).slice(-12);
-  var monthData = monthLabels.map(function(m){return monthTotals[m]});
-  if (window._barChart) { window._barChart.destroy(); }
-  if (monthData.length > 0) {
-    var ctx2 = document.getElementById('dash-bars').getContext('2d');
-    window._barChart = new Chart(ctx2, {
-      type: 'bar',
-      data: { labels: monthLabels, datasets: [{ label: 'Articles commandés', data: monthData, backgroundColor: '#2563EB', borderRadius: 4 }] },
-      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { font: { size: 9 } } }, x: { ticks: { font: { size: 8 } } } } }
-    });
-  }
+  ch += '</div>';
+  document.getElementById('dash-cat-chart').innerHTML = ch;
 
   // Recent orders
   var oh = '';
