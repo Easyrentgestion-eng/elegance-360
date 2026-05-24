@@ -575,7 +575,7 @@ function renderDashboard() {
   var supCounts = {};
   for (var i=0; i<state.suppliers.length; i++) supCounts[state.suppliers[i].name] = 0;
   for (var i=0; i<state.products.length; i++) { var p = state.products[i]; if (supCounts[p.brand] !== undefined) supCounts[p.brand]++; }
-  var supLabels = [], supData = [], supColors = ['#2563EB','#7C3AED','#059669','#D97706','#DC2626','#0891B2','#DB2777','#65A30D'];
+  var supLabels = [], supData = [], supColors = ['#1E3A8A','#1D4ED8','#2563EB','#3B82F6','#60A5FA','#93C5FD','#BFDBFE','#DBEAFE'];
   for (var cn in supCounts) { if (supCounts.hasOwnProperty(cn)) { supLabels.push(cn.split(' ')[0]); supData.push(supCounts[cn]); } }
   supLabels.reverse(); supData.reverse();
   if (window._supChart) { window._supChart.destroy(); }
