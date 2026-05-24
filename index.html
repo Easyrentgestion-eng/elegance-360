@@ -122,6 +122,7 @@ table input[type=number]:focus{border-color:var(--accent);box-shadow:0 0 0 2px v
   <div style="margin-top:.5rem;display:flex;gap:.35rem;align-items:center;border-top:1px solid var(--border);padding-top:.5rem">
     <button class="theme-toggle" onclick="toggleTheme()" title="Mode sombre/clair">🌓</button>
     <button class="btn btn-outline btn-sm" onclick="openSettings()" style="font-size:.65rem">Paramètres</button>
+    <button class="btn btn-outline btn-sm" onclick="showHelp()" style="font-size:.65rem;margin-left:auto">?</button>
   </div>
   <div class="version">v1.0</div>
 </div>
@@ -336,6 +337,48 @@ table input[type=number]:focus{border-color:var(--accent);box-shadow:0 0 0 2px v
   </div>
 </div>
 
+<div class="modal-overlay" id="help-modal" onclick="if(event.target===this)closeModal('help-modal')">
+  <div class="modal modal-lg" style="max-width:640px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+      <h3 style="font-size:1rem">Aide — Elegance 360</h3>
+      <button class="btn btn-outline btn-sm" onclick="closeModal('help-modal')">✕</button>
+    </div>
+    <div style="max-height:60vh;overflow-y:auto;font-size:.82rem;line-height:1.6">
+      <div style="margin-bottom:1rem;padding:.75rem;background:var(--surface2);border-radius:var(--radius)">
+        <strong style="color:var(--accent)">1. Tableau de bord (Cockpit)</strong>
+        <div style="margin-top:.25rem;color:var(--text2)">Vue d'ensemble : nombre de produits, fournisseurs, commandes. Graphique de répartition par marque. Dernières commandes passées.</div>
+      </div>
+      <div style="margin-bottom:1rem;padding:.75rem;background:var(--surface2);border-radius:var(--radius)">
+        <strong style="color:var(--accent)">2. Références (Produits)</strong>
+        <div style="margin-top:.25rem;color:var(--text2)">Liste des produits importés. Recherche par nom, filtre par marque. Cliquez sur le stock d'un produit pour l'ajuster par magasin.</div>
+      </div>
+      <div style="margin-bottom:1rem;padding:.75rem;background:var(--surface2);border-radius:var(--radius)">
+        <strong style="color:var(--accent)">3. Fournisseurs</strong>
+        <div style="margin-top:.25rem;color:var(--text2)">Gérez vos fournisseurs (nom, code, contact, délai). Chaque marque est automatiquement liée à un fournisseur.</div>
+      </div>
+      <div style="margin-bottom:1rem;padding:.75rem;background:var(--surface2);border-radius:var(--radius)">
+        <strong style="color:var(--accent)">4. Commandes</strong>
+        <div style="margin-top:.25rem;color:var(--text2)">
+          <strong>Créer</strong> : sélectionnez un fournisseur, saisissez les quantités (totale ou par magasin), puis "Passer commande".<br>
+          <strong>En attente</strong> : commandes en cours. Récep. = réceptionner le stock, Voir = aperçu PDF, Modifier = changer les quantités, PDF = télécharger, Suppr. = supprimer.<br>
+          <strong>Reçues</strong> : historique. Voir = aperçu PDF avec tampon "Reçue".
+        </div>
+      </div>
+      <div style="margin-bottom:1rem;padding:.75rem;background:var(--surface2);border-radius:var(--radius)">
+        <strong style="color:var(--accent)">5. Rapports & exports</strong>
+        <div style="margin-top:.25rem;color:var(--text2)">Consultation de l'historique des commandes et de la liste des produits. Export CSV disponible.</div>
+      </div>
+      <div style="margin-bottom:1rem;padding:.75rem;background:var(--surface2);border-radius:var(--radius)">
+        <strong style="color:var(--accent)">6. Paramètres</strong>
+        <div style="margin-top:.25rem;color:var(--text2)">Enseigne, devise, seuil d'alerte. Import depuis fichier Excel. Sauvegarde et restauration des données (fichier JSON).</div>
+      </div>
+      <div style="padding:.75rem;background:var(--accent-light);border-radius:var(--radius);color:var(--text)">
+        <strong>💡 Astuce</strong> : vos données sont automatiquement sauvegardées dans le navigateur. Exportez régulièrement un fichier JSON (Paramètres → Sauvegarder) pour ne rien perdre.
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -409,8 +452,10 @@ function initData() {
 // ============ THEME ============
 function toggleTheme() {
   document.body.classList.toggle('dark');
-  localStorage.setItem(PREFIX+'theme', document.body.classList.contains('dark')?'dark':'');
+  var dark = document.body.classList.contains('dark');
+  localStorage.setItem('sc_theme', dark ? 'dark' : 'light');
 }
+function showHelp() { document.getElementById('help-modal').classList.add('open'); }
 (function(){ if (localStorage.getItem(PREFIX+'theme')==='dark') document.body.classList.add('dark'); })();
 
 // ============ NAVIGATION ============
@@ -1100,7 +1145,6 @@ function renderOrdersList(received) {
         '<td>'+new Date(o.receivedDate).toLocaleDateString('fr-FR')+'</td><td style="text-align:center;font-weight:600">'+fmtNum(count)+'</td>' +
         '<td style="text-align:right;font-weight:600">'+fmtNum(o.total)+'</td>' +
         '<td style="display:flex;gap:.25rem"><button class="btn btn-outline btn-sm" onclick="viewOrder(\''+o.id+'\')">Voir</button>' +
-        (o.pdfData ? '<button class="btn btn-outline btn-sm" onclick="window.open(\''+o.pdfData+'\')">Voir PDF</button>' : '')+
         '<button class="btn btn-amber btn-sm" onclick="downloadOrderPDF(\''+o.id+'\')">PDF</button>' +
         '<button class="btn btn-danger btn-sm" onclick="deleteOrder(\''+o.id+'\')">Suppr.</button></td></tr>';
     }
