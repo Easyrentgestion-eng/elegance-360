@@ -1165,7 +1165,7 @@ function renderOrdersList(received) {
         '<button class="btn btn-success btn-sm" onclick="receiveOrder(\''+o.id+'\')">Récep.</button>' +
         '<button class="btn btn-danger btn-sm" onclick="deleteOrder(\''+o.id+'\')">Suppr.</button></div></td></tr>';
     } else {
-      h += '<tr><td style="font-family:monospace;font-size:.75rem">'+esc(o.ref)+'</td><td>'+esc(o.supplierName)+'</td>' +
+      h += '<tr style="background:rgba(22,163,74,.08)"><td style="font-family:monospace;font-size:.75rem">'+esc(o.ref)+'</td><td>'+esc(o.supplierName)+'</td>' +
         '<td>'+new Date(o.receivedDate).toLocaleDateString('fr-FR')+'</td><td style="text-align:center;font-weight:600">'+fmtNum(count)+'</td>' +
         '<td style="text-align:right;font-weight:600">'+fmtNum(o.total)+'</td>' +
         '<td style="display:flex;gap:.25rem"><button class="btn btn-outline btn-sm" onclick="viewOrder(\''+o.id+'\')">Voir</button>' +
