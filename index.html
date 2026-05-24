@@ -1135,11 +1135,11 @@ function renderOrdersList(received) {
       h += '<tr><td style="font-family:monospace;font-size:.75rem">'+esc(o.ref)+'</td><td>'+esc(o.supplierName)+'</td>' +
         '<td>'+new Date(o.date).toLocaleDateString('fr-FR')+'</td><td style="text-align:center;font-weight:600">'+fmtNum(count)+'</td>' +
         '<td style="text-align:right;font-weight:600">'+fmtNum(o.total)+'</td>' +
-        '<td><div style="display:flex;gap:.25rem;white-space:nowrap"><button class="btn btn-success btn-sm" onclick="receiveOrder(\''+o.id+'\')">Récep.</button>' +
+        '<td><div style="display:flex;gap:.25rem;white-space:nowrap"><button class="btn btn-outline btn-sm" onclick="editOrder(\''+o.id+'\')">Modifier</button>' +
         '<button class="btn btn-outline btn-sm" onclick="viewOrder(\''+o.id+'\')">Voir</button>' +
-        '<button class="btn btn-outline btn-sm" onclick="editOrder(\''+o.id+'\')">Modifier</button>' +
         '<button class="btn btn-amber btn-sm" onclick="downloadOrderPDF(\''+o.id+'\')">PDF</button>' +
-        '<button class="btn btn-danger btn-sm" onclick="deleteOrder(\''+o.id+'\')">Suppr.</button></div></td></tr>';
+        '<button class="btn btn-danger btn-sm" onclick="deleteOrder(\''+o.id+'\')">Suppr.</button>' +
+        '<button class="btn btn-success btn-sm" onclick="receiveOrder(\''+o.id+'\')">Récep.</button></div></td></tr>';
     } else {
       h += '<tr><td style="font-family:monospace;font-size:.75rem">'+esc(o.ref)+'</td><td>'+esc(o.supplierName)+'</td>' +
         '<td>'+new Date(o.receivedDate).toLocaleDateString('fr-FR')+'</td><td style="text-align:center;font-weight:600">'+fmtNum(count)+'</td>' +
