@@ -1136,8 +1136,8 @@ function renderOrdersList(received) {
         '<td>'+new Date(o.date).toLocaleDateString('fr-FR')+'</td><td style="text-align:center;font-weight:600">'+fmtNum(count)+'</td>' +
         '<td style="text-align:right;font-weight:600">'+fmtNum(o.total)+'</td>' +
         '<td><div style="display:flex;gap:.25rem;white-space:nowrap"><button class="btn btn-outline btn-sm" onclick="editOrder(\''+o.id+'\')">Modifier</button>' +
-        '<button class="btn btn-outline btn-sm" onclick="viewOrder(\''+o.id+'\')">Voir</button>' +
-        '<button class="btn btn-amber btn-sm" onclick="downloadOrderPDF(\''+o.id+'\')">PDF</button>' +
+        '<button class="btn btn-outline btn-sm" onclick="viewOrder(\''+o.id+'\')">Consulter</button>' +
+        '<button class="btn btn-amber btn-sm" onclick="downloadOrderPDF(\''+o.id+'\')">📄</button>' +
         '<button class="btn btn-danger btn-sm" onclick="deleteOrder(\''+o.id+'\')">Suppr.</button>' +
         '<button class="btn btn-success btn-sm" onclick="receiveOrder(\''+o.id+'\')">Récep.</button></div></td></tr>';
     } else {
@@ -1145,7 +1145,7 @@ function renderOrdersList(received) {
         '<td>'+new Date(o.receivedDate).toLocaleDateString('fr-FR')+'</td><td style="text-align:center;font-weight:600">'+fmtNum(count)+'</td>' +
         '<td style="text-align:right;font-weight:600">'+fmtNum(o.total)+'</td>' +
         '<td style="display:flex;gap:.25rem"><button class="btn btn-outline btn-sm" onclick="viewOrder(\''+o.id+'\')">Voir</button>' +
-        '<button class="btn btn-amber btn-sm" onclick="downloadOrderPDF(\''+o.id+'\')">PDF</button>' +
+        '<button class="btn btn-amber btn-sm" onclick="downloadOrderPDF(\''+o.id+'\')">📄</button>' +
         '<button class="btn btn-danger btn-sm" onclick="deleteOrder(\''+o.id+'\')">Suppr.</button></td></tr>';
     }
   }
