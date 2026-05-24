@@ -1,4 +1,4 @@
-var CACHE = 'elegance360-v1';
+var CACHE = 'elegance360-v2';
 var URLS = [
   '/elegance-360/index.html',
   '/elegance-360/icon.svg',
@@ -16,7 +16,7 @@ self.addEventListener('activate', function(e) {
   e.waitUntil(
     caches.keys().then(function(keys) {
       return Promise.all(keys.filter(function(k){return k!==CACHE}).map(function(k){return caches.delete(k)}));
-    })
+    }).then(function() { return self.clients.claim(); })
   );
 });
 

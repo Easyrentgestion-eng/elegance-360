@@ -1798,7 +1798,9 @@ db.saveState = function() {
   });
   // Register service worker for PWA / offline
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js').catch(function(err) {
+    navigator.serviceWorker.register('sw.js?v=2').then(function(reg) {
+      if (reg.active) reg.active.postMessage('skipWaiting');
+    }).catch(function(err) {
       console.warn('SW registration failed:', err);
     });
   }
