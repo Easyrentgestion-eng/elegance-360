@@ -207,7 +207,7 @@ table input[type=number]:focus{border-color:var(--accent);box-shadow:0 0 0 2px v
   </div>
   <div id="orders-pending" class="order-panel hidden">
     <table>
-      <thead><tr><th>N°</th><th>Fournisseur</th><th>Date</th><th>Articles</th><th>Total</th><th style="width:160px"></th></tr></thead>
+      <thead><tr><th>N°</th><th>Fournisseur</th><th>Date</th><th>Articles</th><th>Total</th><th style="width:300px"></th></tr></thead>
       <tbody id="orders-pending-body"></tbody>
     </table>
   </div>
@@ -326,7 +326,7 @@ table input[type=number]:focus{border-color:var(--accent);box-shadow:0 0 0 2px v
     <div id="pdf-preview-header" style="display:flex;justify-content:space-between;align-items:center;padding:.75rem 1rem;border-bottom:1px solid var(--border);background:var(--surface)">
       <h3 id="pdf-preview-title" style="font-size:.9rem;font-weight:600;color:var(--text)">Aperçu du bon de commande</h3>
       <div style="display:flex;gap:.35rem">
-        <button class="btn btn-primary btn-sm" id="pdf-preview-download" onclick="">⬇ Télécharger</button>
+        <button class="btn btn-primary btn-sm" id="pdf-preview-download" onclick="">📥 Télécharger</button>
         <button class="btn btn-outline btn-sm" onclick="closeModal('pdf-preview-modal')">Annuler</button>
       </div>
     </div>
@@ -1090,17 +1090,18 @@ function renderOrdersList(received) {
       h += '<tr><td style="font-family:monospace;font-size:.75rem">'+esc(o.ref)+'</td><td>'+esc(o.supplierName)+'</td>' +
         '<td>'+new Date(o.date).toLocaleDateString('fr-FR')+'</td><td style="text-align:center;font-weight:600">'+fmtNum(count)+'</td>' +
         '<td style="text-align:right;font-weight:600">'+fmtNum(o.total)+'</td>' +
-        '<td><div style="display:flex;gap:.25rem;flex-wrap:wrap"><button class="btn btn-success btn-sm" onclick="receiveOrder(\''+o.id+'\')">Récep.</button>' +
+        '<td><div style="display:flex;gap:.25rem;white-space:nowrap"><button class="btn btn-success btn-sm" onclick="receiveOrder(\''+o.id+'\')">Récep.</button>' +
         '<button class="btn btn-outline btn-sm" onclick="viewOrder(\''+o.id+'\')">Voir</button>' +
         '<button class="btn btn-outline btn-sm" onclick="editOrder(\''+o.id+'\')">Modifier</button>' +
         '<button class="btn btn-amber btn-sm" onclick="downloadOrderPDF(\''+o.id+'\')">PDF</button>' +
-        (o.pdfData ? '<button class="btn btn-outline btn-sm" onclick="window.open(\''+o.pdfData+'\')">👁</button>' : '') +
         '<button class="btn btn-danger btn-sm" onclick="deleteOrder(\''+o.id+'\')">Suppr.</button></div></td></tr>';
     } else {
       h += '<tr><td style="font-family:monospace;font-size:.75rem">'+esc(o.ref)+'</td><td>'+esc(o.supplierName)+'</td>' +
         '<td>'+new Date(o.receivedDate).toLocaleDateString('fr-FR')+'</td><td style="text-align:center;font-weight:600">'+fmtNum(count)+'</td>' +
         '<td style="text-align:right;font-weight:600">'+fmtNum(o.total)+'</td>' +
-        '<td style="display:flex;gap:.25rem">'+(o.pdfData ? '<button class="btn btn-outline btn-sm" onclick="window.open(\''+o.pdfData+'\')">Voir PDF</button>' : '')+
+        '<td style="display:flex;gap:.25rem"><button class="btn btn-outline btn-sm" onclick="viewOrder(\''+o.id+'\')">Voir</button>' +
+        (o.pdfData ? '<button class="btn btn-outline btn-sm" onclick="window.open(\''+o.pdfData+'\')">Voir PDF</button>' : '')+
+        '<button class="btn btn-amber btn-sm" onclick="downloadOrderPDF(\''+o.id+'\')">PDF</button>' +
         '<button class="btn btn-danger btn-sm" onclick="deleteOrder(\''+o.id+'\')">Suppr.</button></td></tr>';
     }
   }
@@ -1133,8 +1134,14 @@ function receiveOrder(orderId) {
             }
           }
         }
+        // Regenerate PDF with received status
+        o.pdfData = null;
         db.saveState();
-        renderOrdersList(false);
+        loadPDFLib(function() {
+          generateOrderPDF(o, false);
+          renderOrdersList(true);
+          renderOrdersList(false);
+        });
         toast('Commande réceptionnée - Stock mis à jour', 'success');
         return;
       }
